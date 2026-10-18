@@ -1,0 +1,20 @@
+{
+  "dataset": "outputs/cube-research",
+  "budgets": [4, 16, 64, 256],
+  "seeds": [0, 1, 2],
+  "models": [
+    "state_mlp", "deepsets", "flat", "independent", "hierarchical",
+    {"name": "nerd_like", "label": "nerd_history1", "history": 1},
+    {"name": "nerd_like", "label": "nerd_history10", "history": 10},
+    {"name": "hierarchical", "label": "no_velocity", "no_velocity": true},
+    {"name": "hierarchical", "label": "mean_face_pool", "mean_pool": true},
+    {"name": "hierarchical", "label": "random_face_groups", "random_groups": true},
+    {"name": "hierarchical", "label": "no_face_exchange", "no_face_exchange": true},
+    {"name": "hierarchical", "label": "no_inertia", "no_inertia": true},
+    {"name": "hierarchical", "label": "morton", "serialization": "morton"},
+    {"name": "hierarchical", "label": "face_tokens2", "face_tokens": 2},
+    {"name": "hierarchical", "label": "face_tokens4", "face_tokens": 4}
+  ],
+  "rollout_horizon": 64,
+  "training": {"epochs": 60, "batch_size": 32, "learning_rate": 0.0003, "rollout_steps": 4, "rollout_weight": 0.25, "model": {"hidden_dim": 128, "heads": 4, "points_per_face": 64, "floor_points": 256, "window_size": 64, "local_layers": 3, "global_layers": 3}}
+}

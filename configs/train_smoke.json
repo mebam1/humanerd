@@ -1,0 +1,17 @@
+{
+  "epochs": 3,
+  "batch_size": 24,
+  "learning_rate": 0.001,
+  "rollout_steps": 1,
+  "torch_threads": 1,
+  "model": {
+    "hidden_dim": 32,
+    "heads": 4,
+    "points_per_face": 16,
+    "floor_points": 64,
+    "window_size": 32,
+    "local_layers": 2,
+    "global_layers": 1,
+    "face_tokens": 1
+  }
+}

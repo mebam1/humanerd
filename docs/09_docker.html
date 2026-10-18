@@ -1,0 +1,108 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Docker Compose와 재현 환경 · CUBE LAB</title><link rel="stylesheet" href="assets/style.css"></head><body>
+<aside><a class="brand" href="index.html">CUBE LAB<small>CONTACT DYNAMICS RESEARCH</small></a><div class="nav-label">RESEARCH NOTEBOOK</div><nav><a href="index.html" class="">연구 대시보드</a><a href="01_overview.html" class="">구현 개요와 연구 범위</a><a href="02_simulation.html" class="">공통 물리 시뮬레이터와 장면</a><a href="03_data.html" class="">데이터와 접촉 사건 기록</a><a href="04_representation.html" class="">현재 상태에서 만드는 물리 표면 표현</a><a href="05_models.html" class="">계층 동역학 모델·비교군·전이 구성</a><a href="06_experiments.html" class="">Cube 실험 파이프라인</a><a href="07_ant_control.html" class="">Ant 사족 보행과 학습 모델 기반 제어</a><a href="08_transfer.html" class="">형상·관절 구조 전이 학습</a><a href="09_docker.html" class="active">Docker Compose와 재현 환경</a><a href="10_results.html" class="">직접 실행한 실험과 결과 분석</a><a href="11_sampling_validation.html" class="">표면 샘플링과 독립 합산 검증</a><a href="12_gpu_training.html" class="">GPU 학습 · NeRD 규모 데이터 · 온라인 실험 비교</a><a href="13_gpu_results.html" class="">실제 GPU 실행과 대규모 데이터 준비 결과</a></nav><div class="side-note">Point → Face → Body<br>Point → Patch → Link → Articulation<br><br>MuJoCo · NVIDIA Warp · PyTorch<br>코드와 실험 기록을 함께 읽는 연구 문서</div></aside>
+<main><div class="topbar"><span>CUBE / RESEARCH IMPLEMENTATION</span><span class="pill">로컬 연구 환경</span></div><article><h1 id="docker-compose">Docker Compose와 재현 환경</h1>
+<h2 id="_1">무엇을 구현했는가</h2>
+<p><code>Dockerfile</code>은 CPU PyTorch 이미지와 선택적 CUDA PyTorch 이미지를 제공합니다. <code>compose.yaml</code>의 모든 연구 서비스는 저장소 루트를 <code>/workspace</code>에 마운트합니다. Python은 마운트한 <code>src/</code>를 바로 읽으므로 코드 수정마다 이미지를 다시 빌드할 필요가 없습니다. 의존성이 바뀌었을 때 다시 빌드합니다.</p>
+<table>
+<thead>
+<tr>
+<th>서비스</th>
+<th>실행 장치</th>
+<th>용도</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>research</td>
+<td>CPU</td>
+<td>MuJoCo, 학습, 평가, 테스트</td>
+</tr>
+<tr>
+<td>warp</td>
+<td>GPU 노출 + CPU PyTorch</td>
+<td>Warp CUDA 시뮬레이션, CPU 학습</td>
+</tr>
+<tr>
+<td>cuda</td>
+<td>GPU 노출 + CUDA PyTorch</td>
+<td>Warp CUDA와 GPU 신경망 학습</td>
+</tr>
+<tr>
+<td>docs</td>
+<td>CPU / localhost:8000</td>
+<td>HTML 문서 열람</td>
+</tr>
+</tbody>
+</table>
+<p><code>warp</code>는 <code>gpu</code> profile, <code>cuda</code>는 <code>cuda</code> profile에서 실행합니다. NVIDIA GPU와 Docker GPU 지원이 필요합니다. CUDA가 없다고 요청한 Warp 계산을 MuJoCo로 조용히 대체하지 않습니다.</p>
+<p>이번 변경에는 <code>wandb</code>와 <code>tqdm</code> 의존성이 추가되었습니다. 이전 이미지를 사용 중이라면 연구·CUDA 이미지를 다시 빌드해야 합니다. 루트 mount는 Python 소스 수정은 즉시 반영하지만 이미지에 없는 패키지를 설치하지는 않습니다.</p>
+<pre><code class="language-bash">docker compose --profile cuda build research cuda
+docker compose --profile cuda run --rm cuda python -m cube doctor
+</code></pre>
+<p>GPU 신경망 학습을 시작하기 전에 <code>doctor</code>의 <code>torch_cuda: true</code>와 GPU 이름을 확인합니다. 데이터 생성용 MuJoCo CPU worker와 신경망 CUDA 학습 장치는 독립적입니다.</p>
+<h2 id="_2">왜 구현했는가</h2>
+<p>시뮬레이터·텐서 라이브러리 버전을 고정하고, 호스트 Python 환경을 변경하지 않으면서 동일한 명령을 재실행하기 위해서입니다. Warp 최초 실행에는 kernel compilation 시간이 포함됩니다. 성능 비교는 최초 컴파일과 정상 실행을 분리해야 합니다.</p>
+<p>상위 패키지는 <code>pyproject.toml</code>에 고정합니다. 실행 시 <code>doctor</code>와 각 결과 metadata로 실제 버전을 기록합니다. 하위 의존성 및 Docker base digest 전체를 고정한 bitwise 재현 이미지까지 제공하는 것은 아닙니다.</p>
+<h2 id="_3">사용 명령</h2>
+<pre><code class="language-bash">docker compose build research
+docker compose run --rm research python -m cube doctor
+docker compose run --rm research python -m pytest -q -m &quot;not warp&quot;
+docker compose run --rm research python -m cube docs
+docker compose up -d docs
+docker compose logs docs
+docker compose down
+</code></pre>
+<p>브라우저에서 <a href="http://localhost:8000">문서 열기</a>. 포트를 바꾸려면 <code>.env</code>에 <code>DOCS_PORT=8080</code>을 설정합니다. 문서 서비스는 호스트의 loopback 주소에만 바인딩합니다. <code>docker compose down</code>은 실험 데이터나 cache volume을 삭제하지 않습니다.</p>
+<h2 id="wb">W&amp;B 온라인 기록과 로컬 설정</h2>
+<p>저장소 루트의 <code>.env.example</code>을 참고하여 로컬 <code>.env</code>를 준비합니다. Compose가 아래 값을 컨테이너로 전달합니다.</p>
+<table>
+<thead>
+<tr>
+<th>설정</th>
+<th>용도</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>WANDB_API_KEY</code></td>
+<td>W&amp;B 계정 인증</td>
+</tr>
+<tr>
+<td><code>WANDB_ENTITY</code></td>
+<td>사용자 계정 또는 팀</td>
+</tr>
+<tr>
+<td><code>WANDB_PROJECT</code></td>
+<td>config/CLI에서 project를 지정하지 않을 때의 기본 project</td>
+</tr>
+<tr>
+<td><code>DOCS_PORT</code></td>
+<td>호스트에서 HTML 문서를 여는 포트, 기본 8000</td>
+</tr>
+</tbody>
+</table>
+<p>API 키는 로컬 <code>.env</code>에만 넣고 JSON config·명령행·문서에 기록하지 않습니다. <code>.env</code>는 Git에서 제외합니다. Compose의 <code>WANDB_DIR</code>은 <code>/workspace/outputs/wandb</code>이며, 학습 tracker는 각 run의 output 디렉터리도 SDK에 지정하므로 실행별 로컬 기록이 호스트에 남습니다.</p>
+<p><code>train_gpu.json</code>은 <code>wandb.mode: online</code>을 사용합니다. online 초기화에는 인증과 네트워크가 필요하며 실패하면 오류를 내고 실행을 중단합니다. 정상 실행의 <code>wandb_run.json</code>에는 run ID와 온라인 URL을 기록합니다. 학습·검증 loss, learning rate, 처리량, GPU 메모리와 최종 평가 지표로 구조·seed별 결과를 비교할 수 있습니다.</p>
+<pre><code class="language-bash">docker compose --profile cuda run --rm cuda python -m cube train --dataset data/cube-nerd --config configs/train_gpu.json --model hierarchical --seed 0 --output outputs/cube-gpu/hierarchical
+</code></pre>
+<p>계정 인증 없이 로컬 기록 경로를 확인할 때는 별도 output과 <code>--wandb-mode offline</code>을 사용합니다. offline 실행은 온라인 업로드가 완료된 실행이 아닙니다. API 키가 준비되지 않은 상태에서 online 성공을 표시하지 않습니다.</p>
+<pre><code class="language-bash">docker compose --profile cuda run --rm cuda python -m cube train --dataset data/cube-nerd --config configs/train_gpu.json --model hierarchical --seed 0 --wandb-mode offline --output outputs/cube-gpu-offline/hierarchical
+</code></pre>
+<h2 id="tqdm">긴 실행의 tqdm 표시</h2>
+<p>tqdm은 데이터 생성·정규화·학습·검증·평가·suite의 진행률과 처리 속도를 표시합니다. 학습에는 loss와 learning rate도 표시합니다. 일반 대화형 터미널은 Compose <code>run</code>으로 실행합니다. 진행률이 없는 로그가 필요하면 <code>TQDM_DISABLE=1</code>, TTY가 없는 환경에서도 진행률을 남기려면 <code>TQDM_FORCE=1</code>을 컨테이너 환경으로 전달합니다. <code>TQDM_DISABLE</code>이 우선합니다.</p>
+<pre><code class="language-bash">docker compose run --rm -e TQDM_DISABLE=1 research python -m cube generate --config configs/cube_nerd_scale.json --output data/cube-nerd --resume
+
+docker compose --profile cuda run --rm -e TQDM_FORCE=1 cuda python -m cube suite --config configs/suite_gpu.json --output outputs/cube-gpu-suite --resume
+</code></pre>
+<p>진행률과 ETA는 현재 처리량의 추정치입니다. 전체 데이터·모델 비교의 실행 순서와 재개 절차는 <a href="12_gpu_training.html">GPU 실험 안내</a>에 정리했습니다.</p>
+<pre><code class="language-bash">docker compose --profile gpu run --rm warp python -m cube doctor
+docker compose --profile gpu run --rm warp python -m cube validate --backend warp --device cuda:0 --output outputs/warp_validation
+docker compose --profile cuda build cuda
+</code></pre>
+<h2 id="api">사용한 공식 API</h2>
+<ul>
+<li><a href="https://mujoco.readthedocs.io/en/stable/python.html">MuJoCo Python</a></li>
+<li><a href="https://mujoco.readthedocs.io/en/latest/mjwarp/">MuJoCo Warp</a></li>
+<li><a href="https://github.com/google-deepmind/mujoco_warp">MuJoCo Warp 소스</a></li>
+</ul>
+<p>MuJoCo Warp는 Warp로 실제 physics step을 수행합니다. 일반 MuJoCo는 독립적인 CPU 평가 경로입니다. 양자의 수치 결과를 bitwise 동일하다고 가정하지 않습니다.</p></article><footer>CUBE CONTACT RESEARCH · 코드: src/cube · 설정: configs · 원본 제안: 연구 제안.md</footer></main></body></html>

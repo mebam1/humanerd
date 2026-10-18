@@ -1,0 +1,976 @@
+{
+  "source": "outputs/quick/suite/hierarchical_budget8_seed0/best.pt",
+  "target": "outputs/quick/two_link_dataset",
+  "runs": [
+    {
+      "model": "scratch",
+      "budget": 2,
+      "seed": 0,
+      "checkpoint": "outputs/quick/transfer/scratch_budget2_seed0/best.pt",
+      "metrics": {
+        "position_rmse": 0.03394626847378253,
+        "rotation_geodesic_rad": 0.15452970625580784,
+        "linear_velocity_rmse": 0.2832020351038954,
+        "angular_velocity_rmse": 1.2959954510895741,
+        "joint_position_rmse": 0.1179665695348643,
+        "joint_velocity_rmse": 4.595242290016845
+      },
+      "train_seconds": 0.5223759220000375,
+      "weight_transfer": {
+        "mode": "scratch",
+        "loaded_parameters": [],
+        "skipped_parameters": [],
+        "novel_joint_head": false,
+        "novel_head_policy": "All available source heads follow the selected freeze policy.",
+        "trainable_parameters": 45626,
+        "total_parameters": 45626
+      }
+    },
+    {
+      "model": "full",
+      "budget": 2,
+      "seed": 0,
+      "checkpoint": "outputs/quick/transfer/full_budget2_seed0/best.pt",
+      "metrics": {
+        "position_rmse": 0.020581888894151294,
+        "rotation_geodesic_rad": 0.07973386114431963,
+        "linear_velocity_rmse": 0.256476126821483,
+        "angular_velocity_rmse": 1.2902286961409104,
+        "joint_position_rmse": 0.11431798788825781,
+        "joint_velocity_rmse": 4.593202670110898
+      },
+      "train_seconds": 0.5101982520000092,
+      "weight_transfer": {
+        "mode": "full",
+        "loaded_parameters": [
+          "point_encoder.input.0.weight",
+          "point_encoder.input.0.bias",
+          "point_encoder.input.2.weight",
+          "point_encoder.input.2.bias",
+          "point_encoder.blocks.0.norm.weight",
+          "point_encoder.blocks.0.norm.bias",
+          "point_encoder.blocks.0.qkv.weight",
+          "point_encoder.blocks.0.qkv.bias",
+          "point_encoder.blocks.0.bias.0.weight",
+          "point_encoder.blocks.0.bias.0.bias",
+          "point_encoder.blocks.0.bias.2.weight",
+          "point_encoder.blocks.0.bias.2.bias",
+          "point_encoder.blocks.0.output.weight",
+          "point_encoder.blocks.0.output.bias",
+          "point_encoder.blocks.0.ff.0.weight",
+          "point_encoder.blocks.0.ff.0.bias",
+          "point_encoder.blocks.0.ff.1.weight",
+          "point_encoder.blocks.0.ff.1.bias",
+          "point_encoder.blocks.0.ff.3.weight",
+          "point_encoder.blocks.0.ff.3.bias",
+          "point_encoder.blocks.1.norm.weight",
+          "point_encoder.blocks.1.norm.bias",
+          "point_encoder.blocks.1.qkv.weight",
+          "point_encoder.blocks.1.qkv.bias",
+          "point_encoder.blocks.1.bias.0.weight",
+          "point_encoder.blocks.1.bias.0.bias",
+          "point_encoder.blocks.1.bias.2.weight",
+          "point_encoder.blocks.1.bias.2.bias",
+          "point_encoder.blocks.1.output.weight",
+          "point_encoder.blocks.1.output.bias",
+          "point_encoder.blocks.1.ff.0.weight",
+          "point_encoder.blocks.1.ff.0.bias",
+          "point_encoder.blocks.1.ff.1.weight",
+          "point_encoder.blocks.1.ff.1.bias",
+          "point_encoder.blocks.1.ff.3.weight",
+          "point_encoder.blocks.1.ff.3.bias",
+          "aggregation.query_offsets",
+          "aggregation.articulation_query",
+          "aggregation.structural_bias",
+          "aggregation.patch_query.0.weight",
+          "aggregation.patch_query.0.bias",
+          "aggregation.patch_query.2.weight",
+          "aggregation.patch_query.2.bias",
+          "aggregation.face_attention.in_proj_weight",
+          "aggregation.face_attention.in_proj_bias",
+          "aggregation.face_attention.out_proj.weight",
+          "aggregation.face_attention.out_proj.bias",
+          "aggregation.body_input.0.weight",
+          "aggregation.body_input.0.bias",
+          "aggregation.body_input.2.weight",
+          "aggregation.body_input.2.bias",
+          "aggregation.link_attention.in_proj_weight",
+          "aggregation.link_attention.in_proj_bias",
+          "aggregation.link_attention.out_proj.weight",
+          "aggregation.link_attention.out_proj.bias",
+          "aggregation.global_blocks.0.norm.weight",
+          "aggregation.global_blocks.0.norm.bias",
+          "aggregation.global_blocks.0.attention.in_proj_weight",
+          "aggregation.global_blocks.0.attention.in_proj_bias",
+          "aggregation.global_blocks.0.attention.out_proj.weight",
+          "aggregation.global_blocks.0.attention.out_proj.bias",
+          "aggregation.global_blocks.0.ff.0.weight",
+          "aggregation.global_blocks.0.ff.0.bias",
+          "aggregation.global_blocks.0.ff.1.weight",
+          "aggregation.global_blocks.0.ff.1.bias",
+          "aggregation.global_blocks.0.ff.3.weight",
+          "aggregation.global_blocks.0.ff.3.bias",
+          "aggregation.pooled_readout.0.weight",
+          "aggregation.pooled_readout.0.bias",
+          "aggregation.pooled_readout.2.weight",
+          "aggregation.pooled_readout.2.bias",
+          "aggregation.base_decoder.0.weight",
+          "aggregation.base_decoder.0.bias",
+          "aggregation.base_decoder.2.weight",
+          "aggregation.base_decoder.2.bias"
+        ],
+        "skipped_parameters": [
+          "aggregation.joint_decoder.0.weight",
+          "aggregation.joint_decoder.0.bias",
+          "aggregation.joint_decoder.2.weight",
+          "aggregation.joint_decoder.2.bias"
+        ],
+        "novel_joint_head": true,
+        "novel_head_policy": "Cube has no trained joint output. Target joint head is newly initialized and remains trainable even when source aggregation is frozen.",
+        "trainable_parameters": 45626,
+        "total_parameters": 45626
+      }
+    },
+    {
+      "model": "point-frozen",
+      "budget": 2,
+      "seed": 0,
+      "checkpoint": "outputs/quick/transfer/point-frozen_budget2_seed0/best.pt",
+      "metrics": {
+        "position_rmse": 0.022508908840037308,
+        "rotation_geodesic_rad": 0.07793382901922527,
+        "linear_velocity_rmse": 0.2567540246501599,
+        "angular_velocity_rmse": 1.2901936520571489,
+        "joint_position_rmse": 0.11152448273900042,
+        "joint_velocity_rmse": 4.592967852698628
+      },
+      "train_seconds": 0.37538183000015124,
+      "weight_transfer": {
+        "mode": "point-frozen",
+        "loaded_parameters": [
+          "point_encoder.input.0.weight",
+          "point_encoder.input.0.bias",
+          "point_encoder.input.2.weight",
+          "point_encoder.input.2.bias",
+          "point_encoder.blocks.0.norm.weight",
+          "point_encoder.blocks.0.norm.bias",
+          "point_encoder.blocks.0.qkv.weight",
+          "point_encoder.blocks.0.qkv.bias",
+          "point_encoder.blocks.0.bias.0.weight",
+          "point_encoder.blocks.0.bias.0.bias",
+          "point_encoder.blocks.0.bias.2.weight",
+          "point_encoder.blocks.0.bias.2.bias",
+          "point_encoder.blocks.0.output.weight",
+          "point_encoder.blocks.0.output.bias",
+          "point_encoder.blocks.0.ff.0.weight",
+          "point_encoder.blocks.0.ff.0.bias",
+          "point_encoder.blocks.0.ff.1.weight",
+          "point_encoder.blocks.0.ff.1.bias",
+          "point_encoder.blocks.0.ff.3.weight",
+          "point_encoder.blocks.0.ff.3.bias",
+          "point_encoder.blocks.1.norm.weight",
+          "point_encoder.blocks.1.norm.bias",
+          "point_encoder.blocks.1.qkv.weight",
+          "point_encoder.blocks.1.qkv.bias",
+          "point_encoder.blocks.1.bias.0.weight",
+          "point_encoder.blocks.1.bias.0.bias",
+          "point_encoder.blocks.1.bias.2.weight",
+          "point_encoder.blocks.1.bias.2.bias",
+          "point_encoder.blocks.1.output.weight",
+          "point_encoder.blocks.1.output.bias",
+          "point_encoder.blocks.1.ff.0.weight",
+          "point_encoder.blocks.1.ff.0.bias",
+          "point_encoder.blocks.1.ff.1.weight",
+          "point_encoder.blocks.1.ff.1.bias",
+          "point_encoder.blocks.1.ff.3.weight",
+          "point_encoder.blocks.1.ff.3.bias",
+          "aggregation.query_offsets",
+          "aggregation.articulation_query",
+          "aggregation.structural_bias",
+          "aggregation.patch_query.0.weight",
+          "aggregation.patch_query.0.bias",
+          "aggregation.patch_query.2.weight",
+          "aggregation.patch_query.2.bias",
+          "aggregation.face_attention.in_proj_weight",
+          "aggregation.face_attention.in_proj_bias",
+          "aggregation.face_attention.out_proj.weight",
+          "aggregation.face_attention.out_proj.bias",
+          "aggregation.body_input.0.weight",
+          "aggregation.body_input.0.bias",
+          "aggregation.body_input.2.weight",
+          "aggregation.body_input.2.bias",
+          "aggregation.link_attention.in_proj_weight",
+          "aggregation.link_attention.in_proj_bias",
+          "aggregation.link_attention.out_proj.weight",
+          "aggregation.link_attention.out_proj.bias",
+          "aggregation.global_blocks.0.norm.weight",
+          "aggregation.global_blocks.0.norm.bias",
+          "aggregation.global_blocks.0.attention.in_proj_weight",
+          "aggregation.global_blocks.0.attention.in_proj_bias",
+          "aggregation.global_blocks.0.attention.out_proj.weight",
+          "aggregation.global_blocks.0.attention.out_proj.bias",
+          "aggregation.global_blocks.0.ff.0.weight",
+          "aggregation.global_blocks.0.ff.0.bias",
+          "aggregation.global_blocks.0.ff.1.weight",
+          "aggregation.global_blocks.0.ff.1.bias",
+          "aggregation.global_blocks.0.ff.3.weight",
+          "aggregation.global_blocks.0.ff.3.bias",
+          "aggregation.pooled_readout.0.weight",
+          "aggregation.pooled_readout.0.bias",
+          "aggregation.pooled_readout.2.weight",
+          "aggregation.pooled_readout.2.bias",
+          "aggregation.base_decoder.0.weight",
+          "aggregation.base_decoder.0.bias",
+          "aggregation.base_decoder.2.weight",
+          "aggregation.base_decoder.2.bias"
+        ],
+        "skipped_parameters": [
+          "aggregation.joint_decoder.0.weight",
+          "aggregation.joint_decoder.0.bias",
+          "aggregation.joint_decoder.2.weight",
+          "aggregation.joint_decoder.2.bias"
+        ],
+        "novel_joint_head": true,
+        "novel_head_policy": "Cube has no trained joint output. Target joint head is newly initialized and remains trainable even when source aggregation is frozen.",
+        "trainable_parameters": 26578,
+        "total_parameters": 45626
+      }
+    },
+    {
+      "model": "aggregation-frozen",
+      "budget": 2,
+      "seed": 0,
+      "checkpoint": "outputs/quick/transfer/aggregation-frozen_budget2_seed0/best.pt",
+      "metrics": {
+        "position_rmse": 0.027499344786322696,
+        "rotation_geodesic_rad": 0.06906508059373184,
+        "linear_velocity_rmse": 0.25666239014758924,
+        "angular_velocity_rmse": 1.2917528108344745,
+        "joint_position_rmse": 0.12191173772454621,
+        "joint_velocity_rmse": 4.592102129115867
+      },
+      "train_seconds": 0.4979939069999091,
+      "weight_transfer": {
+        "mode": "aggregation-frozen",
+        "loaded_parameters": [
+          "point_encoder.input.0.weight",
+          "point_encoder.input.0.bias",
+          "point_encoder.input.2.weight",
+          "point_encoder.input.2.bias",
+          "point_encoder.blocks.0.norm.weight",
+          "point_encoder.blocks.0.norm.bias",
+          "point_encoder.blocks.0.qkv.weight",
+          "point_encoder.blocks.0.qkv.bias",
+          "point_encoder.blocks.0.bias.0.weight",
+          "point_encoder.blocks.0.bias.0.bias",
+          "point_encoder.blocks.0.bias.2.weight",
+          "point_encoder.blocks.0.bias.2.bias",
+          "point_encoder.blocks.0.output.weight",
+          "point_encoder.blocks.0.output.bias",
+          "point_encoder.blocks.0.ff.0.weight",
+          "point_encoder.blocks.0.ff.0.bias",
+          "point_encoder.blocks.0.ff.1.weight",
+          "point_encoder.blocks.0.ff.1.bias",
+          "point_encoder.blocks.0.ff.3.weight",
+          "point_encoder.blocks.0.ff.3.bias",
+          "point_encoder.blocks.1.norm.weight",
+          "point_encoder.blocks.1.norm.bias",
+          "point_encoder.blocks.1.qkv.weight",
+          "point_encoder.blocks.1.qkv.bias",
+          "point_encoder.blocks.1.bias.0.weight",
+          "point_encoder.blocks.1.bias.0.bias",
+          "point_encoder.blocks.1.bias.2.weight",
+          "point_encoder.blocks.1.bias.2.bias",
+          "point_encoder.blocks.1.output.weight",
+          "point_encoder.blocks.1.output.bias",
+          "point_encoder.blocks.1.ff.0.weight",
+          "point_encoder.blocks.1.ff.0.bias",
+          "point_encoder.blocks.1.ff.1.weight",
+          "point_encoder.blocks.1.ff.1.bias",
+          "point_encoder.blocks.1.ff.3.weight",
+          "point_encoder.blocks.1.ff.3.bias",
+          "aggregation.query_offsets",
+          "aggregation.articulation_query",
+          "aggregation.structural_bias",
+          "aggregation.patch_query.0.weight",
+          "aggregation.patch_query.0.bias",
+          "aggregation.patch_query.2.weight",
+          "aggregation.patch_query.2.bias",
+          "aggregation.face_attention.in_proj_weight",
+          "aggregation.face_attention.in_proj_bias",
+          "aggregation.face_attention.out_proj.weight",
+          "aggregation.face_attention.out_proj.bias",
+          "aggregation.body_input.0.weight",
+          "aggregation.body_input.0.bias",
+          "aggregation.body_input.2.weight",
+          "aggregation.body_input.2.bias",
+          "aggregation.link_attention.in_proj_weight",
+          "aggregation.link_attention.in_proj_bias",
+          "aggregation.link_attention.out_proj.weight",
+          "aggregation.link_attention.out_proj.bias",
+          "aggregation.global_blocks.0.norm.weight",
+          "aggregation.global_blocks.0.norm.bias",
+          "aggregation.global_blocks.0.attention.in_proj_weight",
+          "aggregation.global_blocks.0.attention.in_proj_bias",
+          "aggregation.global_blocks.0.attention.out_proj.weight",
+          "aggregation.global_blocks.0.attention.out_proj.bias",
+          "aggregation.global_blocks.0.ff.0.weight",
+          "aggregation.global_blocks.0.ff.0.bias",
+          "aggregation.global_blocks.0.ff.1.weight",
+          "aggregation.global_blocks.0.ff.1.bias",
+          "aggregation.global_blocks.0.ff.3.weight",
+          "aggregation.global_blocks.0.ff.3.bias",
+          "aggregation.pooled_readout.0.weight",
+          "aggregation.pooled_readout.0.bias",
+          "aggregation.pooled_readout.2.weight",
+          "aggregation.pooled_readout.2.bias",
+          "aggregation.base_decoder.0.weight",
+          "aggregation.base_decoder.0.bias",
+          "aggregation.base_decoder.2.weight",
+          "aggregation.base_decoder.2.bias"
+        ],
+        "skipped_parameters": [
+          "aggregation.joint_decoder.0.weight",
+          "aggregation.joint_decoder.0.bias",
+          "aggregation.joint_decoder.2.weight",
+          "aggregation.joint_decoder.2.bias"
+        ],
+        "novel_joint_head": true,
+        "novel_head_policy": "Cube has no trained joint output. Target joint head is newly initialized and remains trainable even when source aggregation is frozen.",
+        "trainable_parameters": 21194,
+        "total_parameters": 45626
+      }
+    },
+    {
+      "model": "scratch",
+      "budget": 4,
+      "seed": 0,
+      "checkpoint": "outputs/quick/transfer/scratch_budget4_seed0/best.pt",
+      "metrics": {
+        "position_rmse": 0.03386494061094707,
+        "rotation_geodesic_rad": 0.12831029217969875,
+        "linear_velocity_rmse": 0.2745849593060427,
+        "angular_velocity_rmse": 1.2939474556430492,
+        "joint_position_rmse": 0.14660802198815334,
+        "joint_velocity_rmse": 4.593029523872535
+      },
+      "train_seconds": 0.8336476590000075,
+      "weight_transfer": {
+        "mode": "scratch",
+        "loaded_parameters": [],
+        "skipped_parameters": [],
+        "novel_joint_head": false,
+        "novel_head_policy": "All available source heads follow the selected freeze policy.",
+        "trainable_parameters": 45626,
+        "total_parameters": 45626
+      }
+    },
+    {
+      "model": "full",
+      "budget": 4,
+      "seed": 0,
+      "checkpoint": "outputs/quick/transfer/full_budget4_seed0/best.pt",
+      "metrics": {
+        "position_rmse": 0.011155027150670255,
+        "rotation_geodesic_rad": 0.05313872647223976,
+        "linear_velocity_rmse": 0.2558470592599122,
+        "angular_velocity_rmse": 1.2905954075691233,
+        "joint_position_rmse": 0.13556906958131695,
+        "joint_velocity_rmse": 4.594011273428809
+      },
+      "train_seconds": 0.8381016700000146,
+      "weight_transfer": {
+        "mode": "full",
+        "loaded_parameters": [
+          "point_encoder.input.0.weight",
+          "point_encoder.input.0.bias",
+          "point_encoder.input.2.weight",
+          "point_encoder.input.2.bias",
+          "point_encoder.blocks.0.norm.weight",
+          "point_encoder.blocks.0.norm.bias",
+          "point_encoder.blocks.0.qkv.weight",
+          "point_encoder.blocks.0.qkv.bias",
+          "point_encoder.blocks.0.bias.0.weight",
+          "point_encoder.blocks.0.bias.0.bias",
+          "point_encoder.blocks.0.bias.2.weight",
+          "point_encoder.blocks.0.bias.2.bias",
+          "point_encoder.blocks.0.output.weight",
+          "point_encoder.blocks.0.output.bias",
+          "point_encoder.blocks.0.ff.0.weight",
+          "point_encoder.blocks.0.ff.0.bias",
+          "point_encoder.blocks.0.ff.1.weight",
+          "point_encoder.blocks.0.ff.1.bias",
+          "point_encoder.blocks.0.ff.3.weight",
+          "point_encoder.blocks.0.ff.3.bias",
+          "point_encoder.blocks.1.norm.weight",
+          "point_encoder.blocks.1.norm.bias",
+          "point_encoder.blocks.1.qkv.weight",
+          "point_encoder.blocks.1.qkv.bias",
+          "point_encoder.blocks.1.bias.0.weight",
+          "point_encoder.blocks.1.bias.0.bias",
+          "point_encoder.blocks.1.bias.2.weight",
+          "point_encoder.blocks.1.bias.2.bias",
+          "point_encoder.blocks.1.output.weight",
+          "point_encoder.blocks.1.output.bias",
+          "point_encoder.blocks.1.ff.0.weight",
+          "point_encoder.blocks.1.ff.0.bias",
+          "point_encoder.blocks.1.ff.1.weight",
+          "point_encoder.blocks.1.ff.1.bias",
+          "point_encoder.blocks.1.ff.3.weight",
+          "point_encoder.blocks.1.ff.3.bias",
+          "aggregation.query_offsets",
+          "aggregation.articulation_query",
+          "aggregation.structural_bias",
+          "aggregation.patch_query.0.weight",
+          "aggregation.patch_query.0.bias",
+          "aggregation.patch_query.2.weight",
+          "aggregation.patch_query.2.bias",
+          "aggregation.face_attention.in_proj_weight",
+          "aggregation.face_attention.in_proj_bias",
+          "aggregation.face_attention.out_proj.weight",
+          "aggregation.face_attention.out_proj.bias",
+          "aggregation.body_input.0.weight",
+          "aggregation.body_input.0.bias",
+          "aggregation.body_input.2.weight",
+          "aggregation.body_input.2.bias",
+          "aggregation.link_attention.in_proj_weight",
+          "aggregation.link_attention.in_proj_bias",
+          "aggregation.link_attention.out_proj.weight",
+          "aggregation.link_attention.out_proj.bias",
+          "aggregation.global_blocks.0.norm.weight",
+          "aggregation.global_blocks.0.norm.bias",
+          "aggregation.global_blocks.0.attention.in_proj_weight",
+          "aggregation.global_blocks.0.attention.in_proj_bias",
+          "aggregation.global_blocks.0.attention.out_proj.weight",
+          "aggregation.global_blocks.0.attention.out_proj.bias",
+          "aggregation.global_blocks.0.ff.0.weight",
+          "aggregation.global_blocks.0.ff.0.bias",
+          "aggregation.global_blocks.0.ff.1.weight",
+          "aggregation.global_blocks.0.ff.1.bias",
+          "aggregation.global_blocks.0.ff.3.weight",
+          "aggregation.global_blocks.0.ff.3.bias",
+          "aggregation.pooled_readout.0.weight",
+          "aggregation.pooled_readout.0.bias",
+          "aggregation.pooled_readout.2.weight",
+          "aggregation.pooled_readout.2.bias",
+          "aggregation.base_decoder.0.weight",
+          "aggregation.base_decoder.0.bias",
+          "aggregation.base_decoder.2.weight",
+          "aggregation.base_decoder.2.bias"
+        ],
+        "skipped_parameters": [
+          "aggregation.joint_decoder.0.weight",
+          "aggregation.joint_decoder.0.bias",
+          "aggregation.joint_decoder.2.weight",
+          "aggregation.joint_decoder.2.bias"
+        ],
+        "novel_joint_head": true,
+        "novel_head_policy": "Cube has no trained joint output. Target joint head is newly initialized and remains trainable even when source aggregation is frozen.",
+        "trainable_parameters": 45626,
+        "total_parameters": 45626
+      }
+    },
+    {
+      "model": "point-frozen",
+      "budget": 4,
+      "seed": 0,
+      "checkpoint": "outputs/quick/transfer/point-frozen_budget4_seed0/best.pt",
+      "metrics": {
+        "position_rmse": 0.01265338141477624,
+        "rotation_geodesic_rad": 0.054361574636393004,
+        "linear_velocity_rmse": 0.25572043576557524,
+        "angular_velocity_rmse": 1.2906679323292476,
+        "joint_position_rmse": 0.14626202260726048,
+        "joint_velocity_rmse": 4.593800051977926
+      },
+      "train_seconds": 0.5834729559999232,
+      "weight_transfer": {
+        "mode": "point-frozen",
+        "loaded_parameters": [
+          "point_encoder.input.0.weight",
+          "point_encoder.input.0.bias",
+          "point_encoder.input.2.weight",
+          "point_encoder.input.2.bias",
+          "point_encoder.blocks.0.norm.weight",
+          "point_encoder.blocks.0.norm.bias",
+          "point_encoder.blocks.0.qkv.weight",
+          "point_encoder.blocks.0.qkv.bias",
+          "point_encoder.blocks.0.bias.0.weight",
+          "point_encoder.blocks.0.bias.0.bias",
+          "point_encoder.blocks.0.bias.2.weight",
+          "point_encoder.blocks.0.bias.2.bias",
+          "point_encoder.blocks.0.output.weight",
+          "point_encoder.blocks.0.output.bias",
+          "point_encoder.blocks.0.ff.0.weight",
+          "point_encoder.blocks.0.ff.0.bias",
+          "point_encoder.blocks.0.ff.1.weight",
+          "point_encoder.blocks.0.ff.1.bias",
+          "point_encoder.blocks.0.ff.3.weight",
+          "point_encoder.blocks.0.ff.3.bias",
+          "point_encoder.blocks.1.norm.weight",
+          "point_encoder.blocks.1.norm.bias",
+          "point_encoder.blocks.1.qkv.weight",
+          "point_encoder.blocks.1.qkv.bias",
+          "point_encoder.blocks.1.bias.0.weight",
+          "point_encoder.blocks.1.bias.0.bias",
+          "point_encoder.blocks.1.bias.2.weight",
+          "point_encoder.blocks.1.bias.2.bias",
+          "point_encoder.blocks.1.output.weight",
+          "point_encoder.blocks.1.output.bias",
+          "point_encoder.blocks.1.ff.0.weight",
+          "point_encoder.blocks.1.ff.0.bias",
+          "point_encoder.blocks.1.ff.1.weight",
+          "point_encoder.blocks.1.ff.1.bias",
+          "point_encoder.blocks.1.ff.3.weight",
+          "point_encoder.blocks.1.ff.3.bias",
+          "aggregation.query_offsets",
+          "aggregation.articulation_query",
+          "aggregation.structural_bias",
+          "aggregation.patch_query.0.weight",
+          "aggregation.patch_query.0.bias",
+          "aggregation.patch_query.2.weight",
+          "aggregation.patch_query.2.bias",
+          "aggregation.face_attention.in_proj_weight",
+          "aggregation.face_attention.in_proj_bias",
+          "aggregation.face_attention.out_proj.weight",
+          "aggregation.face_attention.out_proj.bias",
+          "aggregation.body_input.0.weight",
+          "aggregation.body_input.0.bias",
+          "aggregation.body_input.2.weight",
+          "aggregation.body_input.2.bias",
+          "aggregation.link_attention.in_proj_weight",
+          "aggregation.link_attention.in_proj_bias",
+          "aggregation.link_attention.out_proj.weight",
+          "aggregation.link_attention.out_proj.bias",
+          "aggregation.global_blocks.0.norm.weight",
+          "aggregation.global_blocks.0.norm.bias",
+          "aggregation.global_blocks.0.attention.in_proj_weight",
+          "aggregation.global_blocks.0.attention.in_proj_bias",
+          "aggregation.global_blocks.0.attention.out_proj.weight",
+          "aggregation.global_blocks.0.attention.out_proj.bias",
+          "aggregation.global_blocks.0.ff.0.weight",
+          "aggregation.global_blocks.0.ff.0.bias",
+          "aggregation.global_blocks.0.ff.1.weight",
+          "aggregation.global_blocks.0.ff.1.bias",
+          "aggregation.global_blocks.0.ff.3.weight",
+          "aggregation.global_blocks.0.ff.3.bias",
+          "aggregation.pooled_readout.0.weight",
+          "aggregation.pooled_readout.0.bias",
+          "aggregation.pooled_readout.2.weight",
+          "aggregation.pooled_readout.2.bias",
+          "aggregation.base_decoder.0.weight",
+          "aggregation.base_decoder.0.bias",
+          "aggregation.base_decoder.2.weight",
+          "aggregation.base_decoder.2.bias"
+        ],
+        "skipped_parameters": [
+          "aggregation.joint_decoder.0.weight",
+          "aggregation.joint_decoder.0.bias",
+          "aggregation.joint_decoder.2.weight",
+          "aggregation.joint_decoder.2.bias"
+        ],
+        "novel_joint_head": true,
+        "novel_head_policy": "Cube has no trained joint output. Target joint head is newly initialized and remains trainable even when source aggregation is frozen.",
+        "trainable_parameters": 26578,
+        "total_parameters": 45626
+      }
+    },
+    {
+      "model": "aggregation-frozen",
+      "budget": 4,
+      "seed": 0,
+      "checkpoint": "outputs/quick/transfer/aggregation-frozen_budget4_seed0/best.pt",
+      "metrics": {
+        "position_rmse": 0.029132825966376185,
+        "rotation_geodesic_rad": 0.0698459820318783,
+        "linear_velocity_rmse": 0.2573237977771493,
+        "angular_velocity_rmse": 1.2920826698248613,
+        "joint_position_rmse": 0.1423508544058144,
+        "joint_velocity_rmse": 4.592613455964282
+      },
+      "train_seconds": 0.7969167050000578,
+      "weight_transfer": {
+        "mode": "aggregation-frozen",
+        "loaded_parameters": [
+          "point_encoder.input.0.weight",
+          "point_encoder.input.0.bias",
+          "point_encoder.input.2.weight",
+          "point_encoder.input.2.bias",
+          "point_encoder.blocks.0.norm.weight",
+          "point_encoder.blocks.0.norm.bias",
+          "point_encoder.blocks.0.qkv.weight",
+          "point_encoder.blocks.0.qkv.bias",
+          "point_encoder.blocks.0.bias.0.weight",
+          "point_encoder.blocks.0.bias.0.bias",
+          "point_encoder.blocks.0.bias.2.weight",
+          "point_encoder.blocks.0.bias.2.bias",
+          "point_encoder.blocks.0.output.weight",
+          "point_encoder.blocks.0.output.bias",
+          "point_encoder.blocks.0.ff.0.weight",
+          "point_encoder.blocks.0.ff.0.bias",
+          "point_encoder.blocks.0.ff.1.weight",
+          "point_encoder.blocks.0.ff.1.bias",
+          "point_encoder.blocks.0.ff.3.weight",
+          "point_encoder.blocks.0.ff.3.bias",
+          "point_encoder.blocks.1.norm.weight",
+          "point_encoder.blocks.1.norm.bias",
+          "point_encoder.blocks.1.qkv.weight",
+          "point_encoder.blocks.1.qkv.bias",
+          "point_encoder.blocks.1.bias.0.weight",
+          "point_encoder.blocks.1.bias.0.bias",
+          "point_encoder.blocks.1.bias.2.weight",
+          "point_encoder.blocks.1.bias.2.bias",
+          "point_encoder.blocks.1.output.weight",
+          "point_encoder.blocks.1.output.bias",
+          "point_encoder.blocks.1.ff.0.weight",
+          "point_encoder.blocks.1.ff.0.bias",
+          "point_encoder.blocks.1.ff.1.weight",
+          "point_encoder.blocks.1.ff.1.bias",
+          "point_encoder.blocks.1.ff.3.weight",
+          "point_encoder.blocks.1.ff.3.bias",
+          "aggregation.query_offsets",
+          "aggregation.articulation_query",
+          "aggregation.structural_bias",
+          "aggregation.patch_query.0.weight",
+          "aggregation.patch_query.0.bias",
+          "aggregation.patch_query.2.weight",
+          "aggregation.patch_query.2.bias",
+          "aggregation.face_attention.in_proj_weight",
+          "aggregation.face_attention.in_proj_bias",
+          "aggregation.face_attention.out_proj.weight",
+          "aggregation.face_attention.out_proj.bias",
+          "aggregation.body_input.0.weight",
+          "aggregation.body_input.0.bias",
+          "aggregation.body_input.2.weight",
+          "aggregation.body_input.2.bias",
+          "aggregation.link_attention.in_proj_weight",
+          "aggregation.link_attention.in_proj_bias",
+          "aggregation.link_attention.out_proj.weight",
+          "aggregation.link_attention.out_proj.bias",
+          "aggregation.global_blocks.0.norm.weight",
+          "aggregation.global_blocks.0.norm.bias",
+          "aggregation.global_blocks.0.attention.in_proj_weight",
+          "aggregation.global_blocks.0.attention.in_proj_bias",
+          "aggregation.global_blocks.0.attention.out_proj.weight",
+          "aggregation.global_blocks.0.attention.out_proj.bias",
+          "aggregation.global_blocks.0.ff.0.weight",
+          "aggregation.global_blocks.0.ff.0.bias",
+          "aggregation.global_blocks.0.ff.1.weight",
+          "aggregation.global_blocks.0.ff.1.bias",
+          "aggregation.global_blocks.0.ff.3.weight",
+          "aggregation.global_blocks.0.ff.3.bias",
+          "aggregation.pooled_readout.0.weight",
+          "aggregation.pooled_readout.0.bias",
+          "aggregation.pooled_readout.2.weight",
+          "aggregation.pooled_readout.2.bias",
+          "aggregation.base_decoder.0.weight",
+          "aggregation.base_decoder.0.bias",
+          "aggregation.base_decoder.2.weight",
+          "aggregation.base_decoder.2.bias"
+        ],
+        "skipped_parameters": [
+          "aggregation.joint_decoder.0.weight",
+          "aggregation.joint_decoder.0.bias",
+          "aggregation.joint_decoder.2.weight",
+          "aggregation.joint_decoder.2.bias"
+        ],
+        "novel_joint_head": true,
+        "novel_head_policy": "Cube has no trained joint output. Target joint head is newly initialized and remains trainable even when source aggregation is frozen.",
+        "trainable_parameters": 21194,
+        "total_parameters": 45626
+      }
+    }
+  ],
+  "summary": [
+    {
+      "model": "scratch",
+      "budget": 2,
+      "metrics": {
+        "position_rmse": {
+          "mean": 0.03394626847378253,
+          "std": 0.0,
+          "seeds": 1
+        },
+        "rotation_geodesic_rad": {
+          "mean": 0.15452970625580784,
+          "std": 0.0,
+          "seeds": 1
+        },
+        "linear_velocity_rmse": {
+          "mean": 0.2832020351038954,
+          "std": 0.0,
+          "seeds": 1
+        },
+        "angular_velocity_rmse": {
+          "mean": 1.2959954510895741,
+          "std": 0.0,
+          "seeds": 1
+        },
+        "joint_position_rmse": {
+          "mean": 0.1179665695348643,
+          "std": 0.0,
+          "seeds": 1
+        },
+        "joint_velocity_rmse": {
+          "mean": 4.595242290016845,
+          "std": 0.0,
+          "seeds": 1
+        }
+      }
+    },
+    {
+      "model": "full",
+      "budget": 2,
+      "metrics": {
+        "position_rmse": {
+          "mean": 0.020581888894151294,
+          "std": 0.0,
+          "seeds": 1
+        },
+        "rotation_geodesic_rad": {
+          "mean": 0.07973386114431963,
+          "std": 0.0,
+          "seeds": 1
+        },
+        "linear_velocity_rmse": {
+          "mean": 0.256476126821483,
+          "std": 0.0,
+          "seeds": 1
+        },
+        "angular_velocity_rmse": {
+          "mean": 1.2902286961409104,
+          "std": 0.0,
+          "seeds": 1
+        },
+        "joint_position_rmse": {
+          "mean": 0.11431798788825781,
+          "std": 0.0,
+          "seeds": 1
+        },
+        "joint_velocity_rmse": {
+          "mean": 4.593202670110898,
+          "std": 0.0,
+          "seeds": 1
+        }
+      }
+    },
+    {
+      "model": "point-frozen",
+      "budget": 2,
+      "metrics": {
+        "position_rmse": {
+          "mean": 0.022508908840037308,
+          "std": 0.0,
+          "seeds": 1
+        },
+        "rotation_geodesic_rad": {
+          "mean": 0.07793382901922527,
+          "std": 0.0,
+          "seeds": 1
+        },
+        "linear_velocity_rmse": {
+          "mean": 0.2567540246501599,
+          "std": 0.0,
+          "seeds": 1
+        },
+        "angular_velocity_rmse": {
+          "mean": 1.2901936520571489,
+          "std": 0.0,
+          "seeds": 1
+        },
+        "joint_position_rmse": {
+          "mean": 0.11152448273900042,
+          "std": 0.0,
+          "seeds": 1
+        },
+        "joint_velocity_rmse": {
+          "mean": 4.592967852698628,
+          "std": 0.0,
+          "seeds": 1
+        }
+      }
+    },
+    {
+      "model": "aggregation-frozen",
+      "budget": 2,
+      "metrics": {
+        "position_rmse": {
+          "mean": 0.027499344786322696,
+          "std": 0.0,
+          "seeds": 1
+        },
+        "rotation_geodesic_rad": {
+          "mean": 0.06906508059373184,
+          "std": 0.0,
+          "seeds": 1
+        },
+        "linear_velocity_rmse": {
+          "mean": 0.25666239014758924,
+          "std": 0.0,
+          "seeds": 1
+        },
+        "angular_velocity_rmse": {
+          "mean": 1.2917528108344745,
+          "std": 0.0,
+          "seeds": 1
+        },
+        "joint_position_rmse": {
+          "mean": 0.12191173772454621,
+          "std": 0.0,
+          "seeds": 1
+        },
+        "joint_velocity_rmse": {
+          "mean": 4.592102129115867,
+          "std": 0.0,
+          "seeds": 1
+        }
+      }
+    },
+    {
+      "model": "scratch",
+      "budget": 4,
+      "metrics": {
+        "position_rmse": {
+          "mean": 0.03386494061094707,
+          "std": 0.0,
+          "seeds": 1
+        },
+        "rotation_geodesic_rad": {
+          "mean": 0.12831029217969875,
+          "std": 0.0,
+          "seeds": 1
+        },
+        "linear_velocity_rmse": {
+          "mean": 0.2745849593060427,
+          "std": 0.0,
+          "seeds": 1
+        },
+        "angular_velocity_rmse": {
+          "mean": 1.2939474556430492,
+          "std": 0.0,
+          "seeds": 1
+        },
+        "joint_position_rmse": {
+          "mean": 0.14660802198815334,
+          "std": 0.0,
+          "seeds": 1
+        },
+        "joint_velocity_rmse": {
+          "mean": 4.593029523872535,
+          "std": 0.0,
+          "seeds": 1
+        }
+      }
+    },
+    {
+      "model": "full",
+      "budget": 4,
+      "metrics": {
+        "position_rmse": {
+          "mean": 0.011155027150670255,
+          "std": 0.0,
+          "seeds": 1
+        },
+        "rotation_geodesic_rad": {
+          "mean": 0.05313872647223976,
+          "std": 0.0,
+          "seeds": 1
+        },
+        "linear_velocity_rmse": {
+          "mean": 0.2558470592599122,
+          "std": 0.0,
+          "seeds": 1
+        },
+        "angular_velocity_rmse": {
+          "mean": 1.2905954075691233,
+          "std": 0.0,
+          "seeds": 1
+        },
+        "joint_position_rmse": {
+          "mean": 0.13556906958131695,
+          "std": 0.0,
+          "seeds": 1
+        },
+        "joint_velocity_rmse": {
+          "mean": 4.594011273428809,
+          "std": 0.0,
+          "seeds": 1
+        }
+      }
+    },
+    {
+      "model": "point-frozen",
+      "budget": 4,
+      "metrics": {
+        "position_rmse": {
+          "mean": 0.01265338141477624,
+          "std": 0.0,
+          "seeds": 1
+        },
+        "rotation_geodesic_rad": {
+          "mean": 0.054361574636393004,
+          "std": 0.0,
+          "seeds": 1
+        },
+        "linear_velocity_rmse": {
+          "mean": 0.25572043576557524,
+          "std": 0.0,
+          "seeds": 1
+        },
+        "angular_velocity_rmse": {
+          "mean": 1.2906679323292476,
+          "std": 0.0,
+          "seeds": 1
+        },
+        "joint_position_rmse": {
+          "mean": 0.14626202260726048,
+          "std": 0.0,
+          "seeds": 1
+        },
+        "joint_velocity_rmse": {
+          "mean": 4.593800051977926,
+          "std": 0.0,
+          "seeds": 1
+        }
+      }
+    },
+    {
+      "model": "aggregation-frozen",
+      "budget": 4,
+      "metrics": {
+        "position_rmse": {
+          "mean": 0.029132825966376185,
+          "std": 0.0,
+          "seeds": 1
+        },
+        "rotation_geodesic_rad": {
+          "mean": 0.0698459820318783,
+          "std": 0.0,
+          "seeds": 1
+        },
+        "linear_velocity_rmse": {
+          "mean": 0.2573237977771493,
+          "std": 0.0,
+          "seeds": 1
+        },
+        "angular_velocity_rmse": {
+          "mean": 1.2920826698248613,
+          "std": 0.0,
+          "seeds": 1
+        },
+        "joint_position_rmse": {
+          "mean": 0.1423508544058144,
+          "std": 0.0,
+          "seeds": 1
+        },
+        "joint_velocity_rmse": {
+          "mean": 4.592613455964282,
+          "std": 0.0,
+          "seeds": 1
+        }
+      }
+    }
+  ],
+  "completed": true,
+  "protocol": "Shape-compatible weights transferred; changed-DOF decoders initialized for target. Source architecture shared across all four modes; only designated parameter groups frozen."
+}

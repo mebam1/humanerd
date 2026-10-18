@@ -1,0 +1,120 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>데이터와 접촉 사건 기록 · CUBE LAB</title><link rel="stylesheet" href="assets/style.css"></head><body>
+<aside><a class="brand" href="index.html">CUBE LAB<small>CONTACT DYNAMICS RESEARCH</small></a><div class="nav-label">RESEARCH NOTEBOOK</div><nav><a href="index.html" class="">연구 대시보드</a><a href="01_overview.html" class="">구현 개요와 연구 범위</a><a href="02_simulation.html" class="">공통 물리 시뮬레이터와 장면</a><a href="03_data.html" class="active">데이터와 접촉 사건 기록</a><a href="04_representation.html" class="">현재 상태에서 만드는 물리 표면 표현</a><a href="05_models.html" class="">계층 동역학 모델·비교군·전이 구성</a><a href="06_experiments.html" class="">Cube 실험 파이프라인</a><a href="07_ant_control.html" class="">Ant 사족 보행과 학습 모델 기반 제어</a><a href="08_transfer.html" class="">형상·관절 구조 전이 학습</a><a href="09_docker.html" class="">Docker Compose와 재현 환경</a><a href="10_results.html" class="">직접 실행한 실험과 결과 분석</a><a href="11_sampling_validation.html" class="">표면 샘플링과 독립 합산 검증</a><a href="12_gpu_training.html" class="">GPU 학습 · NeRD 규모 데이터 · 온라인 실험 비교</a><a href="13_gpu_results.html" class="">실제 GPU 실행과 대규모 데이터 준비 결과</a></nav><div class="side-note">Point → Face → Body<br>Point → Patch → Link → Articulation<br><br>MuJoCo · NVIDIA Warp · PyTorch<br>코드와 실험 기록을 함께 읽는 연구 문서</div></aside>
+<main><div class="topbar"><span>CUBE / RESEARCH IMPLEMENTATION</span><span class="pill">로컬 연구 환경</span></div><article><h1 id="_1">데이터와 접촉 사건 기록</h1>
+<h2 id="_2">무엇을 구현했는가</h2>
+<p><code>src/cube/experiments/data.py</code>는 공통 simulator에서 trajectory를 생성하고, <code>storage.py</code>는 저장과 읽기를 담당합니다. 큰 데이터는 여러 trajectory를 묶은 NPY shard와 <code>manifest.json</code>으로 저장합니다. 기존 작은 실험의 trajectory별 압축 NPZ도 계속 읽고 생성할 수 있습니다. Cube, 직육면체, 두 링크, Ant에 동일한 상태 계약을 적용합니다.</p>
+<table>
+<thead>
+<tr>
+<th>저장 항목</th>
+<th>의미</th>
+<th>입력에 사용하는가</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>states</td>
+<td>qpos와 qvel, T+1개 상태</td>
+<td>현재 상태·허용된 history만</td>
+</tr>
+<tr>
+<td>actions</td>
+<td>T개 현재 외력/관절 control</td>
+<td>사용</td>
+</tr>
+<tr>
+<td>scene_spec</td>
+<td>형상, 질량, 마찰, solver 설정, seed</td>
+<td>현재 물성/기하 구성에 사용</td>
+</tr>
+<tr>
+<td>contact_count / penetration</td>
+<td>현재 endpoint 접촉과 침투</td>
+<td>진단·평가에만 사용</td>
+</tr>
+<tr>
+<td>impact_event / persistent_contact</td>
+<td>내부 substep에서 관찰한 사건</td>
+<td>loss 입력이 아닌 평가 구간 분류</td>
+</tr>
+<tr>
+<td>first_impact_time</td>
+<td>관찰한 최초 충돌의 substep 시각</td>
+<td>진단에만 사용</td>
+</tr>
+</tbody>
+</table>
+<p>모든 포인트는 현재 state와 정적 기하에서 다시 생성합니다. 미래 접촉 mask나 solver 충격량을 network 입력에 넣지 않습니다.</p>
+<h2 id="_3">왜 이렇게 나누는가</h2>
+<p>인접 transition을 무작위로 나누면 같은 궤적이 train과 test에 들어갑니다. 따라서 독립적인 seed·초기 조건의 trajectory 전체를 split에 할당합니다. 정지 Cube와 Ant 보행도 seed에 따라 작은 초기 위치·자세 등을 바꿉니다. 정규화 통계는 train split에서만 계산합니다.</p>
+<p>OOD의 바닥–벽 동시 접촉은 학습 시나리오에 포함하지 않습니다. 어떤 시나리오가 OOD에 들어가는지는 설정과 manifest에 명시합니다. 같은 시나리오가 훈련과 OOD 목록에 동시에 들어가면 오류를 냅니다.</p>
+<h2 id="substep">내부 substep과 접촉 모드</h2>
+<p>제어 간격 0.02초 안에 0.005초짜리 물리 step 네 번을 수행합니다. endpoint만 관찰하면 그 사이에 충돌하고 다시 분리된 사건을 놓칠 수 있습니다. 데이터 생성은 각 substep의 현재 기하·접근 속도·활성 접촉을 기록하여 impact와 persistent 구간을 구분합니다. 한 transition에서 둘 다 발생할 수 있습니다.</p>
+<p>접근 속도 기준은 −0.05m/s입니다. 접촉 쌍의 활성화와 접근 속도를 함께 사용하며 충격량 크기만으로 모드를 정의하지 않습니다. 현재 구현은 geom pair 단위 사건 진단입니다. 표면별 mode probe나 auxiliary supervision은 별도 연구 확장으로 남깁니다.</p>
+<p>학습 모델의 장기 contact-onset 오차는 모델 출력 간격의 endpoint에서 계산합니다. 내부 substep의 정확한 발생 시점을 출력하는 모델인 것처럼 해석하지 않습니다.</p>
+<h2 id="_4">큰 데이터의 저장·생성 구성</h2>
+<table>
+<thead>
+<tr>
+<th>논리적 구성 요소</th>
+<th>구현 내용</th>
+<th>구현한 이유</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>생성 전 계획</td>
+<td><code>data-plan</code>으로 split별 trajectory·transition 수, shard 수, 배열 용량을 계산</td>
+<td>시나리오당 수량과 전체 수량을 혼동하지 않고 저장 공간을 확인</td>
+</tr>
+<tr>
+<td>묶음 저장</td>
+<td>최대 256 trajectories의 states/actions/labels를 각각 <code>.npy</code> 배열에 저장</td>
+<td>작은 파일을 수만 개 열거나 데이터 전체를 한 번에 압축 해제하는 비용을 줄임</td>
+</tr>
+<tr>
+<td>부분 읽기</td>
+<td>읽기 전용 memory map과 제한된 파일 캐시, 필요한 배열만 요청</td>
+<td>학습이 states/actions만 읽고 전체 데이터가 RAM·VRAM에 상주하지 않도록 함</td>
+</tr>
+<tr>
+<td>MuJoCo 병렬 생성</td>
+<td>subprocess worker 8개, worker 안에서 같은 장면의 컴파일된 모델을 재사용</td>
+<td>trajectory마다 MJCF를 다시 컴파일하는 비용을 줄이고 CPU 작업을 분산</td>
+</tr>
+<tr>
+<td>독립 episode</td>
+<td>trajectory ID로 정한 seed로 초기 상태·action을 다시 생성하고 simulator를 reset</td>
+<td>worker 완료 순서가 달라도 동일 trajectory를 생성</td>
+</tr>
+<tr>
+<td>완료 단위 저장</td>
+<td>임시 shard의 모든 배열과 metadata를 기록한 뒤 원자적으로 완료 경로로 변경</td>
+<td>중단된 파일을 정상 데이터로 읽지 않도록 함</td>
+</tr>
+<tr>
+<td>데이터 식별</td>
+<td>생성 설정·seed·backend·정밀도·저장 구조·라벨 관측 방식의 fingerprint와 schema hash</td>
+<td>다른 실험 데이터가 같은 경로에 섞이는 것을 방지</td>
+</tr>
+</tbody>
+</table>
+<p><code>configs/cube_nerd_scale.json</code>의 <code>storage.format</code>은 <code>sharded_npy</code>, <code>trajectories_per_shard</code>는 256, 저장 <code>dtype</code>은 float32입니다. MuJoCo 적분은 simulator의 정밀도로 수행하고 저장할 때 변환합니다. <code>generation.workers: 8</code>은 CPU 생성 병렬도이며 GPU 학습의 batch 수와 관계없습니다. 작업 제출 수도 제한하여 전체 trajectory 배열을 부모 프로세스에 모으지 않습니다.</p>
+<p><code>generation.record_substeps: true</code>가 기본입니다. <code>false</code>는 제어 간격 양 끝만 관찰하는 별도 설정이며, 중간 충돌을 놓칠 수 있습니다. 이 경우 manifest의 시간 해상도도 endpoint 관측으로 바뀝니다. 본 실험에서는 정확한 사건 분류를 위해 substep 기록을 유지합니다.</p>
+<p>Warp도 동일 데이터 형식으로 저장합니다. 현재 Warp adapter는 실제 CUDA 물리를 수행하는 <strong>단일 world 경로</strong>이므로 <code>generation.workers</code>를 1로 설정해야 합니다. 이 구현이 GPU 다중 world 생성의 처리량을 제공한다고 가정하지 않습니다.</p>
+<h2 id="nerd-cube">NeRD Cube 수량과 실제 생성 결과</h2>
+<p><a href="https://arxiv.org/html/2508.15755v1#A3.SS4">NeRD Appendix C.4</a>의 Cube synthetic 학습 데이터는 10,000 trajectories, 길이 100입니다. 이 저장소에서는 길이를 <strong>100 transitions와 101 states</strong>로 정의합니다. 기본 설정은 8개 학습 시나리오에 각 1,250개를 배정하여 학습용 1,000,000 transitions를 만듭니다. validation/test는 각각 8 × 125개, OOD는 floor_wall 1,000개를 별도로 생성합니다. 일반 로봇의 100K 설정은 <code>cube_nerd_general_scale.json</code>에 분리했습니다. 수량을 맞추는 것이며 원논문의 solver·분포·실측 데이터까지 재현하는 것은 아닙니다.</p>
+<p><strong>2026-10-18에 기본 설정 전체를 직접 생성했습니다.</strong> <code>data/cube-nerd/manifest.json</code>은 <code>complete</code>이며 train 10,000개와 validation/test/OOD 각 1,000개, 총 <strong>13,000 trajectories / 1,300,000 transitions</strong>입니다. 기록된 생성 시간은 약 <strong>172초</strong>, 배열 payload는 약 <strong>128 MB</strong>입니다. JSON·NPY header를 포함한 실제 디스크 사용량은 조금 더 큽니다. 시간은 이 실행 환경의 측정값입니다. 이후 GPU 실험 결과는 <a href="13_gpu_results.html">GPU 실행 결과</a>에 정리합니다.</p>
+<h2 id="_5">재현 정보와 안전한 재개</h2>
+<p>manifest와 shard metadata에는 seed, trajectory별 scene spec과 split, simulator backend, 시간 간격, 배열 shape/dtype을 남깁니다. <code>quick</code> 결과에는 설치 버전과 소스·설정 SHA256도 기록합니다.</p>
+<p>같은 출력 경로에 다시 생성하려면 <code>--resume</code>를 명시합니다. 기본 명령은 기존 데이터를 덮어쓰지 않습니다. <strong>미완료 데이터</strong>는 이미 완료된 shard의 설정·trajectory ID·배열 shape/dtype·파일 크기를 검증하고 빠진 shard부터 생성합니다. 완료되지 않은 임시 shard는 학습 대상에 포함하지 않습니다. 부모 프로세스가 manifest를 갱신하기 직전에 중단됐더라도, 정상적으로 완료된 shard는 재개 시 다시 찾습니다. 학습·평가는 manifest가 <code>incomplete</code>이면 오류를 냅니다.</p>
+<p><strong>완료된 데이터</strong>의 <code>--resume</code>는 기존 파일을 검증한 뒤 그대로 재사용하며 manifest 내용도 바꾸지 않습니다. 따라서 학습 checkpoint가 참조하는 데이터 식별자가 유지됩니다. seed, 물리 설정, backend, 저장 형식, 사건 기록 방식 등이 달라지면 재개를 거부하므로 새 출력 폴더를 사용합니다. worker 수와 진행률 표시 설정은 데이터 내용이 같으므로 변경할 수 있습니다. fingerprint가 없던 이전 NPZ 데이터는 읽을 수 있지만 이 방식으로 생성을 재개할 수는 없습니다.</p>
+<pre><code class="language-bash">docker compose run --rm research python -m cube data-plan --config configs/cube_nerd_scale.json
+
+docker compose run --rm research python -m cube generate --config configs/cube_nerd_scale.json --output data/cube-nerd --resume
+
+docker compose run --rm research python -m cube generate --config configs/cube_smoke.json --output data/cube-small
+
+docker compose --profile gpu run --rm warp python -m cube generate --config configs/ant_smoke.json --backend warp --device cuda:0 --output data/ant_warp
+</code></pre>
+<p>계획의 용량은 배열 payload의 비압축 크기이며 metadata와 임시 shard를 위한 여유 공간은 별도로 필요합니다. 전체 GPU 학습·평가 명령은 <a href="12_gpu_training.html">GPU 실험 안내</a>를 참고하세요.</p></article><footer>CUBE CONTACT RESEARCH · 코드: src/cube · 설정: configs · 원본 제안: 연구 제안.md</footer></main></body></html>

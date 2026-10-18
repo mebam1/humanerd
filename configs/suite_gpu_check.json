@@ -1,0 +1,22 @@
+{
+  "dataset": "data/cube-nerd",
+  "budgets": [32],
+  "seeds": [0],
+  "models": [
+    "hierarchical", "state_mlp", "deepsets", "flat", "independent",
+    {"name": "nerd_like", "label": "nerd_history1", "history": 1},
+    {"name": "nerd_like", "label": "nerd_history10", "history": 10}
+  ],
+  "training_config": "configs/train_gpu.json",
+  "training": {
+    "epochs": 3,
+    "max_steps": 1000,
+    "batch_size": 32,
+    "gradient_accumulation_steps": 4,
+    "validation_max_trajectories": 8,
+    "checkpoint_every_steps": 10,
+    "wandb": {"mode": "offline", "group": "gpu-runtime-check", "tags": ["gpu", "short-check", "not-full-study"]}
+  },
+  "evaluation": {"device": "cuda:0", "batch_size": 32, "max_trajectories": 8, "save_rollouts": false},
+  "rollout_horizon": 16
+}

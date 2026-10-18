@@ -1,0 +1,46 @@
+name: cube-contact
+x-research: &research
+  image: cube-contact:cpu
+  build:
+    context: .
+    target: cpu
+  working_dir: /workspace
+  volumes:
+    - type: bind
+      source: .
+      target: /workspace
+    - cube-cache:/cache
+  environment:
+    PYTHONPATH: /workspace/src
+    MUJOCO_GL: egl
+    OMP_NUM_THREADS: "1"
+    MKL_NUM_THREADS: "1"
+    WANDB_API_KEY: ${WANDB_API_KEY:-}
+    WANDB_ENTITY: ${WANDB_ENTITY:-}
+    WANDB_PROJECT: ${WANDB_PROJECT:-cube-contact}
+    WANDB_DIR: /workspace/outputs/wandb
+    WANDB_DISABLE_CODE: "true"
+  shm_size: 2gb
+  init: true
+services:
+  research:
+    <<: *research
+  warp:
+    <<: *research
+    profiles: [gpu]
+    gpus: all
+  cuda:
+    <<: *research
+    image: cube-contact:cuda
+    build:
+      context: .
+      target: cuda
+    profiles: [cuda]
+    gpus: all
+  docs:
+    <<: *research
+    ports:
+      - "127.0.0.1:${DOCS_PORT:-8000}:8000"
+    command: ["python", "-m", "http.server", "8000", "--bind", "0.0.0.0", "--directory", "docs"]
+volumes:
+  cube-cache:

@@ -1,0 +1,167 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>계층 동역학 모델·비교군·전이 구성 · CUBE LAB</title><link rel="stylesheet" href="assets/style.css"></head><body>
+<aside><a class="brand" href="index.html">CUBE LAB<small>CONTACT DYNAMICS RESEARCH</small></a><div class="nav-label">RESEARCH NOTEBOOK</div><nav><a href="index.html" class="">연구 대시보드</a><a href="01_overview.html" class="">구현 개요와 연구 범위</a><a href="02_simulation.html" class="">공통 물리 시뮬레이터와 장면</a><a href="03_data.html" class="">데이터와 접촉 사건 기록</a><a href="04_representation.html" class="">현재 상태에서 만드는 물리 표면 표현</a><a href="05_models.html" class="active">계층 동역학 모델·비교군·전이 구성</a><a href="06_experiments.html" class="">Cube 실험 파이프라인</a><a href="07_ant_control.html" class="">Ant 사족 보행과 학습 모델 기반 제어</a><a href="08_transfer.html" class="">형상·관절 구조 전이 학습</a><a href="09_docker.html" class="">Docker Compose와 재현 환경</a><a href="10_results.html" class="">직접 실행한 실험과 결과 분석</a><a href="11_sampling_validation.html" class="">표면 샘플링과 독립 합산 검증</a><a href="12_gpu_training.html" class="">GPU 학습 · NeRD 규모 데이터 · 온라인 실험 비교</a><a href="13_gpu_results.html" class="">실제 GPU 실행과 대규모 데이터 준비 결과</a></nav><div class="side-note">Point → Face → Body<br>Point → Patch → Link → Articulation<br><br>MuJoCo · NVIDIA Warp · PyTorch<br>코드와 실험 기록을 함께 읽는 연구 문서</div></aside>
+<main><div class="topbar"><span>CUBE / RESEARCH IMPLEMENTATION</span><span class="pill">로컬 연구 환경</span></div><article><h1 id="_1">계층 동역학 모델·비교군·전이 구성</h1>
+<h2 id="_2">구현한 것과 이유</h2>
+<p><code>src/cube/models/dynamics.py</code>는 공통 <code>DynamicsModel</code> 인터페이스에서 계층 모델, 비교군, ablation, 전이용 모듈 경계를 제공합니다. 같은 상태·행동·정적 형상에서 같은 generalized delta를 예측하게 하여, 데이터나 출력 표현 차이가 구조 비교에 섞이는 것을 줄이기 위한 구성입니다.</p>
+<p>모델은 다음 상태나 접촉 충격량을 출력하는 solver가 아닙니다. 현재 표면의 국소 표현을 만든 뒤 여러 표면과 링크의 정보를 결합하여 <strong>하나의 root 상태와 연결된 관절 상태 변화</strong>를 예측합니다. Ant의 각 링크를 서로 독립적인 pose로 디코딩하지 않습니다.</p>
+<h2 id="point-patch-link-articulation">Point → Patch → Link → Articulation</h2>
+<table>
+<thead>
+<tr>
+<th>논리적 구성 요소</th>
+<th>구현한 동작</th>
+<th>구현한 이유</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>point_encoder.input</code></td>
+<td>21차원 물리 포인트를 공통 hidden feature로 변환</td>
+<td>형상·포인트 수에 독립적인 하위 표현 생성</td>
+</tr>
+<tr>
+<td><code>point_encoder.blocks</code></td>
+<td>공동 Hilbert 정렬과 shifted local attention</td>
+<td>가까운 물체–환경 표면의 위치·속도·재질 상호작용 표현</td>
+</tr>
+<tr>
+<td><code>aggregation.patch_query</code></td>
+<td>patch 중심·법선·extent로 query 생성</td>
+<td>물리적 표면 소속과 상대 기하 유지</td>
+</tr>
+<tr>
+<td><code>aggregation.face_attention</code></td>
+<td>각 patch 소속 포인트에 query cross-attention</td>
+<td>면 내부의 여러 지지점을 함께 요약</td>
+</tr>
+<tr>
+<td>링크 내부 face exchange</td>
+<td>같은 링크의 face token 사이 attention</td>
+<td>한 강체의 서로 다른 면에 걸친 접촉 결합</td>
+</tr>
+<tr>
+<td><code>aggregation.link_attention</code></td>
+<td>링크 물리 문맥에서 face token을 조회</td>
+<td>접촉 표현에 질량·관성·동작 문맥 결합</td>
+</tr>
+<tr>
+<td>articulation attention</td>
+<td>전체 링크와 articulation token 사이 attention</td>
+<td>링크 연결과 다른 다리의 접촉 영향을 공동 추론</td>
+</tr>
+<tr>
+<td>base/joint decoder</td>
+<td>root 12차원과 관절별 2차원 변화</td>
+<td>유효한 연결 구조를 가진 generalized state 생성</td>
+</tr>
+</tbody>
+</table>
+<p>Patch당 query offset은 학습 가능하며 <code>face_tokens=1,2,4</code> 중 선택합니다. Face 수에 비례하는 전용 embedding table을 만들지 않으므로, 다른 수의 면·링크로도 같은 point encoder와 상위 모듈을 옮길 수 있습니다.</p>
+<p>관절 연결은 부모–자식, 자기 자신, 다른 링크, articulation token 관계로 나누어 학습 가능한 attention bias를 제공합니다. 관절축·관절 위치·속도·torque는 링크 입력에 포함됩니다. 기본 글로벌 attention은 모든 링크 사이의 교환을 허용합니다. 이 bias는 실제 질량행렬이나 제약 solver의 대체 계산을 의미하지 않습니다.</p>
+<h2 id="_3">비교군의 정확한 범위</h2>
+<table>
+<thead>
+<tr>
+<th>설정 이름</th>
+<th>구현 내용</th>
+<th>비교 질문</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>hierarchical</code></td>
+<td>Point→Patch→Link→Articulation</td>
+<td>물리적 계층이 유용한가?</td>
+</tr>
+<tr>
+<td><code>state_mlp</code></td>
+<td>상태·행동·링크 문맥·정적 환경 요약을 MLP로 처리</td>
+<td>전체 벡터 중심 표현은 어느 수준인가?</td>
+</tr>
+<tr>
+<td><code>nerd_like</code></td>
+<td>현재 기하 기반 근접 표면 요약, 상태 문맥, history Transformer</td>
+<td>접촉 요약·history를 제공하는 자체 비교군은 어느 수준인가?</td>
+</tr>
+<tr>
+<td><code>deepsets</code></td>
+<td>동일한 local point encoder 후 동적 포인트 mean과 비선형 readout</td>
+<td>단순 pooling과 비선형 decoder만으로 충분한가?</td>
+</tr>
+<tr>
+<td><code>flat</code></td>
+<td>face 계층 없이 전체 포인트 attention과 global readout</td>
+<td>물리적 grouping 없이 전역 attention만으로 충분한가?</td>
+</tr>
+<tr>
+<td><code>independent</code></td>
+<td>각 정적 geometry의 국소 반응을 독립 계산한 뒤 선형 합산</td>
+<td>서로 떨어진 지지의 반응을 독립적으로 더하는 가정이 충분한가?</td>
+</tr>
+</tbody>
+</table>
+<p><strong><code>nerd_like</code>는 공식 NeRD 구현·재현 결과가 아닙니다.</strong> 이 저장소의 현재 상태 표현과 출력 규약을 공유하는 자체 비교군입니다. 실제 NeRD, FIGNet, RigidFormer의 논문 성능을 재현했다고 주장하지 않습니다. 원본 구현, 학습 데이터, solver 설정을 정합한 별도 비교가 필요합니다.</p>
+<p><code>nerd_like</code>는 가까운 정적 표면의 위치·법선·거리·상대속도·재질 정보를 current geometry에서 계산해 요약합니다. solver가 계산한 미래 접촉이나 충격량은 사용하지 않습니다. <code>history=1</code>과 <code>history=10</code>을 지원합니다. history에는 현재 시점을 포함하며, rollout에서는 마지막 state를 실제 예측 state로 교체합니다. 상태와 행동 history를 함께 전달하면 과거 torque가 보존됩니다. 상태 history만 API에 전달한 경우에는 현재 행동을 반복하므로, 정식 비교에는 행동 history도 전달해야 합니다.</p>
+<p><code>state_mlp</code>에도 정적 환경 요약을 제공합니다. 지지대 유무를 모델에 숨긴 채 동일한 상태에 서로 다른 정답을 강요하는 비교를 피하기 위한 조치입니다. 따라서 순수한 <code>[state, action]</code>만 받는 MLP와는 다릅니다.</p>
+<h2 id="_4">독립 합산 기준선의 의미</h2>
+<p><code>independent</code>는 동적 포인트와 각 정적 geometry의 포인트 쌍에 대해 공유 MLP 반응과 거리 gate를 계산합니다. 같은 geometry 안에서 평균을 내고, geometry별 기여를 합산한 뒤 동일한 자유 운동 응답을 더합니다. <strong>합산 뒤 비선형 readout을 두지 않습니다.</strong></p>
+<p>가장 가까운 지지점 하나만 선택하면 B를 추가할 때 A의 입력이 바뀌어, 의도하지 않은 비가산 효과가 생길 수 있습니다. 이 구현은 geometry마다 독립 계산하여 그 경쟁을 제거했습니다. 동일 상태·동일 A/B 형상을 사용한 네 반사실 조건의 모델 delta 결합량 <code>AB−A−B+none</code>이 수치 오차 수준인지 테스트합니다.</p>
+<p>Delta의 각속도는 현재 root frame 기준이므로 world twist로 변환한 속도 결합량도 같은 독립성 검증에 사용할 수 있습니다. 단, 위치·회전 전체를 비선형 좌표로 비교하는 지표와 속도 결합량을 혼동하지 않아야 합니다.</p>
+<p>반면 mean/sum pooling 뒤에 비선형 decoder가 있는 <code>deepsets</code>는 접촉 결합을 학습할 수 있습니다. 이를 독립 합산 기준선과 동일하게 취급하지 않습니다.</p>
+<h2 id="ablation">Ablation</h2>
+<table>
+<thead>
+<tr>
+<th>설정</th>
+<th>제거·변경하는 부분</th>
+<th>유지되는 부분</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>no_velocity=true</code></td>
+<td>명시적 <strong>포인트</strong> 표면 속도를 0으로 변경</td>
+<td>현재 상태와 body 속도 입력</td>
+</tr>
+<tr>
+<td><code>no_inertia=true</code></td>
+<td>body 질량과 관성 입력을 0으로 변경</td>
+<td>형상, 상태, 중력, 행동</td>
+</tr>
+<tr>
+<td><code>mean_pool=true</code></td>
+<td>patch query attention을 mean pooling으로 변경</td>
+<td>patch 기하 query와 상위 집약</td>
+</tr>
+<tr>
+<td><code>random_groups=true</code></td>
+<td>고정 seed로 동적 포인트의 patch 소속을 재배치</td>
+<td>점의 물리적 값과 총 patch 수</td>
+</tr>
+<tr>
+<td><code>no_face_exchange=true</code></td>
+<td>링크 내부 face-to-face attention 제거</td>
+<td>face→link 조회와 link→articulation 집약</td>
+</tr>
+<tr>
+<td><code>serialization=morton</code></td>
+<td>Hilbert 대신 Morton 정렬</td>
+<td>동일한 입력·window 구조</td>
+</tr>
+<tr>
+<td><code>face_tokens=2/4</code></td>
+<td>patch별 query 수 증가</td>
+<td>동일한 물리적 면 소속</td>
+</tr>
+</tbody>
+</table>
+<p><code>no_face_exchange</code>는 모든 접촉 결합을 차단하지 않습니다. 여러 face를 조회하는 link token은 여전히 결합을 표현할 수 있습니다. 각 ablation이 실제로 제거한 경로의 범위를 해석에 반영해야 합니다.</p>
+<h2 id="_5">전이 학습 경계</h2>
+<p>모든 형상별 샘플과 FK 상수는 <code>features</code>의 <strong>nonpersistent buffer</strong>입니다. checkpoint의 학습된 <code>state_dict</code>에 넣지 않습니다. 타깃 모델은 타깃 메타데이터로 새로 만든 후, 모양이 같은 학습 tensor만 옮깁니다. Cube의 형상 buffer가 Ant 모델을 덮어쓰는 문제를 막습니다.</p>
+<p><code>model.set_scene(sim_or_metadata)</code>는 DOF가 같은 환경 사이에서 정적 형상만 바꿀 때 사용합니다. learned parameter의 객체를 바꾸지 않으므로 optimizer가 계속 같은 parameter를 갱신합니다. DOF가 달라지면 새 모델을 만들도록 오류를 냅니다.</p>
+<p>전이 모드는 처음부터 학습, 전체 fine-tuning, point encoder 고정, 상위 aggregation 고정입니다. <code>freeze_transfer('point')</code>는 point encoder만 고정합니다. <code>freeze_transfer('aggregation')</code>는 point encoder 이외의 학습 parameter를 고정합니다.</p>
+<p>Cube에서 관절 시스템으로 처음 옮길 때는 joint decoder가 소스 학습에 참여하지 않았습니다. 이 경우 그 무작위 소스 head를 복사하지 않고 <strong>새 타깃 joint head를 학습 가능하게 유지</strong>합니다. aggregation 고정 실험도 이 예외를 적용하며, 결과는 “기존 aggregation 고정 + 새 joint head 학습”으로 해석해야 합니다. 같은 DOF 전이의 순수 고정 실험과 구분합니다.</p>
+<h2 id="api">공통 API와 검증</h2>
+<p><code>build_model(sim_or_metadata, config)</code>가 모델을 생성합니다. <code>forward(state, action, history=None)</code>는 raw delta를 반환하며 학습 정규화는 trainer가 처리합니다. <code>encode_state</code>는 probe용 latent를, <code>coverage</code>는 local attention 근접쌍 포함 통계를 제공합니다. 실제 사용 명령은 README의 Docker Compose 명령을 따릅니다.</p>
+<p>모델 검증에는 Cube·Ant의 모든 비교군 출력 크기, 두 번의 예측 상태 재구성을 포함한 유한 gradient, patch 내부 포인트 순서 변경에 대한 pooling 불변성, 모든 ablation 실행, 타깃 형상 보존, point encoder 고정, 새 joint head 학습 가능 여부가 포함됩니다.</p>
+<p>이 구현은 실험 가능한 연구 기준 코드입니다. attention 사용만으로 비관통·에너지 보존·마찰 제약을 보장하지 않습니다. 짧은 smoke 학습의 오차 순위는 논문 가설을 입증하지 않습니다. Baseline별 parameter 수와 실제 활성 경로, 전체 전처리 포함 시간, 데이터 예산, 여러 seed를 함께 보고해야 합니다. 공통 클래스에는 특정 비교군에서 쓰지 않는 모듈이나 Cube에서 아직 활성화되지 않은 joint head가 있을 수 있으므로 총 parameter 수만으로 계산량이 같다고 판단하지 않습니다.</p></article><footer>CUBE CONTACT RESEARCH · 코드: src/cube · 설정: configs · 원본 제안: 연구 제안.md</footer></main></body></html>

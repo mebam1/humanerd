@@ -1,0 +1,10 @@
+{
+  "seed": 7,
+  "scene": {"kind": "cube", "dt": 0.02, "substeps": 4},
+  "scenarios": ["impact", "rest", "slide", "wall_only"],
+  "ood_scenarios": ["floor_wall"],
+  "trajectories_per_split": {"train": 2, "val": 1, "test": 1},
+  "ood_trajectories": 1,
+  "steps": 24,
+  "action_scale": 0.15
+}

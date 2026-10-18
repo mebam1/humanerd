@@ -1,0 +1,8 @@
+{
+  "seed": 31,
+  "scene": {"kind": "cuboid", "half_extents": [0.3, 0.13, 0.18], "mass": 1.7, "friction": 0.8},
+  "scenarios": ["impact", "rest", "slide", "edge"],
+  "ood_scenarios": ["floor_wall"],
+  "trajectories_per_split": {"train": 16, "val": 4, "test": 4},
+  "steps": 96
+}

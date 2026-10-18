@@ -1,0 +1,7 @@
+{
+  "budgets": [4, 16, 64],
+  "seeds": [0, 1, 2],
+  "modes": ["scratch", "full", "point-frozen", "aggregation-frozen"],
+  "rollout_horizon": 64,
+  "training": {"epochs": 60, "batch_size": 32, "learning_rate": 0.0003, "rollout_steps": 4, "rollout_weight": 0.25}
+}

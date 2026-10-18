@@ -1,0 +1,30 @@
+{
+  "budgets": [
+    2,
+    4
+  ],
+  "seeds": [
+    0
+  ],
+  "modes": [
+    "scratch",
+    "full",
+    "point-frozen",
+    "aggregation-frozen"
+  ],
+  "rollout_horizon": 8,
+  "training": {
+    "epochs": 2,
+    "batch_size": 32,
+    "learning_rate": 0.001,
+    "model": {
+      "hidden_dim": 32,
+      "heads": 4,
+      "points_per_face": 16,
+      "floor_points": 64,
+      "window_size": 32,
+      "local_layers": 2,
+      "global_layers": 1
+    }
+  }
+}

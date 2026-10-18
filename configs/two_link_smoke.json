@@ -1,0 +1,9 @@
+{
+  "seed": 19,
+  "scene": {"kind": "two_link", "dt": 0.02, "substeps": 4},
+  "scenarios": ["free_fall", "rest"],
+  "ood_scenarios": [],
+  "trajectories_per_split": {"train": 2, "val": 1, "test": 1},
+  "steps": 24,
+  "action_scale": 0.15
+}

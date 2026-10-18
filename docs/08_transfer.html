@@ -1,0 +1,49 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>형상·관절 구조 전이 학습 · CUBE LAB</title><link rel="stylesheet" href="assets/style.css"></head><body>
+<aside><a class="brand" href="index.html">CUBE LAB<small>CONTACT DYNAMICS RESEARCH</small></a><div class="nav-label">RESEARCH NOTEBOOK</div><nav><a href="index.html" class="">연구 대시보드</a><a href="01_overview.html" class="">구현 개요와 연구 범위</a><a href="02_simulation.html" class="">공통 물리 시뮬레이터와 장면</a><a href="03_data.html" class="">데이터와 접촉 사건 기록</a><a href="04_representation.html" class="">현재 상태에서 만드는 물리 표면 표현</a><a href="05_models.html" class="">계층 동역학 모델·비교군·전이 구성</a><a href="06_experiments.html" class="">Cube 실험 파이프라인</a><a href="07_ant_control.html" class="">Ant 사족 보행과 학습 모델 기반 제어</a><a href="08_transfer.html" class="active">형상·관절 구조 전이 학습</a><a href="09_docker.html" class="">Docker Compose와 재현 환경</a><a href="10_results.html" class="">직접 실행한 실험과 결과 분석</a><a href="11_sampling_validation.html" class="">표면 샘플링과 독립 합산 검증</a><a href="12_gpu_training.html" class="">GPU 학습 · NeRD 규모 데이터 · 온라인 실험 비교</a><a href="13_gpu_results.html" class="">실제 GPU 실행과 대규모 데이터 준비 결과</a></nav><div class="side-note">Point → Face → Body<br>Point → Patch → Link → Articulation<br><br>MuJoCo · NVIDIA Warp · PyTorch<br>코드와 실험 기록을 함께 읽는 연구 문서</div></aside>
+<main><div class="topbar"><span>CUBE / RESEARCH IMPLEMENTATION</span><span class="pill">로컬 연구 환경</span></div><article><h1 id="_1">형상·관절 구조 전이 학습</h1>
+<h2 id="_2">구현한 구성 요소</h2>
+<p><code>cube.experiments.protocols.transfer</code>는 동일한 source checkpoint와 target dataset에서 다음 네 가지 적응 방법을 실행한다.</p>
+<table>
+<thead>
+<tr>
+<th>방법</th>
+<th>초기화</th>
+<th>학습하는 부분</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>scratch</code></td>
+<td>target 모델 무작위 초기화</td>
+<td>전체</td>
+</tr>
+<tr>
+<td><code>full</code></td>
+<td>shape이 같은 source parameter 복사</td>
+<td>전체</td>
+</tr>
+<tr>
+<td><code>point-frozen</code></td>
+<td>같은 source parameter 복사</td>
+<td>Point encoder를 제외한 상위 aggregation/decoder</td>
+</tr>
+<tr>
+<td><code>aggregation-frozen</code></td>
+<td>같은 source parameter 복사</td>
+<td>Point encoder만</td>
+</tr>
+</tbody>
+</table>
+<p>Point encoder의 입력과 hidden 차원은 morphology와 독립적이다. 표면 patch/link/articulation 처리도 공유되는 구조를 사용한다. source와 target의 parameter 이름 및 shape을 확인해 호환되는 가중치만 복사하고, 복사/제외 목록과 trainable parameter 수를 기록한다. static geometry buffer는 학습 가중치로 복사하지 않는다. target 형상·질량·관성·관절 연결·환경 정보는 target simulator의 metadata로 재구성한다.</p>
+<p>Cube/cuboid, 두 링크, Ant는 공통 state/action API를 사용하지만 generalized coordinate 차원이 다르다. 모델은 target scene에서 다시 생성되며 해당 차원의 decoder를 구성한다. shape이 달라지는 decoder가 있다면 무작위 초기화되고 transfer 보고서에 제외 이유가 나타난다. 이름이 같다는 이유로 잘못된 shape을 강제 복사하지 않는다.</p>
+<p><strong>관절이 없던 Cube에서 관절체로 전이하는 예외:</strong> source의 joint decoder는 한 번도 학습되지 않았으므로 shape이 같아도 복사하지 않는다. target의 새 joint output head는 모든 적응 방법에서 학습 가능하게 둔다. 따라서 이 경우 <code>aggregation-frozen</code>은 <strong>사전학습된 aggregation 고정 + Point encoder와 새 joint head 학습</strong>을 뜻한다. 이 예외를 checkpoint 및 결과의 <code>novel_head_policy</code>에 기록한다. 기존 관절체 사이의 동일 구조 전이에서는 지정한 freeze 정책을 그대로 따른다.</p>
+<p>각 데이터 예산과 seed에서 동일한 training trajectory ID를 선택한다. validation/test는 이 subset 밖의 독립 trajectory다. 정규화 통계도 target training subset에만 다시 적합하며 source 또는 target test 통계를 섞지 않는다. 전체 source architecture를 scratch 기준선에도 사용하므로 source 초기화와 freeze 정책의 영향을 비교할 수 있다.</p>
+<h2 id="_3">왜 구현했는가</h2>
+<p>연구 제안에서 재사용하려는 것은 독립적인 point 접촉 충격량 해답이 아니라 국소 접촉 상황의 표현이다. 따라서 단순히 전체 model을 fine-tuning하는 결과만으로는 Point 표현과 aggregation의 역할을 구분할 수 없다. 상위 부분만 적응시키는 방법과 Point 부분만 적응시키는 방법을 같은 데이터에서 비교해야 구조 분리의 효용을 해석할 수 있다.</p>
+<h2 id="_4">실험 구성</h2>
+<p><code>cuboid_transfer.json</code>은 큐브에서 종횡비와 질량이 다른 직육면체로 전이하기 위한 target data다. <code>two_link_smoke/research.json</code>과 <code>ant_smoke/research.json</code>은 연결 구조가 달라지는 target data다. 각 target dataset을 먼저 생성한 뒤 같은 source checkpoint로 transfer 명령을 실행한다. Cube → 두 링크에서 선택된 checkpoint를 Ant의 source로 사용하면 순차 전이도 가능하다.</p>
+<p><code>transfer_smoke.json</code>은 2/4개 trajectory, seed 1개, epoch 2개의 실행 검증용 설정이다. <code>transfer_research.json</code>은 4/16/64개 trajectory와 3개 seed를 비교한다. 요청한 예산보다 train trajectory가 적으면 오류를 내므로 충분한 target data를 먼저 생성해야 한다.</p>
+<p>마찰/재질을 source와 같게 유지하는 구조 전이와, target data의 scene friction을 바꾸는 물성 전이는 별도 output에 저장해야 한다. 결과 파일이 다른 설정을 자동으로 같은 실험으로 합치지 않는다. Point를 고정한 방법이 모든 재질 변화에 유리하다고 가정하지 않는다.</p>
+<h2 id="_5">결과 해석과 한계</h2>
+<p>각 run은 checkpoint와 evaluation을 남기고 <code>transfer.json</code>은 모델·예산별 평균/표준편차 및 parameter 복사 보고서를 집계한다. 실행되지 않은 grid와 실행 중인 grid는 성능 결과가 아니며 <code>completed</code> 필드로 구분한다. 공식 NeRD 등의 사전학습 가중치로부터 전이를 구현했다고 주장하지 않는다. 현 구현은 이 저장소의 학습된 dynamics checkpoint 간 전이다.</p>
+<p>few-shot 성능 향상, 새로운 morphology에서의 안정적 장기 rollout, MPC 제어 개선은 실제 결과로 검증해야 하는 가설이다. 작은 smoke 실행은 데이터·학습·전이·평가 경로가 연결되어 있다는 확인이며 논문 수준의 샘플 효율 결론은 아니다.</p></article><footer>CUBE CONTACT RESEARCH · 코드: src/cube · 설정: configs · 원본 제안: 연구 제안.md</footer></main></body></html>

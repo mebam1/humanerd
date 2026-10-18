@@ -1,0 +1,9 @@
+{
+  "seed": 29,
+  "scene": {"kind": "ant", "dt": 0.02, "substeps": 4},
+  "scenarios": ["walk", "rest", "free_fall"],
+  "ood_scenarios": [],
+  "trajectories_per_split": {"train": 32, "val": 8, "test": 8},
+  "steps": 200,
+  "action_scale": 0.12
+}

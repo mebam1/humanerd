@@ -1,0 +1,52 @@
+{
+  "data": {
+    "seed": 7,
+    "scene": {
+      "kind": "cube"
+    },
+    "scenarios": [
+      "impact",
+      "rest",
+      "slide",
+      "wall_only"
+    ],
+    "ood_scenarios": [
+      "floor_wall"
+    ],
+    "trajectories_per_split": {
+      "train": 2,
+      "val": 1,
+      "test": 1
+    },
+    "ood_trajectories": 1,
+    "steps": 24
+  },
+  "budgets": [
+    4,
+    8
+  ],
+  "seeds": [
+    0,
+    1
+  ],
+  "models": [
+    "state_mlp",
+    "deepsets",
+    "hierarchical"
+  ],
+  "rollout_horizon": 12,
+  "training": {
+    "epochs": 3,
+    "batch_size": 24,
+    "learning_rate": 0.001,
+    "model": {
+      "hidden_dim": 32,
+      "heads": 4,
+      "points_per_face": 16,
+      "floor_points": 64,
+      "window_size": 32,
+      "local_layers": 2,
+      "global_layers": 1
+    }
+  }
+}

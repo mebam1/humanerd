@@ -1,0 +1,20 @@
+{
+  "seed": 100,
+  "scene": {"kind": "cube", "dt": 0.02, "substeps": 4},
+  "scenarios": ["free_fall", "impact", "rebound", "settle", "rest", "slide", "edge", "wall_only"],
+  "ood_scenarios": ["floor_wall"],
+  "trajectories_per_split": {"train": 1250, "val": 125, "test": 125},
+  "ood_trajectories": 1000,
+  "steps": 100,
+  "action_scale": 0.3,
+  "storage": {"format": "sharded_npy", "trajectories_per_shard": 256, "dtype": "float32"},
+  "generation": {"workers": 8, "progress": true, "record_substeps": true},
+  "reference": {
+    "paper": "Neural Robot Dynamics, arXiv:2508.15755v1, Appendix C.4",
+    "url": "https://arxiv.org/html/2508.15755v1",
+    "synthetic_cube_training_trajectories": 10000,
+    "paper_trajectory_length": 100,
+    "our_length_convention": "100 transitions and 101 stored states per trajectory",
+    "scope": "Matches the Cube synthetic pretraining quantity only; scenarios, state representation, MuJoCo/MuJoCo Warp solver and held-out splits are this project's choices. The general 100K setting in Section 4 is distinct from the Cube-specific 10K setting in Appendix C.4."
+  }
+}

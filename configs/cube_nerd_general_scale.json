@@ -1,0 +1,20 @@
+{
+  "seed": 100,
+  "scene": {"kind": "cube", "dt": 0.02, "substeps": 4},
+  "scenarios": ["free_fall", "impact", "rebound", "settle", "rest", "slide", "edge", "wall_only"],
+  "ood_scenarios": ["floor_wall"],
+  "trajectories_per_split": {"train": 12500, "val": 125, "test": 125},
+  "ood_trajectories": 1000,
+  "steps": 100,
+  "action_scale": 0.3,
+  "storage": {"format": "sharded_npy", "trajectories_per_shard": 256, "dtype": "float32"},
+  "generation": {"workers": 8, "progress": true, "record_substeps": true},
+  "reference": {
+    "paper": "Neural Robot Dynamics, arXiv:2508.15755v1, Section 4",
+    "url": "https://arxiv.org/html/2508.15755v1",
+    "general_robot_training_trajectories": 100000,
+    "paper_trajectory_length": 100,
+    "our_length_convention": "100 transitions and 101 stored states per trajectory",
+    "scope": "Optional 10x Cube data scaling study following the general robot quantity in Section 4; the paper's Cube-specific Appendix C.4 uses 10K, so this is not the default Cube reproduction quantity."
+  }
+}

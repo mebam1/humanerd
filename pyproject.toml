@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cube-contact-research"
+version = "0.1.0"
+description = "Hierarchical contact dynamics: Cube to articulated Ant"
+requires-python = ">=3.11"
+dependencies = [
+  "numpy==2.3.5", "torch==2.7.1", "mujoco==3.16.0",
+  "mujoco-warp==3.16.0", "warp-lang==1.18.0", "PyYAML==6.0.3",
+  "matplotlib==3.10.7", "imageio==2.37.2", "imageio-ffmpeg==0.6.0",
+  "Markdown==3.9", "wandb==0.31.0", "tqdm==4.70.1"
+]
+
+[project.optional-dependencies]
+dev = ["pytest==9.0.2", "ruff==0.14.4"]
+
+[project.scripts]
+cube = "cube.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["warp: real Warp backend integration (compiles kernels)"]
+
+[tool.ruff]
+line-length = 120
+

@@ -1,0 +1,77 @@
+# Cube 실험 파이프라인
+
+## 구현한 구성 요소
+
+`cube.experiments.data`는 MuJoCo 또는 Warp에서 실제 trajectory를 생성한다. 데이터는 `states[T+1,nq+nv]`, `actions[T,nu]`, 접촉 수·관통 깊이·substep 접촉 사건으로 구성되며 `manifest.json`이 초기 조건, 환경, seed, solver, split을 기록한다. 작은 실험의 trajectory별 NPZ와 대규모 실험의 `sharded_npy`를 모두 지원한다. 후자는 여러 trajectory를 shard의 연속 배열에 저장하고 필요한 부분만 memory map으로 읽는다. 낙하, 착지, 반발, 정착, 정지 접촉, sliding, 모서리 회전, 벽 접촉을 설정으로 선택할 수 있다.
+
+train/val/test를 **trajectory 생성 전에** 분리하고 모든 trajectory에 서로 다른 seed를 배정한다. `floor_wall`은 기본 OOD 환경으로 별도 생성되어 train/val/test에 나타나지 않는다. 이미 학습에 들어간 환경을 OOD로 다시 지정하면 오류를 낸다. 데이터는 외부 정답 접촉 충격량을 모델 입력으로 저장하지 않는다.
+
+`cube.experiments.learning`은 학습 진입점과 독립 test/OOD 평가를 제공하고, `training_runtime`이 데이터 읽기·batch 계획·최적화·validation checkpoint 선택·재개를 담당한다. 정규화 통계는 선택된 training trajectory의 상태 변화량에만 적합하고 checkpoint에 trajectory ID와 함께 저장한다. 전체 delta를 GPU에 연결하지 않고 CPU 청크에서 구한 float32 delta를 float64 Welford 통계로 누적한다. raw delta 오차를 해당 표준편차로 나누어 최적화하고 quaternion 부호에 불변인 회전 geodesic loss를 함께 사용한다. 따라서 정규화는 loss의 단위를 맞추는 역할이며 모델의 raw delta 출력에 별도의 숨은 역변환이 없다.
+
+### 메모리를 제한하는 batch 계획과 장면 캐시
+
+`TrajectoryCache`는 최근 trajectory의 states/actions만 제한된 개수로 유지한다. `SceneCache`는 초기화 seed를 제외한 scene 설정으로 MuJoCo 장면과 static geometry buffer를 공유한다. 매 trajectory마다 모델·정적 geometry를 새로 만드는 비용을 줄이고 수만 개 simulator 인스턴스를 동시에 보유하지 않는다. 학습 가능한 신경망 가중치는 장면을 바꿔도 유지한다.
+
+`BatchPlan`은 같은 scene의 서로 다른 trajectory에서 transition을 모아 microbatch를 채운다. trajectory 순서와 내부 transition 순서를 seed·epoch에 따라 섞고, scene별 microbatch stream을 남은 batch 수에 비례해 교차 선택한다. 한 장면만 긴 구간 동안 학습하는 의도치 않은 curriculum을 피하면서, 한 microbatch 안에서는 같은 geometry를 사용할 수 있다. 전체 epoch에서 각 유효 transition 시작점을 한 번씩 사용하며 마지막 작은 batch를 버리지 않는다. multi-step 길이가 4이면 trajectory의 마지막 3개 시작점은 필요한 미래 상태가 없어 제외한다. 수백만 transition마다 Python 객체를 만드는 대신 trajectory metadata와 제한된 index만 유지한다.
+
+### CUDA, gradient accumulation과 고정 validation
+
+`mixed_precision`은 `none`, `bf16`, `fp16`을 선택한다. GPU 본 실험은 bf16을 사용하되 quaternion 상태 갱신과 정규화 loss는 float32로 계산한다. fp16에는 gradient scaler를 사용한다. CUDA를 요청했는데 GPU를 사용할 수 없으면 CPU로 조용히 바꾸지 않고 오류를 낸다.
+
+gradient accumulation은 microbatch loss에 실제 표본 수를 곱해 gradient를 누적하고, optimizer update 전에 누적한 표본 수로 나눈다. 따라서 작은 마지막 batch 때문에 loss 가중치가 달라지지 않는다. 이후 gradient clipping, AdamW update, scheduler update 순서로 처리한다. 기본 GPU 설정은 microbatch 32 × accumulation 16으로 nominal batch 512이며 실제 update별 표본 수는 별도 기록한다. `epochs`는 전체 데이터 반복 수이고 `max_steps`는 optimizer update 수 상한이다. 상한으로 epoch 중간에 멈추면 `epoch_complete=false`로 표시한다.
+
+validation은 train과 독립된 trajectory에서 시나리오별 고정 subset을 선택한다. 같은 subset을 매 epoch와 비교 모델에서 사용하여 checkpoint 선택을 흔들리지 않게 하고, test/OOD를 학습 선택에 쓰지 않는다. 기본 GPU config는 val 1,000개 중 256개를 사용한다. subset ID, train-only 정규화 통계와 데이터 fingerprint를 checkpoint와 학습 보고서에 남긴다.
+
+### Checkpoint 재개와 실행 기록
+
+`best.pt`는 validation loss가 가장 낮은 모델이며 `last.pt`는 학습 재개 지점이다. `last.pt`에는 가중치 외에도 optimizer·scheduler·scaler, epoch와 batch cursor, 현재 epoch의 누적 loss·표본 수, Python/NumPy/PyTorch/CUDA RNG 상태를 저장한다. 일정 optimizer update마다 atomic replacement로 저장하고 epoch 종료에도 갱신한다. `train --resume .../last.pt`는 데이터 fingerprint와 최적화 설정을 확인한 뒤 저장된 지점부터 이어간다. 변경된 dataset이나 scheduler 길이를 바꾼 epoch 설정을 같은 실험으로 조용히 덮어쓰지 않는다. 새로운 학습 단계는 별도 출력 폴더에서 `--transfer-mode full`로 시작한다.
+
+`tracking.progress`의 tqdm은 데이터 생성, 정규화, epoch·microbatch, validation, 평가, 모델 비교의 진행을 표시한다. 학습 중 loss·learning rate·optimizer step과 처리량으로 작업 상태를 확인한다. `progress.enabled`와 `TQDM_DISABLE`/`TQDM_FORCE`로 비대화형 로그의 출력을 조절할 수 있다.
+
+`RunTracker`는 W&B의 online/offline/disabled 모드를 명시적으로 구분한다. online 초기화가 실패하거나 SDK가 다른 모드로 시작하면 오류를 내므로 offline 파일만 생긴 상태를 online 성공으로 보고하지 않는다. online에서는 허용된 모델·학습 설정, 데이터 fingerprint와 표본 수, loss·learning rate·gradient norm·실제 batch 표본 수·GPU 메모리·처리량을 기록한다. Suite는 test/OOD 지표도 run에 연결한다. 키나 전체 환경변수, 소스 코드, dataset, checkpoint 파일을 자동 업로드하지 않는다. online resume는 저장된 run ID를 재사용한다. 기본 project는 `WANDB_PROJECT` 환경변수이며 명시적 config/CLI 값이 있으면 그것이 우선한다.
+
+데이터 생성은 각 control step의 내부 substep 접촉과 상태를 관측한다. 새 contact pair가 활성화될 때 직전 상태의 Jacobian과 속도로 접근 속도를 확인하고, `-0.05 m/s`보다 빠르게 접근하면 impact event로 기록한다. 접촉이 인접 substep에서 유지되면 persistent contact로 기록한다. 한 control step에서 두 사건이 모두 발생할 수 있다. 이 라벨은 구간별 평가에만 사용하며 모델 입력이나 기본 학습 supervision에 넣지 않는다. 시간 해상도는 `dt/substeps`이고 그보다 빠른 사건은 완전히 구분할 수 없다.
+
+multi-step 학습은 예측한 다음 상태에서 point geometry·속도·접촉 거리 입력을 다시 구성한다. validation은 실제 현재 상태에서 one-step 오차를 측정한다. test rollout은 초기 상태 한 번을 받은 뒤 자율적으로 진행한다. NeRD-like history 비교에서는 실제 과거 상태와 과거 action을 함께 넣고, rollout 중 생성된 상태가 history에 누적된다.
+
+`cube.experiments.protocols.validate`는 Cube/두 링크/Ant의 같은 상태·행동을 반복 재생하고 quaternion norm, timestep/substep 및 surface velocity를 검증한다. finite difference로 `v_world + (R omega_local) × r`의 좌표계도 확인한다. scene MJCF hash, 마찰, contact margin을 저장해 표현 오류와 모델 오류를 구분할 수 있다.
+
+`coupling`은 같은 seed와 layout에서 `∅, A, B, A+B`의 qpos, qvel, action, 물성을 완전히 일치시키고 지지 형상만 바꾼다. 같은 바닥 면의 두 지지점과 바닥·옆면의 서로 다른 면 지지를 각각 실행한다. 모든 twist를 공통 world frame으로 변환하여 다음을 저장한다.
+
+**C<sub>AB</sub> = Δν<sub>AB</sub> − Δν<sub>A</sub> − Δν<sub>B</sub> + Δν<sub>∅</sub>**, 여기서 ν는 공통 world frame의 선속도·각속도 벡터다.
+
+checkpoint를 주면 모델의 동일 개입 예측 및 `||C_hat - C||`를 추가한다. checkpoint 없이 실행한 값은 물리적 결합의 측정치이며 모델의 우수성에 대한 증거가 아니다.
+
+`run_suite`는 같은 데이터 예산과 seed에서 모델별 학습·test·OOD 평가를 수행하고 one-step 지표의 평균과 표준편차를 계산한다. `training_config`의 공통 JSON에 `training` 및 모델별 `training_overrides`를 중첩 병합하므로 메모리 조절을 위해 microbatch만 바꿀 수 있다. 각 모델의 effective batch와 optimizer update 수를 결과에 남겨 실제 예산을 확인한다. 예산이 train trajectory 수를 초과하면 실패하여, 적은 데이터로 실행해 놓고 큰 예산으로 표기하지 않는다.
+
+`suite_plan.json`은 dataset manifest hash와 모델·seed·budget·학습·평가 설정을 고정한다. `suite --resume`는 계획이 같은 경우 완료한 학습·평가를 재사용하고, 중단된 학습은 `last.pt`에서 이어간다. 학습은 완료되고 평가만 실패했으면 기존 가중치로 평가를 다시 수행한다. 완료했다고 기록된 checkpoint나 test/OOD 산출물이 없으면 오류를 낸다. `--models`로 일부 모델만 실행할 수 있지만 전체 계획의 run 수는 유지한다. 실행 도중에도 `suite.json`의 `planned_runs`, `completed_runs`, `completed`를 갱신하므로 일부 실행을 전체 비교 완료로 표시하지 않는다.
+
+## 왜 구현했는가
+
+연구 제안의 질문은 단순한 평균 오차가 아니라 접촉 전환, 장기 안정성과 새로운 조합에서 계층적 결합의 효용이다. 인접 프레임의 split 누출, teacher geometry를 사용한 가짜 rollout, 다른 데이터 양을 사용한 baseline 비교를 방지하도록 실험 경계를 코드에 넣었다. 같은 입력 상태에서 solver target이 반복 가능한지 먼저 검사하고 이후 신경망 차이를 해석해야 한다.
+
+대규모 학습에서는 GPU 연산 자체보다 전체 trajectory 사전 적재, 작은 파일의 반복 읽기, 매 샘플 장면 재구성이 병목이 될 수 있다. shard·streaming 통계·scene별 batch는 메모리와 준비 비용을 제한한다. gradient accumulation은 입력 해상도를 유지하면서 GPU 메모리 제약을 다루고, batch stream의 장면 교차 선택은 학습 순서 편향을 줄인다. 재개 checkpoint와 고정 suite 계획은 여러 시간 또는 여러 날의 실험에서 일부 결과를 잃거나 다른 조건을 한 비교표에 섞는 일을 막는다. 고정 validation과 W&B learning curve는 충분히 학습했는지 판단할 근거를 제공한다.
+
+## 기록하는 지표와 산출물
+
+| 산출물 | 의미 |
+|---|---|
+| `manifest.json`, shard NPY / `trajectory_*.npz` | 생성 조건과 독립 trajectory, 완료 상태 |
+| `best.pt`, `last.pt`, `training.json` | 최적 가중치, 재개 상태, train-only 통계, 학습 시간·예산 |
+| `wandb_run.json`, W&B run | online/offline 구분, run ID·URL, 학습·검증·최종 평가 지표 |
+| `evaluation.json`, `trajectories.jsonl` | 전체 요약 및 trajectory별 one-step·rollout·접촉 구간 오차 |
+| `rollout_*.npz` (선택) | 예측 상태, 정답 상태, action, one-step 예측, 관통 깊이 |
+| `coupling.json` | 두 layout의 counterfactual 상태, 속도 변화와 결합량 |
+| `suite_plan.json`, `suite.json` | 고정 비교 계획, 모델·예산·seed별 결과, 파라미터 수, 시간 및 평균/표준편차 |
+
+rollout 평가는 현재 예측 상태의 MuJoCo collision geometry에서 관통·접촉 disagreement·접촉 시작 시간 오차를 측정한다. **예측 rollout 접촉 시작 지표는 control endpoint 해상도**이고 데이터의 substep impact 구간 분류와 구별한다. 접촉 시작 false/missed count의 허용 오차는 2 timestep이다. 정지 초기 상태는 위치·회전 drift를 기록한다. 각속도 오차는 서로 다른 root frame의 벡터를 직접 빼지 않고 각 상태의 quaternion으로 world frame에 옮겨 계산한다. 관절 위치와 관절 속도 오차도 별도로 기록한다. 폭주 판정은 non-finite 또는 상태 절대값 `1e4` 초과이며, 실제 rollout 길이와 실패율을 함께 저장한다. 침투를 강제로 수정하는 projection은 평가 경로에 넣지 않는다.
+
+평가는 trajectory를 순서대로 읽고 시나리오별 고정 subset을 사용할 수 있다. `available_trajectories`와 `evaluated_trajectories`, 선택된 ID를 모두 기록한다. 상세 지표는 `trajectories.jsonl`에 즉시 쓰고, 원시 rollout NPZ는 `--no-save-rollouts`로 끌 수 있어 큰 실험에서 결과 저장을 제한한다. 전체 split 평가를 요청할 때는 checkpoint의 subset 설정을 덮어쓰는 `--max-trajectories` 값을 명시한다.
+
+latency는 장면별 warmup batch(기본 2회)를 실행한 뒤 측정하며 **초기 warmup은 측정에서 제외한다**. CUDA에서는 측정 전후 synchronize를 수행해 비동기 kernel 제출 시간만 재지 않는다. host/device 데이터 전송, geometry feature 생성, 직렬화, 신경망, 상태 갱신을 포함하고 CPU simulator의 관통·접촉 진단은 제외한다. one-step은 여러 상태를 batch 처리한 sample당 시간을 따로 기록하고, 자율 rollout은 batch 1의 매 step wall time과 p95를 기록한다. `throughput_single_rollouts_per_second`는 단일 stream의 step latency 역수로, 완성된 trajectory 수나 GPU 병렬 world throughput이 아니다. 이전 smoke 측정의 최초 실행 포함 시간과 직접 같은 조건의 latency라고 비교하지 않는다. 학습 시간과 파라미터 수 역시 실제 값을 보고한다.
+
+## 설정과 재현 범위
+
+`configs/cube_smoke.json`과 `train_smoke.json`은 실행 경로 검증용이다. `suite_smoke.json`은 3개 모델·2개 예산·2개 seed의 작은 grid이며 연구 결론을 내리기 위한 학습량이 아니다. 기존 `cube_research.json`, `train_research.json`, `suite_research.json`은 중간 규모와 ablation 설정이다. 현재 GPU 본 실험은 `cube_nerd_scale.json`, `train_gpu.json`, `suite_gpu.json`을 사용한다. NeRD Cube synthetic pretraining 수량에 맞춘 train 10,000 trajectories·1,000,000 transitions, 독립 val/test/OOD, 최대 50 epochs와 7개 모델 설정 × 3 seeds를 준비했다. [GPU 학습 절차](12_gpu_training.md)와 [새 GPU 실행 결과](13_gpu_results.md)를 참고하고 명령은 루트 README의 Docker Compose 절차를 따른다.
+
+NeRD-like는 현재 상태/명시적 접촉 정보/history의 영향을 비교하는 **로컬 통제 baseline**이다. 공식 NeRD, FIGNet 또는 RigidFormer를 재현했다고 주장하지 않는다. 동일한 데이터와 설정에서 측정 결과가 나온 후에만 모델 우열을 해석해야 한다. 원논문의 배포 가중치와 대규모 benchmark 비교, substep 평가 라벨을 per-face mode auxiliary supervision으로 확장하는 작업은 이 기본 동역학 실험과 구분되는 후속 연구이다.

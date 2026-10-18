@@ -1,0 +1,525 @@
+{
+  "runs": [
+    {
+      "model": "state_mlp",
+      "budget": 4,
+      "seed": 0,
+      "checkpoint": "outputs/quick/suite/state_mlp_budget4_seed0/best.pt",
+      "metrics": {
+        "position_rmse": 0.023381883432409545,
+        "rotation_geodesic_rad": 0.03463503956636741,
+        "linear_velocity_rmse": 0.11577831816413839,
+        "angular_velocity_rmse": 0.23225495898250603,
+        "joint_position_rmse": 0.0,
+        "joint_velocity_rmse": 0.0
+      },
+      "ood_metrics": {
+        "position_rmse": 0.014961160105933671,
+        "rotation_geodesic_rad": 0.016740672876739245,
+        "linear_velocity_rmse": 0.12329036783422379,
+        "angular_velocity_rmse": 0.10564824673375853,
+        "joint_position_rmse": 0.0,
+        "joint_velocity_rmse": 0.0
+      },
+      "train_seconds": 0.10141480500010402,
+      "latency_ms": 1.0309996249849482,
+      "parameters": 5836
+    },
+    {
+      "model": "deepsets",
+      "budget": 4,
+      "seed": 0,
+      "checkpoint": "outputs/quick/suite/deepsets_budget4_seed0/best.pt",
+      "metrics": {
+        "position_rmse": 0.01180108516862112,
+        "rotation_geodesic_rad": 0.019675373832198466,
+        "linear_velocity_rmse": 0.15545185956647548,
+        "angular_velocity_rmse": 0.23417604597834651,
+        "joint_position_rmse": 0.0,
+        "joint_velocity_rmse": 0.0
+      },
+      "ood_metrics": {
+        "position_rmse": 0.006000417397927669,
+        "rotation_geodesic_rad": 0.012732478496716224,
+        "linear_velocity_rmse": 0.1577517674366004,
+        "angular_velocity_rmse": 0.10297314196216156,
+        "joint_position_rmse": 0.0,
+        "joint_velocity_rmse": 0.0
+      },
+      "train_seconds": 0.9999988289998782,
+      "latency_ms": 3.2600116249904922,
+      "parameters": 45626
+    },
+    {
+      "model": "hierarchical",
+      "budget": 4,
+      "seed": 0,
+      "checkpoint": "outputs/quick/suite/hierarchical_budget4_seed0/best.pt",
+      "metrics": {
+        "position_rmse": 0.013624532676776465,
+        "rotation_geodesic_rad": 0.02086126762204648,
+        "linear_velocity_rmse": 0.14936605200825182,
+        "angular_velocity_rmse": 0.21648726860734302,
+        "joint_position_rmse": 0.0,
+        "joint_velocity_rmse": 0.0
+      },
+      "ood_metrics": {
+        "position_rmse": 0.011354895787912683,
+        "rotation_geodesic_rad": 0.010948952063932127,
+        "linear_velocity_rmse": 0.15293426814765618,
+        "angular_velocity_rmse": 0.07783325359534154,
+        "joint_position_rmse": 0.0,
+        "joint_velocity_rmse": 0.0
+      },
+      "train_seconds": 1.0379598419999638,
+      "latency_ms": 3.989818635403708,
+      "parameters": 45626
+    },
+    {
+      "model": "state_mlp",
+      "budget": 8,
+      "seed": 0,
+      "checkpoint": "outputs/quick/suite/state_mlp_budget8_seed0/best.pt",
+      "metrics": {
+        "position_rmse": 0.0214423098498373,
+        "rotation_geodesic_rad": 0.03103948681485357,
+        "linear_velocity_rmse": 0.10876343104952832,
+        "angular_velocity_rmse": 0.21632239386924457,
+        "joint_position_rmse": 0.0,
+        "joint_velocity_rmse": 0.0
+      },
+      "ood_metrics": {
+        "position_rmse": 0.026349425653361208,
+        "rotation_geodesic_rad": 0.023318873418837264,
+        "linear_velocity_rmse": 0.12015314587121419,
+        "angular_velocity_rmse": 0.08309394135221118,
+        "joint_position_rmse": 0.0,
+        "joint_velocity_rmse": 0.0
+      },
+      "train_seconds": 0.15843745600000148,
+      "latency_ms": 1.0583481979272353,
+      "parameters": 5836
+    },
+    {
+      "model": "deepsets",
+      "budget": 8,
+      "seed": 0,
+      "checkpoint": "outputs/quick/suite/deepsets_budget8_seed0/best.pt",
+      "metrics": {
+        "position_rmse": 0.011711241817259422,
+        "rotation_geodesic_rad": 0.025357975916767358,
+        "linear_velocity_rmse": 0.12229372839301911,
+        "angular_velocity_rmse": 0.21861520443915033,
+        "joint_position_rmse": 0.0,
+        "joint_velocity_rmse": 0.0
+      },
+      "ood_metrics": {
+        "position_rmse": 0.006150797618285793,
+        "rotation_geodesic_rad": 0.02175046252370567,
+        "linear_velocity_rmse": 0.1296995592814263,
+        "angular_velocity_rmse": 0.08100167460934837,
+        "joint_position_rmse": 0.0,
+        "joint_velocity_rmse": 0.0
+      },
+      "train_seconds": 1.643577895999897,
+      "latency_ms": 3.556308718735579,
+      "parameters": 45626
+    },
+    {
+      "model": "hierarchical",
+      "budget": 8,
+      "seed": 0,
+      "checkpoint": "outputs/quick/suite/hierarchical_budget8_seed0/best.pt",
+      "metrics": {
+        "position_rmse": 0.014719034975468767,
+        "rotation_geodesic_rad": 0.026325365907436414,
+        "linear_velocity_rmse": 0.11519324832598121,
+        "angular_velocity_rmse": 0.19916202789062565,
+        "joint_position_rmse": 0.0,
+        "joint_velocity_rmse": 0.0
+      },
+      "ood_metrics": {
+        "position_rmse": 0.014360909357331326,
+        "rotation_geodesic_rad": 0.02211338871923567,
+        "linear_velocity_rmse": 0.1254420843866685,
+        "angular_velocity_rmse": 0.05949833753840363,
+        "joint_position_rmse": 0.0,
+        "joint_velocity_rmse": 0.0
+      },
+      "train_seconds": 1.7542546759998459,
+      "latency_ms": 3.823126489587973,
+      "parameters": 45626
+    },
+    {
+      "model": "state_mlp",
+      "budget": 4,
+      "seed": 1,
+      "checkpoint": "outputs/quick/suite/state_mlp_budget4_seed1/best.pt",
+      "metrics": {
+        "position_rmse": 0.019444149793698743,
+        "rotation_geodesic_rad": 0.025513758902206543,
+        "linear_velocity_rmse": 0.1295003823555192,
+        "angular_velocity_rmse": 0.2214070914998672,
+        "joint_position_rmse": 0.0,
+        "joint_velocity_rmse": 0.0
+      },
+      "ood_metrics": {
+        "position_rmse": 0.012414421735198066,
+        "rotation_geodesic_rad": 0.0411990150552699,
+        "linear_velocity_rmse": 0.1311122792507029,
+        "angular_velocity_rmse": 0.0827326674262941,
+        "joint_position_rmse": 0.0,
+        "joint_velocity_rmse": 0.0
+      },
+      "train_seconds": 0.10262947499995789,
+      "latency_ms": 1.0434532083228494,
+      "parameters": 5836
+    },
+    {
+      "model": "deepsets",
+      "budget": 4,
+      "seed": 1,
+      "checkpoint": "outputs/quick/suite/deepsets_budget4_seed1/best.pt",
+      "metrics": {
+        "position_rmse": 0.026086830409121402,
+        "rotation_geodesic_rad": 0.0238342484759858,
+        "linear_velocity_rmse": 0.1227929268207742,
+        "angular_velocity_rmse": 0.22417740298839406,
+        "joint_position_rmse": 0.0,
+        "joint_velocity_rmse": 0.0
+      },
+      "ood_metrics": {
+        "position_rmse": 0.02246802657272133,
+        "rotation_geodesic_rad": 0.0210074573990429,
+        "linear_velocity_rmse": 0.13653358822884157,
+        "angular_velocity_rmse": 0.08838351878285618,
+        "joint_position_rmse": 0.0,
+        "joint_velocity_rmse": 0.0
+      },
+      "train_seconds": 0.9620230489999813,
+      "latency_ms": 3.4141189479157674,
+      "parameters": 45626
+    },
+    {
+      "model": "hierarchical",
+      "budget": 4,
+      "seed": 1,
+      "checkpoint": "outputs/quick/suite/hierarchical_budget4_seed1/best.pt",
+      "metrics": {
+        "position_rmse": 0.016613605898111887,
+        "rotation_geodesic_rad": 0.036297234074973865,
+        "linear_velocity_rmse": 0.12422241954073371,
+        "angular_velocity_rmse": 0.211174569537954,
+        "joint_position_rmse": 0.0,
+        "joint_velocity_rmse": 0.0
+      },
+      "ood_metrics": {
+        "position_rmse": 0.013814858383656623,
+        "rotation_geodesic_rad": 0.026088759627971744,
+        "linear_velocity_rmse": 0.13345526365586363,
+        "angular_velocity_rmse": 0.07089690546113081,
+        "joint_position_rmse": 0.0,
+        "joint_velocity_rmse": 0.0
+      },
+      "train_seconds": 1.0143326989998513,
+      "latency_ms": 4.02771672916676,
+      "parameters": 45626
+    },
+    {
+      "model": "state_mlp",
+      "budget": 8,
+      "seed": 1,
+      "checkpoint": "outputs/quick/suite/state_mlp_budget8_seed1/best.pt",
+      "metrics": {
+        "position_rmse": 0.012977148608139748,
+        "rotation_geodesic_rad": 0.02394038415205515,
+        "linear_velocity_rmse": 0.10761248442382909,
+        "angular_velocity_rmse": 0.20816420601925084,
+        "joint_position_rmse": 0.0,
+        "joint_velocity_rmse": 0.0
+      },
+      "ood_metrics": {
+        "position_rmse": 0.02143750570025141,
+        "rotation_geodesic_rad": 0.02769543882372333,
+        "linear_velocity_rmse": 0.12112932514735143,
+        "angular_velocity_rmse": 0.06606933945442509,
+        "joint_position_rmse": 0.0,
+        "joint_velocity_rmse": 0.0
+      },
+      "train_seconds": 0.1748516180000479,
+      "latency_ms": 1.0776326979211603,
+      "parameters": 5836
+    },
+    {
+      "model": "deepsets",
+      "budget": 8,
+      "seed": 1,
+      "checkpoint": "outputs/quick/suite/deepsets_budget8_seed1/best.pt",
+      "metrics": {
+        "position_rmse": 0.01173160675834111,
+        "rotation_geodesic_rad": 0.021297138216719268,
+        "linear_velocity_rmse": 0.11644892690207788,
+        "angular_velocity_rmse": 0.1942649877336266,
+        "joint_position_rmse": 0.0,
+        "joint_velocity_rmse": 0.0
+      },
+      "ood_metrics": {
+        "position_rmse": 0.006861564214778484,
+        "rotation_geodesic_rad": 0.018415710240895274,
+        "linear_velocity_rmse": 0.1294622589161658,
+        "angular_velocity_rmse": 0.05578724124619026,
+        "joint_position_rmse": 0.0,
+        "joint_velocity_rmse": 0.0
+      },
+      "train_seconds": 1.6373770640000203,
+      "latency_ms": 3.3664171666600855,
+      "parameters": 45626
+    },
+    {
+      "model": "hierarchical",
+      "budget": 8,
+      "seed": 1,
+      "checkpoint": "outputs/quick/suite/hierarchical_budget8_seed1/best.pt",
+      "metrics": {
+        "position_rmse": 0.01532028754138376,
+        "rotation_geodesic_rad": 0.025445893500445738,
+        "linear_velocity_rmse": 0.11169717633321313,
+        "angular_velocity_rmse": 0.19332551114287605,
+        "joint_position_rmse": 0.0,
+        "joint_velocity_rmse": 0.0
+      },
+      "ood_metrics": {
+        "position_rmse": 0.013927619925329388,
+        "rotation_geodesic_rad": 0.020629554363403597,
+        "linear_velocity_rmse": 0.1235424200076951,
+        "angular_velocity_rmse": 0.05460478330370508,
+        "joint_position_rmse": 0.0,
+        "joint_velocity_rmse": 0.0
+      },
+      "train_seconds": 1.7146787840001707,
+      "latency_ms": 3.808737125000998,
+      "parameters": 45626
+    }
+  ],
+  "summary": [
+    {
+      "model": "state_mlp",
+      "budget": 4,
+      "metrics": {
+        "position_rmse": {
+          "mean": 0.021413016613054142,
+          "std": 0.001968866819355401,
+          "seeds": 2
+        },
+        "rotation_geodesic_rad": {
+          "mean": 0.030074399234286977,
+          "std": 0.004560640332080434,
+          "seeds": 2
+        },
+        "linear_velocity_rmse": {
+          "mean": 0.12263935025982879,
+          "std": 0.006861032095690403,
+          "seeds": 2
+        },
+        "angular_velocity_rmse": {
+          "mean": 0.22683102524118662,
+          "std": 0.005423933741319414,
+          "seeds": 2
+        },
+        "joint_position_rmse": {
+          "mean": 0.0,
+          "std": 0.0,
+          "seeds": 2
+        },
+        "joint_velocity_rmse": {
+          "mean": 0.0,
+          "std": 0.0,
+          "seeds": 2
+        }
+      }
+    },
+    {
+      "model": "deepsets",
+      "budget": 4,
+      "metrics": {
+        "position_rmse": {
+          "mean": 0.01894395778887126,
+          "std": 0.007142872620250141,
+          "seeds": 2
+        },
+        "rotation_geodesic_rad": {
+          "mean": 0.021754811154092134,
+          "std": 0.002079437321893668,
+          "seeds": 2
+        },
+        "linear_velocity_rmse": {
+          "mean": 0.13912239319362485,
+          "std": 0.01632946637285064,
+          "seeds": 2
+        },
+        "angular_velocity_rmse": {
+          "mean": 0.2291767244833703,
+          "std": 0.004999321494976228,
+          "seeds": 2
+        },
+        "joint_position_rmse": {
+          "mean": 0.0,
+          "std": 0.0,
+          "seeds": 2
+        },
+        "joint_velocity_rmse": {
+          "mean": 0.0,
+          "std": 0.0,
+          "seeds": 2
+        }
+      }
+    },
+    {
+      "model": "hierarchical",
+      "budget": 4,
+      "metrics": {
+        "position_rmse": {
+          "mean": 0.015119069287444175,
+          "std": 0.0014945366106677111,
+          "seeds": 2
+        },
+        "rotation_geodesic_rad": {
+          "mean": 0.028579250848510172,
+          "std": 0.007717983226463693,
+          "seeds": 2
+        },
+        "linear_velocity_rmse": {
+          "mean": 0.13679423577449276,
+          "std": 0.012571816233759053,
+          "seeds": 2
+        },
+        "angular_velocity_rmse": {
+          "mean": 0.2138309190726485,
+          "std": 0.002656349534694513,
+          "seeds": 2
+        },
+        "joint_position_rmse": {
+          "mean": 0.0,
+          "std": 0.0,
+          "seeds": 2
+        },
+        "joint_velocity_rmse": {
+          "mean": 0.0,
+          "std": 0.0,
+          "seeds": 2
+        }
+      }
+    },
+    {
+      "model": "state_mlp",
+      "budget": 8,
+      "metrics": {
+        "position_rmse": {
+          "mean": 0.017209729228988523,
+          "std": 0.004232580620848777,
+          "seeds": 2
+        },
+        "rotation_geodesic_rad": {
+          "mean": 0.02748993548345436,
+          "std": 0.0035495513313992116,
+          "seeds": 2
+        },
+        "linear_velocity_rmse": {
+          "mean": 0.1081879577366787,
+          "std": 0.0005754733128496142,
+          "seeds": 2
+        },
+        "angular_velocity_rmse": {
+          "mean": 0.2122432999442477,
+          "std": 0.004079093924996863,
+          "seeds": 2
+        },
+        "joint_position_rmse": {
+          "mean": 0.0,
+          "std": 0.0,
+          "seeds": 2
+        },
+        "joint_velocity_rmse": {
+          "mean": 0.0,
+          "std": 0.0,
+          "seeds": 2
+        }
+      }
+    },
+    {
+      "model": "deepsets",
+      "budget": 8,
+      "metrics": {
+        "position_rmse": {
+          "mean": 0.011721424287800267,
+          "std": 1.0182470540844209e-05,
+          "seeds": 2
+        },
+        "rotation_geodesic_rad": {
+          "mean": 0.02332755706674331,
+          "std": 0.002030418850024045,
+          "seeds": 2
+        },
+        "linear_velocity_rmse": {
+          "mean": 0.11937132764754849,
+          "std": 0.0029224007454706144,
+          "seeds": 2
+        },
+        "angular_velocity_rmse": {
+          "mean": 0.20644009608638847,
+          "std": 0.012175108352761865,
+          "seeds": 2
+        },
+        "joint_position_rmse": {
+          "mean": 0.0,
+          "std": 0.0,
+          "seeds": 2
+        },
+        "joint_velocity_rmse": {
+          "mean": 0.0,
+          "std": 0.0,
+          "seeds": 2
+        }
+      }
+    },
+    {
+      "model": "hierarchical",
+      "budget": 8,
+      "metrics": {
+        "position_rmse": {
+          "mean": 0.015019661258426263,
+          "std": 0.000300626282957496,
+          "seeds": 2
+        },
+        "rotation_geodesic_rad": {
+          "mean": 0.025885629703941076,
+          "std": 0.00043973620349533823,
+          "seeds": 2
+        },
+        "linear_velocity_rmse": {
+          "mean": 0.11344521232959717,
+          "std": 0.0017480359963840397,
+          "seeds": 2
+        },
+        "angular_velocity_rmse": {
+          "mean": 0.19624376951675085,
+          "std": 0.002918258373874799,
+          "seeds": 2
+        },
+        "joint_position_rmse": {
+          "mean": 0.0,
+          "std": 0.0,
+          "seeds": 2
+        },
+        "joint_velocity_rmse": {
+          "mean": 0.0,
+          "std": 0.0,
+          "seeds": 2
+        }
+      }
+    }
+  ],
+  "completed": true,
+  "fairness": "Identical trajectory IDs for each seed/budget, optimizer/epochs, loss, splits and simulator. Parameter count and wall time are measured, not assumed equal.",
+  "baseline_notice": "NeRD-like is a local controlled baseline, not an official NeRD reproduction. FIGNet/RigidFormer are not relabeled implementations."
+}

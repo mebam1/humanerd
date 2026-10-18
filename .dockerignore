@@ -1,0 +1,13 @@
+.git
+.venv
+.uv-cache
+__pycache__
+.pytest_cache
+outputs
+data
+docs
+documentation
+*.egg-info
+.env
+.env.*
+wandb

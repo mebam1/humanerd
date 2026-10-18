@@ -1,0 +1,69 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>구현 개요와 연구 범위 · CUBE LAB</title><link rel="stylesheet" href="assets/style.css"></head><body>
+<aside><a class="brand" href="index.html">CUBE LAB<small>CONTACT DYNAMICS RESEARCH</small></a><div class="nav-label">RESEARCH NOTEBOOK</div><nav><a href="index.html" class="">연구 대시보드</a><a href="01_overview.html" class="active">구현 개요와 연구 범위</a><a href="02_simulation.html" class="">공통 물리 시뮬레이터와 장면</a><a href="03_data.html" class="">데이터와 접촉 사건 기록</a><a href="04_representation.html" class="">현재 상태에서 만드는 물리 표면 표현</a><a href="05_models.html" class="">계층 동역학 모델·비교군·전이 구성</a><a href="06_experiments.html" class="">Cube 실험 파이프라인</a><a href="07_ant_control.html" class="">Ant 사족 보행과 학습 모델 기반 제어</a><a href="08_transfer.html" class="">형상·관절 구조 전이 학습</a><a href="09_docker.html" class="">Docker Compose와 재현 환경</a><a href="10_results.html" class="">직접 실행한 실험과 결과 분석</a><a href="11_sampling_validation.html" class="">표면 샘플링과 독립 합산 검증</a><a href="12_gpu_training.html" class="">GPU 학습 · NeRD 규모 데이터 · 온라인 실험 비교</a><a href="13_gpu_results.html" class="">실제 GPU 실행과 대규모 데이터 준비 결과</a></nav><div class="side-note">Point → Face → Body<br>Point → Patch → Link → Articulation<br><br>MuJoCo · NVIDIA Warp · PyTorch<br>코드와 실험 기록을 함께 읽는 연구 문서</div></aside>
+<main><div class="topbar"><span>CUBE / RESEARCH IMPLEMENTATION</span><span class="pill">로컬 연구 환경</span></div><article><h1 id="_1">구현 개요와 연구 범위</h1>
+<p>이 저장소는 <strong>국소 접촉 표현과 전체 접촉 반응을 분리해서 학습한다</strong>는 연구 제안을 실행하는 실험실입니다. Cube에서 표현과 접촉 결합을 검증하고, 두 링크 관절체와 사족 Ant로 확장합니다. 코드의 존재나 작은 smoke 실험을 논문 가설의 입증으로 해석하지 않습니다.</p>
+<h2 id="_2">무엇을 구현했는가</h2>
+<table>
+<thead>
+<tr>
+<th>논리 구성 요소</th>
+<th>역할</th>
+<th>왜 필요한가</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>공통 시뮬레이터 어댑터</td>
+<td>MuJoCo와 MuJoCo Warp를 같은 상태 계약으로 실행</td>
+<td>백엔드 차이를 모델 차이와 혼동하지 않기 위해</td>
+</tr>
+<tr>
+<td>Cube 접촉 시나리오</td>
+<td>낙하, 반발, 정착, 정지, 미끄러짐, 모서리, 벽</td>
+<td>전체 평균에 가려지는 접촉 전환 실패를 분리하기 위해</td>
+</tr>
+<tr>
+<td>물리 표면 표현</td>
+<td>현재 상태에서 위치·법선·표면 속도를 계산</td>
+<td>미래 solver 정보를 유출하지 않고 접촉 상황을 제공하기 위해</td>
+</tr>
+<tr>
+<td>계층형 모델</td>
+<td>Point → Face/Patch → Body/Link → Articulation</td>
+<td>떨어진 접촉의 영향을 공동 추론하기 위해</td>
+</tr>
+<tr>
+<td>개입 및 OOD 실험</td>
+<td>A/B 지지점, 훈련에서 제외한 접촉 조합</td>
+<td>평균 예측 오차 이상의 인과적 접촉 결합 증거를 얻기 위해</td>
+</tr>
+<tr>
+<td>전이 학습</td>
+<td>scratch, 전체 적응, 하위/상위 모듈 고정</td>
+<td>국소 표현의 재사용성과 적응 위치를 구분하기 위해</td>
+</tr>
+<tr>
+<td>모델 기반 제어</td>
+<td>학습 모델에서 계획하고 실제 simulator에서 실행</td>
+<td>학습된 모델 내부 점수만 높아지는 문제를 확인하기 위해</td>
+</tr>
+<tr>
+<td>Ant</td>
+<td>4개 다리, 8개 actuated hinge, floating base</td>
+<td>일반화 관절 상태 출력과 접촉 기반 제어로 확장하기 위해</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_3">실행 흐름</h2>
+<p><code>generate → train → evaluate → coupling / transfer / control</code></p>
+<p>데이터와 체크포인트는 저장소 루트의 <code>data/</code>, <code>outputs/</code>에 생성됩니다. Docker Compose는 <strong>저장소 전체를 컨테이너의 <code>/workspace</code>에 bind mount</strong>합니다. 컨테이너를 삭제해도 실험 결과는 호스트에 남습니다.</p>
+<h2 id="_4">연구 해석 원칙</h2>
+<ul>
+<li>같은 trajectory가 train/test에 동시에 들어가지 않도록 분리합니다.</li>
+<li>정규화 통계는 training 데이터에서 계산합니다.</li>
+<li>자율 rollout에서는 예측한 상태로 다음 표면 표현을 다시 만듭니다.</li>
+<li>NeRD-like baseline은 입력과 구조를 통제한 내부 비교군입니다. 원본 NeRD·FIGNet·RigidFormer 재현 성능으로 표기하지 않습니다.</li>
+<li>본 구현은 물리 제약을 강제로 만족시키는 neural contact solver가 아닙니다. 침투와 drift를 측정해야 합니다.</li>
+<li>실제 실행 결과와 대규모 연구 실험 계획을 구분합니다.</li>
+</ul>
+<p>원본 제안: 저장소의 <code>연구 제안.md</code>.</p></article><footer>CUBE CONTACT RESEARCH · 코드: src/cube · 설정: configs · 원본 제안: 연구 제안.md</footer></main></body></html>

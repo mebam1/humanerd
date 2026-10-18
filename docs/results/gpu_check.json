@@ -1,0 +1,3701 @@
+{
+  "data": {
+    "splits": {
+      "train": 10000,
+      "val": 1000,
+      "test": 1000,
+      "ood": 1000
+    },
+    "expected_trajectories": 13000,
+    "elapsed_seconds": 171.79410717700011,
+    "dataset_fingerprint": "e249098c67244e4b96cf3f4882e6739bb594ef9eb5dca1abf8792a8633038ec8"
+  },
+  "suite": {
+    "runs": [
+      {
+        "model": "hierarchical",
+        "budget": 32,
+        "seed": 0,
+        "checkpoint": "outputs/gpu-check/hierarchical_budget32_seed0/best.pt",
+        "metrics": {
+          "position_rmse": 0.009947421902325004,
+          "rotation_geodesic_rad": 0.033288239035755396,
+          "linear_velocity_rmse": 0.14472548547200859,
+          "angular_velocity_rmse": 0.21138311189133674,
+          "joint_position_rmse": 0.0,
+          "joint_velocity_rmse": 0.0
+        },
+        "ood_metrics": {
+          "position_rmse": 0.005861883633770049,
+          "rotation_geodesic_rad": 0.02765029389411211,
+          "linear_velocity_rmse": 0.0740366643294692,
+          "angular_velocity_rmse": 0.05454604793339968,
+          "joint_position_rmse": 0.0,
+          "joint_velocity_rmse": 0.0
+        },
+        "evaluation_metrics": {
+          "test/one_step/position_rmse": 0.009947421902325004,
+          "test/one_step/rotation_geodesic_rad": 0.033288239035755396,
+          "test/one_step/linear_velocity_rmse": 0.14472548547200859,
+          "test/one_step/angular_velocity_rmse": 0.21138311189133674,
+          "test/one_step/joint_position_rmse": 0.0,
+          "test/one_step/joint_velocity_rmse": 0.0,
+          "test/divergence_rate": 0.0,
+          "test/mean_latency_end_to_end_ms": 15.174058281239411,
+          "test/evaluated_trajectories": 8,
+          "test/rollout/position_rmse": 0.12910681776702404,
+          "test/rollout/rotation_geodesic_rad": 0.3212305288761854,
+          "test/rollout/linear_velocity_rmse": 0.7831584997475147,
+          "test/rollout/angular_velocity_rmse": 0.7030311599373817,
+          "test/rollout/joint_position_rmse": 0.0,
+          "test/rollout/joint_velocity_rmse": 0.0,
+          "test/impact/position_rmse": 0.01507009585787143,
+          "test/impact/rotation_geodesic_rad": 0.03682084966983114,
+          "test/impact/linear_velocity_rmse": 0.7954041702406747,
+          "test/impact/angular_velocity_rmse": 0.8842911198735237,
+          "test/impact/joint_position_rmse": 0.0,
+          "test/impact/joint_velocity_rmse": 0.0,
+          "test/persistent_contact/position_rmse": 0.006185820326209068,
+          "test/persistent_contact/rotation_geodesic_rad": 0.02803213521838188,
+          "test/persistent_contact/linear_velocity_rmse": 0.1420545314571687,
+          "test/persistent_contact/angular_velocity_rmse": 0.11721204673605305,
+          "test/persistent_contact/joint_position_rmse": 0.0,
+          "test/persistent_contact/joint_velocity_rmse": 0.0,
+          "test/diagnostics/penetration_mean": 0.14581674983775716,
+          "test/diagnostics/penetration_max": 0.27830549530462084,
+          "test/diagnostics/contact_disagreement": 0.34375,
+          "test/diagnostics/contact_onset_error_seconds": 0.03,
+          "test/diagnostics/missed_contact_onsets": 0.625,
+          "test/diagnostics/false_contact_onsets": 0.125,
+          "ood/one_step/position_rmse": 0.005861883633770049,
+          "ood/one_step/rotation_geodesic_rad": 0.02765029389411211,
+          "ood/one_step/linear_velocity_rmse": 0.0740366643294692,
+          "ood/one_step/angular_velocity_rmse": 0.05454604793339968,
+          "ood/one_step/joint_position_rmse": 0.0,
+          "ood/one_step/joint_velocity_rmse": 0.0,
+          "ood/divergence_rate": 0.0,
+          "ood/mean_latency_end_to_end_ms": 20.458550031285938,
+          "ood/evaluated_trajectories": 8,
+          "ood/rollout/position_rmse": 0.07909619994461536,
+          "ood/rollout/rotation_geodesic_rad": 0.27720607444643974,
+          "ood/rollout/linear_velocity_rmse": 0.478976096957922,
+          "ood/rollout/angular_velocity_rmse": 0.22024187073111534,
+          "ood/rollout/joint_position_rmse": 0.0,
+          "ood/rollout/joint_velocity_rmse": 0.0,
+          "ood/impact/position_rmse": 0.009061346179805696,
+          "ood/impact/rotation_geodesic_rad": 0.02867959439754486,
+          "ood/impact/linear_velocity_rmse": 0.4475267268717289,
+          "ood/impact/angular_velocity_rmse": 0.25083272717893124,
+          "ood/impact/joint_position_rmse": 0.0,
+          "ood/impact/joint_velocity_rmse": 0.0,
+          "ood/persistent_contact/position_rmse": 0.0058732000179588795,
+          "ood/persistent_contact/rotation_geodesic_rad": 0.027657589176669717,
+          "ood/persistent_contact/linear_velocity_rmse": 0.0735587808303535,
+          "ood/persistent_contact/angular_velocity_rmse": 0.05170655017718673,
+          "ood/persistent_contact/joint_position_rmse": 0.0,
+          "ood/persistent_contact/joint_velocity_rmse": 0.0,
+          "ood/diagnostics/penetration_mean": 0.15061511365259928,
+          "ood/diagnostics/penetration_max": 0.29183246141254143,
+          "ood/diagnostics/contact_disagreement": 0.109375,
+          "ood/diagnostics/contact_onset_error_seconds": 0.035,
+          "ood/diagnostics/missed_contact_onsets": 0.0,
+          "ood/diagnostics/false_contact_onsets": 0.0
+        },
+        "train_seconds": 24.829994355999588,
+        "latency_ms": 15.174058281239411,
+        "effective_batch_size": 128,
+        "optimizer_steps": 78,
+        "wandb": {
+          "mode": "offline",
+          "id": "cql1jekh",
+          "url": null
+        },
+        "parameters": 1070910
+      },
+      {
+        "model": "state_mlp",
+        "budget": 32,
+        "seed": 0,
+        "checkpoint": "outputs/gpu-check/state_mlp_budget32_seed0/best.pt",
+        "metrics": {
+          "position_rmse": 0.008989261361421086,
+          "rotation_geodesic_rad": 0.009867695887805894,
+          "linear_velocity_rmse": 0.13920310302637517,
+          "angular_velocity_rmse": 0.20760459481971338,
+          "joint_position_rmse": 0.0,
+          "joint_velocity_rmse": 0.0
+        },
+        "ood_metrics": {
+          "position_rmse": 0.018488541012629867,
+          "rotation_geodesic_rad": 0.011781690758652985,
+          "linear_velocity_rmse": 0.07686929451301694,
+          "angular_velocity_rmse": 0.053576780250296,
+          "joint_position_rmse": 0.0,
+          "joint_velocity_rmse": 0.0
+        },
+        "evaluation_metrics": {
+          "test/one_step/position_rmse": 0.008989261361421086,
+          "test/one_step/rotation_geodesic_rad": 0.009867695887805894,
+          "test/one_step/linear_velocity_rmse": 0.13920310302637517,
+          "test/one_step/angular_velocity_rmse": 0.20760459481971338,
+          "test/one_step/joint_position_rmse": 0.0,
+          "test/one_step/joint_velocity_rmse": 0.0,
+          "test/divergence_rate": 0.0,
+          "test/mean_latency_end_to_end_ms": 7.375900218761444,
+          "test/evaluated_trajectories": 8,
+          "test/rollout/position_rmse": 0.12116942880675197,
+          "test/rollout/rotation_geodesic_rad": 0.10310303210280836,
+          "test/rollout/linear_velocity_rmse": 0.761928609572351,
+          "test/rollout/angular_velocity_rmse": 0.6241160123609006,
+          "test/rollout/joint_position_rmse": 0.0,
+          "test/rollout/joint_velocity_rmse": 0.0,
+          "test/impact/position_rmse": 0.012967037735506892,
+          "test/impact/rotation_geodesic_rad": 0.018973176766719137,
+          "test/impact/linear_velocity_rmse": 0.8012978328125817,
+          "test/impact/angular_velocity_rmse": 0.8773475218830364,
+          "test/impact/joint_position_rmse": 0.0,
+          "test/impact/joint_velocity_rmse": 0.0,
+          "test/persistent_contact/position_rmse": 0.004632252917092826,
+          "test/persistent_contact/rotation_geodesic_rad": 0.0035139982854681356,
+          "test/persistent_contact/linear_velocity_rmse": 0.13838335259684495,
+          "test/persistent_contact/angular_velocity_rmse": 0.11276665915335927,
+          "test/persistent_contact/joint_position_rmse": 0.0,
+          "test/persistent_contact/joint_velocity_rmse": 0.0,
+          "test/diagnostics/penetration_mean": 0.07333100386961067,
+          "test/diagnostics/penetration_max": 0.15465882196489011,
+          "test/diagnostics/contact_disagreement": 0.34375,
+          "test/diagnostics/contact_onset_error_seconds": 0.032857142857142856,
+          "test/diagnostics/missed_contact_onsets": 0.625,
+          "test/diagnostics/false_contact_onsets": 0.125,
+          "ood/one_step/position_rmse": 0.018488541012629867,
+          "ood/one_step/rotation_geodesic_rad": 0.011781690758652985,
+          "ood/one_step/linear_velocity_rmse": 0.07686929451301694,
+          "ood/one_step/angular_velocity_rmse": 0.053576780250296,
+          "ood/one_step/joint_position_rmse": 0.0,
+          "ood/one_step/joint_velocity_rmse": 0.0,
+          "ood/divergence_rate": 0.0,
+          "ood/mean_latency_end_to_end_ms": 11.430373281257289,
+          "ood/evaluated_trajectories": 8,
+          "ood/rollout/position_rmse": 0.2120342068374157,
+          "ood/rollout/rotation_geodesic_rad": 0.12859358079731464,
+          "ood/rollout/linear_velocity_rmse": 0.5004351884126663,
+          "ood/rollout/angular_velocity_rmse": 0.1680124755948782,
+          "ood/rollout/joint_position_rmse": 0.0,
+          "ood/rollout/joint_velocity_rmse": 0.0,
+          "ood/impact/position_rmse": 0.01885473821312189,
+          "ood/impact/rotation_geodesic_rad": 0.012999895378015935,
+          "ood/impact/linear_velocity_rmse": 0.44719642400741577,
+          "ood/impact/angular_velocity_rmse": 0.24945158138871193,
+          "ood/impact/joint_position_rmse": 0.0,
+          "ood/impact/joint_velocity_rmse": 0.0,
+          "ood/persistent_contact/position_rmse": 0.018499326892197132,
+          "ood/persistent_contact/rotation_geodesic_rad": 0.011784436297602952,
+          "ood/persistent_contact/linear_velocity_rmse": 0.07668300159275532,
+          "ood/persistent_contact/angular_velocity_rmse": 0.05063812155276537,
+          "ood/persistent_contact/joint_position_rmse": 0.0,
+          "ood/persistent_contact/joint_velocity_rmse": 0.0,
+          "ood/diagnostics/penetration_mean": 0.33603611455219773,
+          "ood/diagnostics/penetration_max": 0.680256983138512,
+          "ood/diagnostics/contact_disagreement": 0.109375,
+          "ood/diagnostics/contact_onset_error_seconds": 0.035,
+          "ood/diagnostics/missed_contact_onsets": 0.0,
+          "ood/diagnostics/false_contact_onsets": 0.0
+        },
+        "train_seconds": 8.405007543000465,
+        "latency_ms": 7.375900218761444,
+        "effective_batch_size": 128,
+        "optimizer_steps": 78,
+        "wandb": {
+          "mode": "offline",
+          "id": "3xii2783",
+          "url": null
+        },
+        "parameters": 47884
+      },
+      {
+        "model": "deepsets",
+        "budget": 32,
+        "seed": 0,
+        "checkpoint": "outputs/gpu-check/deepsets_budget32_seed0/best.pt",
+        "metrics": {
+          "position_rmse": 0.005932045693043619,
+          "rotation_geodesic_rad": 0.012853926629759371,
+          "linear_velocity_rmse": 0.14470333862118423,
+          "angular_velocity_rmse": 0.2092856594827026,
+          "joint_position_rmse": 0.0,
+          "joint_velocity_rmse": 0.0
+        },
+        "ood_metrics": {
+          "position_rmse": 0.0034202161186840385,
+          "rotation_geodesic_rad": 0.00704587425570935,
+          "linear_velocity_rmse": 0.07287410786375403,
+          "angular_velocity_rmse": 0.05305130314081907,
+          "joint_position_rmse": 0.0,
+          "joint_velocity_rmse": 0.0
+        },
+        "evaluation_metrics": {
+          "test/one_step/position_rmse": 0.005932045693043619,
+          "test/one_step/rotation_geodesic_rad": 0.012853926629759371,
+          "test/one_step/linear_velocity_rmse": 0.14470333862118423,
+          "test/one_step/angular_velocity_rmse": 0.2092856594827026,
+          "test/one_step/joint_position_rmse": 0.0,
+          "test/one_step/joint_velocity_rmse": 0.0,
+          "test/divergence_rate": 0.0,
+          "test/mean_latency_end_to_end_ms": 23.233791445278484,
+          "test/evaluated_trajectories": 8,
+          "test/rollout/position_rmse": 0.12279371614567935,
+          "test/rollout/rotation_geodesic_rad": 0.1307804761454463,
+          "test/rollout/linear_velocity_rmse": 0.7853128146380186,
+          "test/rollout/angular_velocity_rmse": 0.7015078086405993,
+          "test/rollout/joint_position_rmse": 0.0,
+          "test/rollout/joint_velocity_rmse": 0.0,
+          "test/impact/position_rmse": 0.010618745049993907,
+          "test/impact/rotation_geodesic_rad": 0.021945000626146793,
+          "test/impact/linear_velocity_rmse": 0.7992771863937378,
+          "test/impact/angular_velocity_rmse": 0.8812660762508001,
+          "test/impact/joint_position_rmse": 0.0,
+          "test/impact/joint_velocity_rmse": 0.0,
+          "test/persistent_contact/position_rmse": 0.003854074515402317,
+          "test/persistent_contact/rotation_geodesic_rad": 0.0077329399064183235,
+          "test/persistent_contact/linear_velocity_rmse": 0.14067125506699085,
+          "test/persistent_contact/angular_velocity_rmse": 0.11251637459333454,
+          "test/persistent_contact/joint_position_rmse": 0.0,
+          "test/persistent_contact/joint_velocity_rmse": 0.0,
+          "test/diagnostics/penetration_mean": 0.08374270334870598,
+          "test/diagnostics/penetration_max": 0.1510311636966481,
+          "test/diagnostics/contact_disagreement": 0.484375,
+          "test/diagnostics/contact_onset_error_seconds": 0.03,
+          "test/diagnostics/missed_contact_onsets": 0.875,
+          "test/diagnostics/false_contact_onsets": 0.125,
+          "ood/one_step/position_rmse": 0.0034202161186840385,
+          "ood/one_step/rotation_geodesic_rad": 0.00704587425570935,
+          "ood/one_step/linear_velocity_rmse": 0.07287410786375403,
+          "ood/one_step/angular_velocity_rmse": 0.05305130314081907,
+          "ood/one_step/joint_position_rmse": 0.0,
+          "ood/one_step/joint_velocity_rmse": 0.0,
+          "ood/divergence_rate": 0.0,
+          "ood/mean_latency_end_to_end_ms": 19.14318200000764,
+          "ood/evaluated_trajectories": 8,
+          "ood/rollout/position_rmse": 0.09732639091089368,
+          "ood/rollout/rotation_geodesic_rad": 0.06770052807405591,
+          "ood/rollout/linear_velocity_rmse": 0.4803942684084177,
+          "ood/rollout/angular_velocity_rmse": 0.11613377369940281,
+          "ood/rollout/joint_position_rmse": 0.0,
+          "ood/rollout/joint_velocity_rmse": 0.0,
+          "ood/impact/position_rmse": 0.0094476283993572,
+          "ood/impact/rotation_geodesic_rad": 0.00941943982616067,
+          "ood/impact/linear_velocity_rmse": 0.4493139535188675,
+          "ood/impact/angular_velocity_rmse": 0.2489716149866581,
+          "ood/impact/joint_position_rmse": 0.0,
+          "ood/impact/joint_velocity_rmse": 0.0,
+          "ood/persistent_contact/position_rmse": 0.0034221095265820622,
+          "ood/persistent_contact/rotation_geodesic_rad": 0.007045601378194988,
+          "ood/persistent_contact/linear_velocity_rmse": 0.07247983571141958,
+          "ood/persistent_contact/angular_velocity_rmse": 0.05009305430576205,
+          "ood/persistent_contact/joint_position_rmse": 0.0,
+          "ood/persistent_contact/joint_velocity_rmse": 0.0,
+          "ood/diagnostics/penetration_mean": 0.13641386001832062,
+          "ood/diagnostics/penetration_max": 0.22457871704464633,
+          "ood/diagnostics/contact_disagreement": 0.109375,
+          "ood/diagnostics/contact_onset_error_seconds": 0.035,
+          "ood/diagnostics/missed_contact_onsets": 0.0,
+          "ood/diagnostics/false_contact_onsets": 0.0
+        },
+        "train_seconds": 21.219579240000712,
+        "latency_ms": 23.233791445278484,
+        "effective_batch_size": 128,
+        "optimizer_steps": 78,
+        "wandb": {
+          "mode": "offline",
+          "id": "n80xa5v4",
+          "url": null
+        },
+        "parameters": 1070910
+      },
+      {
+        "model": "flat",
+        "budget": 32,
+        "seed": 0,
+        "checkpoint": "outputs/gpu-check/flat_budget32_seed0/best.pt",
+        "metrics": {
+          "position_rmse": 0.006180527328979224,
+          "rotation_geodesic_rad": 0.01563716121017933,
+          "linear_velocity_rmse": 0.14462141878902912,
+          "angular_velocity_rmse": 0.20802676468156278,
+          "joint_position_rmse": 0.0,
+          "joint_velocity_rmse": 0.0
+        },
+        "ood_metrics": {
+          "position_rmse": 0.003545779181877151,
+          "rotation_geodesic_rad": 0.009293407900258899,
+          "linear_velocity_rmse": 0.07279908796772361,
+          "angular_velocity_rmse": 0.052374470280483365,
+          "joint_position_rmse": 0.0,
+          "joint_velocity_rmse": 0.0
+        },
+        "evaluation_metrics": {
+          "test/one_step/position_rmse": 0.006180527328979224,
+          "test/one_step/rotation_geodesic_rad": 0.01563716121017933,
+          "test/one_step/linear_velocity_rmse": 0.14462141878902912,
+          "test/one_step/angular_velocity_rmse": 0.20802676468156278,
+          "test/one_step/joint_position_rmse": 0.0,
+          "test/one_step/joint_velocity_rmse": 0.0,
+          "test/divergence_rate": 0.0,
+          "test/mean_latency_end_to_end_ms": 28.470099539042337,
+          "test/evaluated_trajectories": 8,
+          "test/rollout/position_rmse": 0.12368460861034691,
+          "test/rollout/rotation_geodesic_rad": 0.14377072639763355,
+          "test/rollout/linear_velocity_rmse": 0.7827207501977682,
+          "test/rollout/angular_velocity_rmse": 0.6848066868260503,
+          "test/rollout/joint_position_rmse": 0.0,
+          "test/rollout/joint_velocity_rmse": 0.0,
+          "test/impact/position_rmse": 0.010526544580768262,
+          "test/impact/rotation_geodesic_rad": 0.023544596508145332,
+          "test/impact/linear_velocity_rmse": 0.7986218397106443,
+          "test/impact/angular_velocity_rmse": 0.8806247365261827,
+          "test/impact/joint_position_rmse": 0.0,
+          "test/impact/joint_velocity_rmse": 0.0,
+          "test/persistent_contact/position_rmse": 0.003944585465693048,
+          "test/persistent_contact/rotation_geodesic_rad": 0.01042968819716147,
+          "test/persistent_contact/linear_velocity_rmse": 0.14048527234366961,
+          "test/persistent_contact/angular_velocity_rmse": 0.11157914903014898,
+          "test/persistent_contact/joint_position_rmse": 0.0,
+          "test/persistent_contact/joint_velocity_rmse": 0.0,
+          "test/diagnostics/penetration_mean": 0.07624033696099594,
+          "test/diagnostics/penetration_max": 0.13730177839577531,
+          "test/diagnostics/contact_disagreement": 0.484375,
+          "test/diagnostics/contact_onset_error_seconds": 0.03,
+          "test/diagnostics/missed_contact_onsets": 0.875,
+          "test/diagnostics/false_contact_onsets": 0.125,
+          "ood/one_step/position_rmse": 0.003545779181877151,
+          "ood/one_step/rotation_geodesic_rad": 0.009293407900258899,
+          "ood/one_step/linear_velocity_rmse": 0.07279908796772361,
+          "ood/one_step/angular_velocity_rmse": 0.052374470280483365,
+          "ood/one_step/joint_position_rmse": 0.0,
+          "ood/one_step/joint_velocity_rmse": 0.0,
+          "ood/divergence_rate": 0.0,
+          "ood/mean_latency_end_to_end_ms": 46.484100234373216,
+          "ood/evaluated_trajectories": 8,
+          "ood/rollout/position_rmse": 0.09468091186136007,
+          "ood/rollout/rotation_geodesic_rad": 0.09183076675981283,
+          "ood/rollout/linear_velocity_rmse": 0.47494364343583584,
+          "ood/rollout/angular_velocity_rmse": 0.10018894774839282,
+          "ood/rollout/joint_position_rmse": 0.0,
+          "ood/rollout/joint_velocity_rmse": 0.0,
+          "ood/impact/position_rmse": 0.009311997098848224,
+          "ood/impact/rotation_geodesic_rad": 0.011923218029551208,
+          "ood/impact/linear_velocity_rmse": 0.44877924397587776,
+          "ood/impact/angular_velocity_rmse": 0.24850737862288952,
+          "ood/impact/joint_position_rmse": 0.0,
+          "ood/impact/joint_velocity_rmse": 0.0,
+          "ood/persistent_contact/position_rmse": 0.0035457018529996276,
+          "ood/persistent_contact/rotation_geodesic_rad": 0.009291378315538168,
+          "ood/persistent_contact/linear_velocity_rmse": 0.07240134105086327,
+          "ood/persistent_contact/angular_velocity_rmse": 0.04934565396979451,
+          "ood/persistent_contact/joint_position_rmse": 0.0,
+          "ood/persistent_contact/joint_velocity_rmse": 0.0,
+          "ood/diagnostics/penetration_mean": 0.14038559095089997,
+          "ood/diagnostics/penetration_max": 0.2307477628024571,
+          "ood/diagnostics/contact_disagreement": 0.109375,
+          "ood/diagnostics/contact_onset_error_seconds": 0.035,
+          "ood/diagnostics/missed_contact_onsets": 0.0,
+          "ood/diagnostics/false_contact_onsets": 0.0
+        },
+        "train_seconds": 69.11726688699946,
+        "latency_ms": 28.470099539042337,
+        "effective_batch_size": 128,
+        "optimizer_steps": 78,
+        "wandb": {
+          "mode": "offline",
+          "id": "kaetmhfx",
+          "url": null
+        },
+        "parameters": 1070910
+      },
+      {
+        "model": "independent",
+        "budget": 32,
+        "seed": 0,
+        "checkpoint": "outputs/gpu-check/independent_budget32_seed0/best.pt",
+        "metrics": {
+          "position_rmse": 0.037060177826788276,
+          "rotation_geodesic_rad": 0.046358880936168134,
+          "linear_velocity_rmse": 0.16592645476339385,
+          "angular_velocity_rmse": 0.22395540191791952,
+          "joint_position_rmse": 0.0,
+          "joint_velocity_rmse": 0.0
+        },
+        "ood_metrics": {
+          "position_rmse": 0.012637924402952194,
+          "rotation_geodesic_rad": 0.012136854697018862,
+          "linear_velocity_rmse": 0.07494956953451037,
+          "angular_velocity_rmse": 0.05926243867725134,
+          "joint_position_rmse": 0.0,
+          "joint_velocity_rmse": 0.0
+        },
+        "evaluation_metrics": {
+          "test/one_step/position_rmse": 0.037060177826788276,
+          "test/one_step/rotation_geodesic_rad": 0.046358880936168134,
+          "test/one_step/linear_velocity_rmse": 0.16592645476339385,
+          "test/one_step/angular_velocity_rmse": 0.22395540191791952,
+          "test/one_step/joint_position_rmse": 0.0,
+          "test/one_step/joint_velocity_rmse": 0.0,
+          "test/divergence_rate": 0.0,
+          "test/mean_latency_end_to_end_ms": 12.87842530466321,
+          "test/evaluated_trajectories": 8,
+          "test/rollout/position_rmse": 0.3706255694851279,
+          "test/rollout/rotation_geodesic_rad": 0.35687209432944655,
+          "test/rollout/linear_velocity_rmse": 0.756486592348665,
+          "test/rollout/angular_velocity_rmse": 0.7315635355189443,
+          "test/rollout/joint_position_rmse": 0.0,
+          "test/rollout/joint_velocity_rmse": 0.0,
+          "test/impact/position_rmse": 0.03978538566402027,
+          "test/impact/rotation_geodesic_rad": 0.060660386724131446,
+          "test/impact/linear_velocity_rmse": 0.7985475616795676,
+          "test/impact/angular_velocity_rmse": 0.87535134835967,
+          "test/impact/joint_position_rmse": 0.0,
+          "test/impact/joint_velocity_rmse": 0.0,
+          "test/persistent_contact/position_rmse": 0.014492202217557601,
+          "test/persistent_contact/rotation_geodesic_rad": 0.016271869452404126,
+          "test/persistent_contact/linear_velocity_rmse": 0.13781067057113564,
+          "test/persistent_contact/angular_velocity_rmse": 0.11746016730155263,
+          "test/persistent_contact/joint_position_rmse": 0.0,
+          "test/persistent_contact/joint_velocity_rmse": 0.0,
+          "test/diagnostics/penetration_mean": 0.22046338393709902,
+          "test/diagnostics/penetration_max": 0.43799992949075434,
+          "test/diagnostics/contact_disagreement": 0.3203125,
+          "test/diagnostics/contact_onset_error_seconds": 0.03571428571428571,
+          "test/diagnostics/missed_contact_onsets": 0.75,
+          "test/diagnostics/false_contact_onsets": 0.25,
+          "ood/one_step/position_rmse": 0.012637924402952194,
+          "ood/one_step/rotation_geodesic_rad": 0.012136854697018862,
+          "ood/one_step/linear_velocity_rmse": 0.07494956953451037,
+          "ood/one_step/angular_velocity_rmse": 0.05926243867725134,
+          "ood/one_step/joint_position_rmse": 0.0,
+          "ood/one_step/joint_velocity_rmse": 0.0,
+          "ood/divergence_rate": 0.0,
+          "ood/mean_latency_end_to_end_ms": 15.691651070341095,
+          "ood/evaluated_trajectories": 8,
+          "ood/rollout/position_rmse": 0.5765330642461777,
+          "ood/rollout/rotation_geodesic_rad": 0.2872597463428974,
+          "ood/rollout/linear_velocity_rmse": 0.5850609466433525,
+          "ood/rollout/angular_velocity_rmse": 0.3778691589832306,
+          "ood/rollout/joint_position_rmse": 0.0,
+          "ood/rollout/joint_velocity_rmse": 0.0,
+          "ood/impact/position_rmse": 0.030103265773504972,
+          "ood/impact/rotation_geodesic_rad": 0.020664433483034372,
+          "ood/impact/linear_velocity_rmse": 0.4516681246459484,
+          "ood/impact/angular_velocity_rmse": 0.2477227170020342,
+          "ood/impact/joint_position_rmse": 0.0,
+          "ood/impact/joint_velocity_rmse": 0.0,
+          "ood/persistent_contact/position_rmse": 0.012652865960262716,
+          "ood/persistent_contact/rotation_geodesic_rad": 0.01214920124039054,
+          "ood/persistent_contact/linear_velocity_rmse": 0.07457176689058542,
+          "ood/persistent_contact/angular_velocity_rmse": 0.05724241677671671,
+          "ood/persistent_contact/joint_position_rmse": 0.0,
+          "ood/persistent_contact/joint_velocity_rmse": 0.0,
+          "ood/diagnostics/penetration_mean": 0.4509432898699167,
+          "ood/diagnostics/penetration_max": 0.8613314545745835,
+          "ood/diagnostics/contact_disagreement": 0.109375,
+          "ood/diagnostics/contact_onset_error_seconds": 0.035,
+          "ood/diagnostics/missed_contact_onsets": 0.0,
+          "ood/diagnostics/false_contact_onsets": 0.0
+        },
+        "train_seconds": 39.887103533999834,
+        "latency_ms": 12.87842530466321,
+        "effective_batch_size": 128,
+        "optimizer_steps": 78,
+        "wandb": {
+          "mode": "offline",
+          "id": "uu5fp7cn",
+          "url": null
+        },
+        "parameters": 51736
+      },
+      {
+        "model": "nerd_history1",
+        "budget": 32,
+        "seed": 0,
+        "checkpoint": "outputs/gpu-check/nerd_history1_budget32_seed0/best.pt",
+        "metrics": {
+          "position_rmse": 0.009639775031246245,
+          "rotation_geodesic_rad": 0.031930111115798354,
+          "linear_velocity_rmse": 0.1461401116102934,
+          "angular_velocity_rmse": 0.21108261065091938,
+          "joint_position_rmse": 0.0,
+          "joint_velocity_rmse": 0.0
+        },
+        "ood_metrics": {
+          "position_rmse": 0.006633651326410472,
+          "rotation_geodesic_rad": 0.02491774200461805,
+          "linear_velocity_rmse": 0.07725583668798208,
+          "angular_velocity_rmse": 0.05275276233442128,
+          "joint_position_rmse": 0.0,
+          "joint_velocity_rmse": 0.0
+        },
+        "evaluation_metrics": {
+          "test/one_step/position_rmse": 0.009639775031246245,
+          "test/one_step/rotation_geodesic_rad": 0.031930111115798354,
+          "test/one_step/linear_velocity_rmse": 0.1461401116102934,
+          "test/one_step/angular_velocity_rmse": 0.21108261065091938,
+          "test/one_step/joint_position_rmse": 0.0,
+          "test/one_step/joint_velocity_rmse": 0.0,
+          "test/divergence_rate": 0.0,
+          "test/mean_latency_end_to_end_ms": 8.764041351604135,
+          "test/evaluated_trajectories": 8,
+          "test/rollout/position_rmse": 0.13737559039145708,
+          "test/rollout/rotation_geodesic_rad": 0.229354964569211,
+          "test/rollout/linear_velocity_rmse": 0.8075833581387997,
+          "test/rollout/angular_velocity_rmse": 0.6655851379036903,
+          "test/rollout/joint_position_rmse": 0.0,
+          "test/rollout/joint_velocity_rmse": 0.0,
+          "test/impact/position_rmse": 0.011898595839738846,
+          "test/impact/rotation_geodesic_rad": 0.03072383307984897,
+          "test/impact/linear_velocity_rmse": 0.7955298530203956,
+          "test/impact/angular_velocity_rmse": 0.8806066387998206,
+          "test/impact/joint_position_rmse": 0.0,
+          "test/impact/joint_velocity_rmse": 0.0,
+          "test/persistent_contact/position_rmse": 0.007170749894742455,
+          "test/persistent_contact/rotation_geodesic_rad": 0.018158607184886932,
+          "test/persistent_contact/linear_velocity_rmse": 0.143485498215471,
+          "test/persistent_contact/angular_velocity_rmse": 0.11663978985909905,
+          "test/persistent_contact/joint_position_rmse": 0.0,
+          "test/persistent_contact/joint_velocity_rmse": 0.0,
+          "test/diagnostics/penetration_mean": 0.06828877865957865,
+          "test/diagnostics/penetration_max": 0.1300405378401386,
+          "test/diagnostics/contact_disagreement": 0.5234375,
+          "test/diagnostics/contact_onset_error_seconds": 0.033999999999999996,
+          "test/diagnostics/missed_contact_onsets": 0.875,
+          "test/diagnostics/false_contact_onsets": 0.125,
+          "ood/one_step/position_rmse": 0.006633651326410472,
+          "ood/one_step/rotation_geodesic_rad": 0.02491774200461805,
+          "ood/one_step/linear_velocity_rmse": 0.07725583668798208,
+          "ood/one_step/angular_velocity_rmse": 0.05275276233442128,
+          "ood/one_step/joint_position_rmse": 0.0,
+          "ood/one_step/joint_velocity_rmse": 0.0,
+          "ood/divergence_rate": 0.0,
+          "ood/mean_latency_end_to_end_ms": 10.474816656270036,
+          "ood/evaluated_trajectories": 8,
+          "ood/rollout/position_rmse": 0.10905253514647484,
+          "ood/rollout/rotation_geodesic_rad": 0.31905580684542656,
+          "ood/rollout/linear_velocity_rmse": 0.45977355539798737,
+          "ood/rollout/angular_velocity_rmse": 0.13420359510928392,
+          "ood/rollout/joint_position_rmse": 0.0,
+          "ood/rollout/joint_velocity_rmse": 0.0,
+          "ood/impact/position_rmse": 0.010458187316544354,
+          "ood/impact/rotation_geodesic_rad": 0.028229283867403865,
+          "ood/impact/linear_velocity_rmse": 0.4425398278981447,
+          "ood/impact/angular_velocity_rmse": 0.24831962399184704,
+          "ood/impact/joint_position_rmse": 0.0,
+          "ood/impact/joint_velocity_rmse": 0.0,
+          "ood/persistent_contact/position_rmse": 0.006642083986662328,
+          "ood/persistent_contact/rotation_geodesic_rad": 0.024933698819950223,
+          "ood/persistent_contact/linear_velocity_rmse": 0.07683804584667087,
+          "ood/persistent_contact/angular_velocity_rmse": 0.049797067418694496,
+          "ood/persistent_contact/joint_position_rmse": 0.0,
+          "ood/persistent_contact/joint_velocity_rmse": 0.0,
+          "ood/diagnostics/penetration_mean": 0.15998504639930836,
+          "ood/diagnostics/penetration_max": 0.31220304682024674,
+          "ood/diagnostics/contact_disagreement": 0.109375,
+          "ood/diagnostics/contact_onset_error_seconds": 0.035,
+          "ood/diagnostics/missed_contact_onsets": 0.0,
+          "ood/diagnostics/false_contact_onsets": 0.0
+        },
+        "train_seconds": 9.141724232000342,
+        "latency_ms": 8.764041351604135,
+        "effective_batch_size": 128,
+        "optimizer_steps": 78,
+        "wandb": {
+          "mode": "offline",
+          "id": "v7gshuy4",
+          "url": null
+        },
+        "parameters": 467468
+      },
+      {
+        "model": "nerd_history10",
+        "budget": 32,
+        "seed": 0,
+        "checkpoint": "outputs/gpu-check/nerd_history10_budget32_seed0/best.pt",
+        "metrics": {
+          "position_rmse": 0.011415659449994564,
+          "rotation_geodesic_rad": 0.03646905650384724,
+          "linear_velocity_rmse": 0.14434173074550927,
+          "angular_velocity_rmse": 0.21639175061136484,
+          "joint_position_rmse": 0.0,
+          "joint_velocity_rmse": 0.0
+        },
+        "ood_metrics": {
+          "position_rmse": 0.00954327394720167,
+          "rotation_geodesic_rad": 0.024431320372968912,
+          "linear_velocity_rmse": 0.07578902970999479,
+          "angular_velocity_rmse": 0.05748924566432834,
+          "joint_position_rmse": 0.0,
+          "joint_velocity_rmse": 0.0
+        },
+        "evaluation_metrics": {
+          "test/one_step/position_rmse": 0.011415659449994564,
+          "test/one_step/rotation_geodesic_rad": 0.03646905650384724,
+          "test/one_step/linear_velocity_rmse": 0.14434173074550927,
+          "test/one_step/angular_velocity_rmse": 0.21639175061136484,
+          "test/one_step/joint_position_rmse": 0.0,
+          "test/one_step/joint_velocity_rmse": 0.0,
+          "test/divergence_rate": 0.0,
+          "test/mean_latency_end_to_end_ms": 86.33634632033704,
+          "test/evaluated_trajectories": 8,
+          "test/rollout/position_rmse": 0.1365310363471508,
+          "test/rollout/rotation_geodesic_rad": 0.2515050359070301,
+          "test/rollout/linear_velocity_rmse": 0.7882991265505552,
+          "test/rollout/angular_velocity_rmse": 0.7150490917265415,
+          "test/rollout/joint_position_rmse": 0.0,
+          "test/rollout/joint_velocity_rmse": 0.0,
+          "test/impact/position_rmse": 0.010677718158279146,
+          "test/impact/rotation_geodesic_rad": 0.03664752282202244,
+          "test/impact/linear_velocity_rmse": 0.7932114324399403,
+          "test/impact/angular_velocity_rmse": 0.8807420480464186,
+          "test/impact/joint_position_rmse": 0.0,
+          "test/impact/joint_velocity_rmse": 0.0,
+          "test/persistent_contact/position_rmse": 0.006736822559365204,
+          "test/persistent_contact/rotation_geodesic_rad": 0.02052972572190421,
+          "test/persistent_contact/linear_velocity_rmse": 0.1396531236491033,
+          "test/persistent_contact/angular_velocity_rmse": 0.12267119331019265,
+          "test/persistent_contact/joint_position_rmse": 0.0,
+          "test/persistent_contact/joint_velocity_rmse": 0.0,
+          "test/diagnostics/penetration_mean": 0.09077274351769299,
+          "test/diagnostics/penetration_max": 0.16848519471810625,
+          "test/diagnostics/contact_disagreement": 0.390625,
+          "test/diagnostics/contact_onset_error_seconds": 0.024999999999999998,
+          "test/diagnostics/missed_contact_onsets": 0.75,
+          "test/diagnostics/false_contact_onsets": 0.125,
+          "ood/one_step/position_rmse": 0.00954327394720167,
+          "ood/one_step/rotation_geodesic_rad": 0.024431320372968912,
+          "ood/one_step/linear_velocity_rmse": 0.07578902970999479,
+          "ood/one_step/angular_velocity_rmse": 0.05748924566432834,
+          "ood/one_step/joint_position_rmse": 0.0,
+          "ood/one_step/joint_velocity_rmse": 0.0,
+          "ood/divergence_rate": 0.0,
+          "ood/mean_latency_end_to_end_ms": 83.06865863276158,
+          "ood/evaluated_trajectories": 8,
+          "ood/rollout/position_rmse": 0.11752901785075665,
+          "ood/rollout/rotation_geodesic_rad": 0.2482673693448305,
+          "ood/rollout/linear_velocity_rmse": 0.42552201822400093,
+          "ood/rollout/angular_velocity_rmse": 0.24379310943186283,
+          "ood/rollout/joint_position_rmse": 0.0,
+          "ood/rollout/joint_velocity_rmse": 0.0,
+          "ood/impact/position_rmse": 0.01262683083768934,
+          "ood/impact/rotation_geodesic_rad": 0.028821239713579416,
+          "ood/impact/linear_velocity_rmse": 0.44426003843545914,
+          "ood/impact/angular_velocity_rmse": 0.250333271920681,
+          "ood/impact/joint_position_rmse": 0.0,
+          "ood/impact/joint_velocity_rmse": 0.0,
+          "ood/persistent_contact/position_rmse": 0.009546744171530008,
+          "ood/persistent_contact/rotation_geodesic_rad": 0.024384829914197326,
+          "ood/persistent_contact/linear_velocity_rmse": 0.07524586794897914,
+          "ood/persistent_contact/angular_velocity_rmse": 0.05505145946517587,
+          "ood/persistent_contact/joint_position_rmse": 0.0,
+          "ood/persistent_contact/joint_velocity_rmse": 0.0,
+          "ood/diagnostics/penetration_mean": 0.1378660233522685,
+          "ood/diagnostics/penetration_max": 0.22239658249515448,
+          "ood/diagnostics/contact_disagreement": 0.109375,
+          "ood/diagnostics/contact_onset_error_seconds": 0.035,
+          "ood/diagnostics/missed_contact_onsets": 0.0,
+          "ood/diagnostics/false_contact_onsets": 0.0
+        },
+        "train_seconds": 37.22174743400046,
+        "latency_ms": 86.33634632033704,
+        "effective_batch_size": 128,
+        "optimizer_steps": 78,
+        "wandb": {
+          "mode": "offline",
+          "id": "fjm40uen",
+          "url": null
+        },
+        "parameters": 468620
+      }
+    ],
+    "summary": [
+      {
+        "model": "hierarchical",
+        "budget": 32,
+        "metrics": {
+          "position_rmse": {
+            "mean": 0.009947421902325004,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "rotation_geodesic_rad": {
+            "mean": 0.033288239035755396,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "linear_velocity_rmse": {
+            "mean": 0.14472548547200859,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "angular_velocity_rmse": {
+            "mean": 0.21138311189133674,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          }
+        },
+        "ood_metrics": {
+          "angular_velocity_rmse": {
+            "mean": 0.05454604793339968,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "linear_velocity_rmse": {
+            "mean": 0.0740366643294692,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "position_rmse": {
+            "mean": 0.005861883633770049,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "rotation_geodesic_rad": {
+            "mean": 0.02765029389411211,
+            "std": 0.0,
+            "seeds": 1
+          }
+        },
+        "evaluation_metrics": {
+          "ood/diagnostics/contact_disagreement": {
+            "mean": 0.109375,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/diagnostics/contact_onset_error_seconds": {
+            "mean": 0.035,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/diagnostics/false_contact_onsets": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/diagnostics/missed_contact_onsets": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/diagnostics/penetration_max": {
+            "mean": 0.29183246141254143,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/diagnostics/penetration_mean": {
+            "mean": 0.15061511365259928,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/divergence_rate": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/evaluated_trajectories": {
+            "mean": 8.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/impact/angular_velocity_rmse": {
+            "mean": 0.25083272717893124,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/impact/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/impact/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/impact/linear_velocity_rmse": {
+            "mean": 0.4475267268717289,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/impact/position_rmse": {
+            "mean": 0.009061346179805696,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/impact/rotation_geodesic_rad": {
+            "mean": 0.02867959439754486,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/mean_latency_end_to_end_ms": {
+            "mean": 20.458550031285938,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/one_step/angular_velocity_rmse": {
+            "mean": 0.05454604793339968,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/one_step/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/one_step/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/one_step/linear_velocity_rmse": {
+            "mean": 0.0740366643294692,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/one_step/position_rmse": {
+            "mean": 0.005861883633770049,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/one_step/rotation_geodesic_rad": {
+            "mean": 0.02765029389411211,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/persistent_contact/angular_velocity_rmse": {
+            "mean": 0.05170655017718673,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/persistent_contact/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/persistent_contact/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/persistent_contact/linear_velocity_rmse": {
+            "mean": 0.0735587808303535,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/persistent_contact/position_rmse": {
+            "mean": 0.0058732000179588795,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/persistent_contact/rotation_geodesic_rad": {
+            "mean": 0.027657589176669717,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/rollout/angular_velocity_rmse": {
+            "mean": 0.22024187073111534,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/rollout/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/rollout/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/rollout/linear_velocity_rmse": {
+            "mean": 0.478976096957922,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/rollout/position_rmse": {
+            "mean": 0.07909619994461536,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/rollout/rotation_geodesic_rad": {
+            "mean": 0.27720607444643974,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/diagnostics/contact_disagreement": {
+            "mean": 0.34375,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/diagnostics/contact_onset_error_seconds": {
+            "mean": 0.03,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/diagnostics/false_contact_onsets": {
+            "mean": 0.125,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/diagnostics/missed_contact_onsets": {
+            "mean": 0.625,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/diagnostics/penetration_max": {
+            "mean": 0.27830549530462084,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/diagnostics/penetration_mean": {
+            "mean": 0.14581674983775716,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/divergence_rate": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/evaluated_trajectories": {
+            "mean": 8.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/impact/angular_velocity_rmse": {
+            "mean": 0.8842911198735237,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/impact/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/impact/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/impact/linear_velocity_rmse": {
+            "mean": 0.7954041702406747,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/impact/position_rmse": {
+            "mean": 0.01507009585787143,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/impact/rotation_geodesic_rad": {
+            "mean": 0.03682084966983114,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/mean_latency_end_to_end_ms": {
+            "mean": 15.174058281239411,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/one_step/angular_velocity_rmse": {
+            "mean": 0.21138311189133674,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/one_step/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/one_step/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/one_step/linear_velocity_rmse": {
+            "mean": 0.14472548547200859,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/one_step/position_rmse": {
+            "mean": 0.009947421902325004,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/one_step/rotation_geodesic_rad": {
+            "mean": 0.033288239035755396,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/persistent_contact/angular_velocity_rmse": {
+            "mean": 0.11721204673605305,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/persistent_contact/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/persistent_contact/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/persistent_contact/linear_velocity_rmse": {
+            "mean": 0.1420545314571687,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/persistent_contact/position_rmse": {
+            "mean": 0.006185820326209068,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/persistent_contact/rotation_geodesic_rad": {
+            "mean": 0.02803213521838188,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/rollout/angular_velocity_rmse": {
+            "mean": 0.7030311599373817,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/rollout/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/rollout/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/rollout/linear_velocity_rmse": {
+            "mean": 0.7831584997475147,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/rollout/position_rmse": {
+            "mean": 0.12910681776702404,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/rollout/rotation_geodesic_rad": {
+            "mean": 0.3212305288761854,
+            "std": 0.0,
+            "seeds": 1
+          }
+        }
+      },
+      {
+        "model": "state_mlp",
+        "budget": 32,
+        "metrics": {
+          "position_rmse": {
+            "mean": 0.008989261361421086,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "rotation_geodesic_rad": {
+            "mean": 0.009867695887805894,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "linear_velocity_rmse": {
+            "mean": 0.13920310302637517,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "angular_velocity_rmse": {
+            "mean": 0.20760459481971338,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          }
+        },
+        "ood_metrics": {
+          "angular_velocity_rmse": {
+            "mean": 0.053576780250296,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "linear_velocity_rmse": {
+            "mean": 0.07686929451301694,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "position_rmse": {
+            "mean": 0.018488541012629867,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "rotation_geodesic_rad": {
+            "mean": 0.011781690758652985,
+            "std": 0.0,
+            "seeds": 1
+          }
+        },
+        "evaluation_metrics": {
+          "ood/diagnostics/contact_disagreement": {
+            "mean": 0.109375,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/diagnostics/contact_onset_error_seconds": {
+            "mean": 0.035,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/diagnostics/false_contact_onsets": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/diagnostics/missed_contact_onsets": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/diagnostics/penetration_max": {
+            "mean": 0.680256983138512,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/diagnostics/penetration_mean": {
+            "mean": 0.33603611455219773,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/divergence_rate": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/evaluated_trajectories": {
+            "mean": 8.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/impact/angular_velocity_rmse": {
+            "mean": 0.24945158138871193,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/impact/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/impact/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/impact/linear_velocity_rmse": {
+            "mean": 0.44719642400741577,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/impact/position_rmse": {
+            "mean": 0.01885473821312189,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/impact/rotation_geodesic_rad": {
+            "mean": 0.012999895378015935,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/mean_latency_end_to_end_ms": {
+            "mean": 11.430373281257289,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/one_step/angular_velocity_rmse": {
+            "mean": 0.053576780250296,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/one_step/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/one_step/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/one_step/linear_velocity_rmse": {
+            "mean": 0.07686929451301694,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/one_step/position_rmse": {
+            "mean": 0.018488541012629867,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/one_step/rotation_geodesic_rad": {
+            "mean": 0.011781690758652985,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/persistent_contact/angular_velocity_rmse": {
+            "mean": 0.05063812155276537,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/persistent_contact/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/persistent_contact/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/persistent_contact/linear_velocity_rmse": {
+            "mean": 0.07668300159275532,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/persistent_contact/position_rmse": {
+            "mean": 0.018499326892197132,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/persistent_contact/rotation_geodesic_rad": {
+            "mean": 0.011784436297602952,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/rollout/angular_velocity_rmse": {
+            "mean": 0.1680124755948782,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/rollout/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/rollout/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/rollout/linear_velocity_rmse": {
+            "mean": 0.5004351884126663,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/rollout/position_rmse": {
+            "mean": 0.2120342068374157,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/rollout/rotation_geodesic_rad": {
+            "mean": 0.12859358079731464,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/diagnostics/contact_disagreement": {
+            "mean": 0.34375,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/diagnostics/contact_onset_error_seconds": {
+            "mean": 0.032857142857142856,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/diagnostics/false_contact_onsets": {
+            "mean": 0.125,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/diagnostics/missed_contact_onsets": {
+            "mean": 0.625,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/diagnostics/penetration_max": {
+            "mean": 0.15465882196489011,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/diagnostics/penetration_mean": {
+            "mean": 0.07333100386961067,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/divergence_rate": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/evaluated_trajectories": {
+            "mean": 8.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/impact/angular_velocity_rmse": {
+            "mean": 0.8773475218830364,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/impact/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/impact/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/impact/linear_velocity_rmse": {
+            "mean": 0.8012978328125817,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/impact/position_rmse": {
+            "mean": 0.012967037735506892,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/impact/rotation_geodesic_rad": {
+            "mean": 0.018973176766719137,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/mean_latency_end_to_end_ms": {
+            "mean": 7.375900218761444,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/one_step/angular_velocity_rmse": {
+            "mean": 0.20760459481971338,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/one_step/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/one_step/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/one_step/linear_velocity_rmse": {
+            "mean": 0.13920310302637517,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/one_step/position_rmse": {
+            "mean": 0.008989261361421086,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/one_step/rotation_geodesic_rad": {
+            "mean": 0.009867695887805894,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/persistent_contact/angular_velocity_rmse": {
+            "mean": 0.11276665915335927,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/persistent_contact/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/persistent_contact/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/persistent_contact/linear_velocity_rmse": {
+            "mean": 0.13838335259684495,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/persistent_contact/position_rmse": {
+            "mean": 0.004632252917092826,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/persistent_contact/rotation_geodesic_rad": {
+            "mean": 0.0035139982854681356,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/rollout/angular_velocity_rmse": {
+            "mean": 0.6241160123609006,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/rollout/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/rollout/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/rollout/linear_velocity_rmse": {
+            "mean": 0.761928609572351,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/rollout/position_rmse": {
+            "mean": 0.12116942880675197,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/rollout/rotation_geodesic_rad": {
+            "mean": 0.10310303210280836,
+            "std": 0.0,
+            "seeds": 1
+          }
+        }
+      },
+      {
+        "model": "deepsets",
+        "budget": 32,
+        "metrics": {
+          "position_rmse": {
+            "mean": 0.005932045693043619,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "rotation_geodesic_rad": {
+            "mean": 0.012853926629759371,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "linear_velocity_rmse": {
+            "mean": 0.14470333862118423,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "angular_velocity_rmse": {
+            "mean": 0.2092856594827026,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          }
+        },
+        "ood_metrics": {
+          "angular_velocity_rmse": {
+            "mean": 0.05305130314081907,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "linear_velocity_rmse": {
+            "mean": 0.07287410786375403,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "position_rmse": {
+            "mean": 0.0034202161186840385,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "rotation_geodesic_rad": {
+            "mean": 0.00704587425570935,
+            "std": 0.0,
+            "seeds": 1
+          }
+        },
+        "evaluation_metrics": {
+          "ood/diagnostics/contact_disagreement": {
+            "mean": 0.109375,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/diagnostics/contact_onset_error_seconds": {
+            "mean": 0.035,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/diagnostics/false_contact_onsets": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/diagnostics/missed_contact_onsets": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/diagnostics/penetration_max": {
+            "mean": 0.22457871704464633,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/diagnostics/penetration_mean": {
+            "mean": 0.13641386001832062,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/divergence_rate": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/evaluated_trajectories": {
+            "mean": 8.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/impact/angular_velocity_rmse": {
+            "mean": 0.2489716149866581,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/impact/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/impact/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/impact/linear_velocity_rmse": {
+            "mean": 0.4493139535188675,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/impact/position_rmse": {
+            "mean": 0.0094476283993572,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/impact/rotation_geodesic_rad": {
+            "mean": 0.00941943982616067,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/mean_latency_end_to_end_ms": {
+            "mean": 19.14318200000764,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/one_step/angular_velocity_rmse": {
+            "mean": 0.05305130314081907,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/one_step/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/one_step/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/one_step/linear_velocity_rmse": {
+            "mean": 0.07287410786375403,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/one_step/position_rmse": {
+            "mean": 0.0034202161186840385,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/one_step/rotation_geodesic_rad": {
+            "mean": 0.00704587425570935,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/persistent_contact/angular_velocity_rmse": {
+            "mean": 0.05009305430576205,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/persistent_contact/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/persistent_contact/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/persistent_contact/linear_velocity_rmse": {
+            "mean": 0.07247983571141958,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/persistent_contact/position_rmse": {
+            "mean": 0.0034221095265820622,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/persistent_contact/rotation_geodesic_rad": {
+            "mean": 0.007045601378194988,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/rollout/angular_velocity_rmse": {
+            "mean": 0.11613377369940281,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/rollout/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/rollout/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/rollout/linear_velocity_rmse": {
+            "mean": 0.4803942684084177,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/rollout/position_rmse": {
+            "mean": 0.09732639091089368,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/rollout/rotation_geodesic_rad": {
+            "mean": 0.06770052807405591,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/diagnostics/contact_disagreement": {
+            "mean": 0.484375,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/diagnostics/contact_onset_error_seconds": {
+            "mean": 0.03,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/diagnostics/false_contact_onsets": {
+            "mean": 0.125,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/diagnostics/missed_contact_onsets": {
+            "mean": 0.875,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/diagnostics/penetration_max": {
+            "mean": 0.1510311636966481,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/diagnostics/penetration_mean": {
+            "mean": 0.08374270334870598,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/divergence_rate": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/evaluated_trajectories": {
+            "mean": 8.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/impact/angular_velocity_rmse": {
+            "mean": 0.8812660762508001,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/impact/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/impact/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/impact/linear_velocity_rmse": {
+            "mean": 0.7992771863937378,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/impact/position_rmse": {
+            "mean": 0.010618745049993907,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/impact/rotation_geodesic_rad": {
+            "mean": 0.021945000626146793,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/mean_latency_end_to_end_ms": {
+            "mean": 23.233791445278484,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/one_step/angular_velocity_rmse": {
+            "mean": 0.2092856594827026,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/one_step/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/one_step/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/one_step/linear_velocity_rmse": {
+            "mean": 0.14470333862118423,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/one_step/position_rmse": {
+            "mean": 0.005932045693043619,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/one_step/rotation_geodesic_rad": {
+            "mean": 0.012853926629759371,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/persistent_contact/angular_velocity_rmse": {
+            "mean": 0.11251637459333454,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/persistent_contact/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/persistent_contact/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/persistent_contact/linear_velocity_rmse": {
+            "mean": 0.14067125506699085,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/persistent_contact/position_rmse": {
+            "mean": 0.003854074515402317,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/persistent_contact/rotation_geodesic_rad": {
+            "mean": 0.0077329399064183235,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/rollout/angular_velocity_rmse": {
+            "mean": 0.7015078086405993,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/rollout/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/rollout/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/rollout/linear_velocity_rmse": {
+            "mean": 0.7853128146380186,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/rollout/position_rmse": {
+            "mean": 0.12279371614567935,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/rollout/rotation_geodesic_rad": {
+            "mean": 0.1307804761454463,
+            "std": 0.0,
+            "seeds": 1
+          }
+        }
+      },
+      {
+        "model": "flat",
+        "budget": 32,
+        "metrics": {
+          "position_rmse": {
+            "mean": 0.006180527328979224,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "rotation_geodesic_rad": {
+            "mean": 0.01563716121017933,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "linear_velocity_rmse": {
+            "mean": 0.14462141878902912,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "angular_velocity_rmse": {
+            "mean": 0.20802676468156278,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          }
+        },
+        "ood_metrics": {
+          "angular_velocity_rmse": {
+            "mean": 0.052374470280483365,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "linear_velocity_rmse": {
+            "mean": 0.07279908796772361,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "position_rmse": {
+            "mean": 0.003545779181877151,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "rotation_geodesic_rad": {
+            "mean": 0.009293407900258899,
+            "std": 0.0,
+            "seeds": 1
+          }
+        },
+        "evaluation_metrics": {
+          "ood/diagnostics/contact_disagreement": {
+            "mean": 0.109375,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/diagnostics/contact_onset_error_seconds": {
+            "mean": 0.035,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/diagnostics/false_contact_onsets": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/diagnostics/missed_contact_onsets": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/diagnostics/penetration_max": {
+            "mean": 0.2307477628024571,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/diagnostics/penetration_mean": {
+            "mean": 0.14038559095089997,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/divergence_rate": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/evaluated_trajectories": {
+            "mean": 8.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/impact/angular_velocity_rmse": {
+            "mean": 0.24850737862288952,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/impact/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/impact/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/impact/linear_velocity_rmse": {
+            "mean": 0.44877924397587776,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/impact/position_rmse": {
+            "mean": 0.009311997098848224,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/impact/rotation_geodesic_rad": {
+            "mean": 0.011923218029551208,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/mean_latency_end_to_end_ms": {
+            "mean": 46.484100234373216,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/one_step/angular_velocity_rmse": {
+            "mean": 0.052374470280483365,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/one_step/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/one_step/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/one_step/linear_velocity_rmse": {
+            "mean": 0.07279908796772361,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/one_step/position_rmse": {
+            "mean": 0.003545779181877151,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/one_step/rotation_geodesic_rad": {
+            "mean": 0.009293407900258899,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/persistent_contact/angular_velocity_rmse": {
+            "mean": 0.04934565396979451,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/persistent_contact/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/persistent_contact/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/persistent_contact/linear_velocity_rmse": {
+            "mean": 0.07240134105086327,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/persistent_contact/position_rmse": {
+            "mean": 0.0035457018529996276,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/persistent_contact/rotation_geodesic_rad": {
+            "mean": 0.009291378315538168,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/rollout/angular_velocity_rmse": {
+            "mean": 0.10018894774839282,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/rollout/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/rollout/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/rollout/linear_velocity_rmse": {
+            "mean": 0.47494364343583584,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/rollout/position_rmse": {
+            "mean": 0.09468091186136007,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/rollout/rotation_geodesic_rad": {
+            "mean": 0.09183076675981283,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/diagnostics/contact_disagreement": {
+            "mean": 0.484375,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/diagnostics/contact_onset_error_seconds": {
+            "mean": 0.03,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/diagnostics/false_contact_onsets": {
+            "mean": 0.125,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/diagnostics/missed_contact_onsets": {
+            "mean": 0.875,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/diagnostics/penetration_max": {
+            "mean": 0.13730177839577531,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/diagnostics/penetration_mean": {
+            "mean": 0.07624033696099594,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/divergence_rate": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/evaluated_trajectories": {
+            "mean": 8.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/impact/angular_velocity_rmse": {
+            "mean": 0.8806247365261827,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/impact/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/impact/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/impact/linear_velocity_rmse": {
+            "mean": 0.7986218397106443,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/impact/position_rmse": {
+            "mean": 0.010526544580768262,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/impact/rotation_geodesic_rad": {
+            "mean": 0.023544596508145332,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/mean_latency_end_to_end_ms": {
+            "mean": 28.470099539042337,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/one_step/angular_velocity_rmse": {
+            "mean": 0.20802676468156278,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/one_step/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/one_step/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/one_step/linear_velocity_rmse": {
+            "mean": 0.14462141878902912,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/one_step/position_rmse": {
+            "mean": 0.006180527328979224,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/one_step/rotation_geodesic_rad": {
+            "mean": 0.01563716121017933,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/persistent_contact/angular_velocity_rmse": {
+            "mean": 0.11157914903014898,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/persistent_contact/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/persistent_contact/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/persistent_contact/linear_velocity_rmse": {
+            "mean": 0.14048527234366961,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/persistent_contact/position_rmse": {
+            "mean": 0.003944585465693048,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/persistent_contact/rotation_geodesic_rad": {
+            "mean": 0.01042968819716147,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/rollout/angular_velocity_rmse": {
+            "mean": 0.6848066868260503,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/rollout/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/rollout/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/rollout/linear_velocity_rmse": {
+            "mean": 0.7827207501977682,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/rollout/position_rmse": {
+            "mean": 0.12368460861034691,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/rollout/rotation_geodesic_rad": {
+            "mean": 0.14377072639763355,
+            "std": 0.0,
+            "seeds": 1
+          }
+        }
+      },
+      {
+        "model": "independent",
+        "budget": 32,
+        "metrics": {
+          "position_rmse": {
+            "mean": 0.037060177826788276,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "rotation_geodesic_rad": {
+            "mean": 0.046358880936168134,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "linear_velocity_rmse": {
+            "mean": 0.16592645476339385,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "angular_velocity_rmse": {
+            "mean": 0.22395540191791952,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          }
+        },
+        "ood_metrics": {
+          "angular_velocity_rmse": {
+            "mean": 0.05926243867725134,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "linear_velocity_rmse": {
+            "mean": 0.07494956953451037,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "position_rmse": {
+            "mean": 0.012637924402952194,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "rotation_geodesic_rad": {
+            "mean": 0.012136854697018862,
+            "std": 0.0,
+            "seeds": 1
+          }
+        },
+        "evaluation_metrics": {
+          "ood/diagnostics/contact_disagreement": {
+            "mean": 0.109375,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/diagnostics/contact_onset_error_seconds": {
+            "mean": 0.035,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/diagnostics/false_contact_onsets": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/diagnostics/missed_contact_onsets": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/diagnostics/penetration_max": {
+            "mean": 0.8613314545745835,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/diagnostics/penetration_mean": {
+            "mean": 0.4509432898699167,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/divergence_rate": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/evaluated_trajectories": {
+            "mean": 8.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/impact/angular_velocity_rmse": {
+            "mean": 0.2477227170020342,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/impact/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/impact/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/impact/linear_velocity_rmse": {
+            "mean": 0.4516681246459484,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/impact/position_rmse": {
+            "mean": 0.030103265773504972,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/impact/rotation_geodesic_rad": {
+            "mean": 0.020664433483034372,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/mean_latency_end_to_end_ms": {
+            "mean": 15.691651070341095,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/one_step/angular_velocity_rmse": {
+            "mean": 0.05926243867725134,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/one_step/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/one_step/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/one_step/linear_velocity_rmse": {
+            "mean": 0.07494956953451037,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/one_step/position_rmse": {
+            "mean": 0.012637924402952194,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/one_step/rotation_geodesic_rad": {
+            "mean": 0.012136854697018862,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/persistent_contact/angular_velocity_rmse": {
+            "mean": 0.05724241677671671,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/persistent_contact/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/persistent_contact/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/persistent_contact/linear_velocity_rmse": {
+            "mean": 0.07457176689058542,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/persistent_contact/position_rmse": {
+            "mean": 0.012652865960262716,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/persistent_contact/rotation_geodesic_rad": {
+            "mean": 0.01214920124039054,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/rollout/angular_velocity_rmse": {
+            "mean": 0.3778691589832306,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/rollout/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/rollout/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/rollout/linear_velocity_rmse": {
+            "mean": 0.5850609466433525,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/rollout/position_rmse": {
+            "mean": 0.5765330642461777,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/rollout/rotation_geodesic_rad": {
+            "mean": 0.2872597463428974,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/diagnostics/contact_disagreement": {
+            "mean": 0.3203125,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/diagnostics/contact_onset_error_seconds": {
+            "mean": 0.03571428571428571,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/diagnostics/false_contact_onsets": {
+            "mean": 0.25,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/diagnostics/missed_contact_onsets": {
+            "mean": 0.75,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/diagnostics/penetration_max": {
+            "mean": 0.43799992949075434,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/diagnostics/penetration_mean": {
+            "mean": 0.22046338393709902,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/divergence_rate": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/evaluated_trajectories": {
+            "mean": 8.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/impact/angular_velocity_rmse": {
+            "mean": 0.87535134835967,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/impact/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/impact/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/impact/linear_velocity_rmse": {
+            "mean": 0.7985475616795676,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/impact/position_rmse": {
+            "mean": 0.03978538566402027,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/impact/rotation_geodesic_rad": {
+            "mean": 0.060660386724131446,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/mean_latency_end_to_end_ms": {
+            "mean": 12.87842530466321,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/one_step/angular_velocity_rmse": {
+            "mean": 0.22395540191791952,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/one_step/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/one_step/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/one_step/linear_velocity_rmse": {
+            "mean": 0.16592645476339385,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/one_step/position_rmse": {
+            "mean": 0.037060177826788276,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/one_step/rotation_geodesic_rad": {
+            "mean": 0.046358880936168134,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/persistent_contact/angular_velocity_rmse": {
+            "mean": 0.11746016730155263,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/persistent_contact/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/persistent_contact/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/persistent_contact/linear_velocity_rmse": {
+            "mean": 0.13781067057113564,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/persistent_contact/position_rmse": {
+            "mean": 0.014492202217557601,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/persistent_contact/rotation_geodesic_rad": {
+            "mean": 0.016271869452404126,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/rollout/angular_velocity_rmse": {
+            "mean": 0.7315635355189443,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/rollout/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/rollout/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/rollout/linear_velocity_rmse": {
+            "mean": 0.756486592348665,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/rollout/position_rmse": {
+            "mean": 0.3706255694851279,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/rollout/rotation_geodesic_rad": {
+            "mean": 0.35687209432944655,
+            "std": 0.0,
+            "seeds": 1
+          }
+        }
+      },
+      {
+        "model": "nerd_history1",
+        "budget": 32,
+        "metrics": {
+          "position_rmse": {
+            "mean": 0.009639775031246245,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "rotation_geodesic_rad": {
+            "mean": 0.031930111115798354,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "linear_velocity_rmse": {
+            "mean": 0.1461401116102934,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "angular_velocity_rmse": {
+            "mean": 0.21108261065091938,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          }
+        },
+        "ood_metrics": {
+          "angular_velocity_rmse": {
+            "mean": 0.05275276233442128,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "linear_velocity_rmse": {
+            "mean": 0.07725583668798208,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "position_rmse": {
+            "mean": 0.006633651326410472,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "rotation_geodesic_rad": {
+            "mean": 0.02491774200461805,
+            "std": 0.0,
+            "seeds": 1
+          }
+        },
+        "evaluation_metrics": {
+          "ood/diagnostics/contact_disagreement": {
+            "mean": 0.109375,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/diagnostics/contact_onset_error_seconds": {
+            "mean": 0.035,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/diagnostics/false_contact_onsets": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/diagnostics/missed_contact_onsets": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/diagnostics/penetration_max": {
+            "mean": 0.31220304682024674,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/diagnostics/penetration_mean": {
+            "mean": 0.15998504639930836,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/divergence_rate": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/evaluated_trajectories": {
+            "mean": 8.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/impact/angular_velocity_rmse": {
+            "mean": 0.24831962399184704,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/impact/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/impact/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/impact/linear_velocity_rmse": {
+            "mean": 0.4425398278981447,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/impact/position_rmse": {
+            "mean": 0.010458187316544354,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/impact/rotation_geodesic_rad": {
+            "mean": 0.028229283867403865,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/mean_latency_end_to_end_ms": {
+            "mean": 10.474816656270036,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/one_step/angular_velocity_rmse": {
+            "mean": 0.05275276233442128,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/one_step/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/one_step/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/one_step/linear_velocity_rmse": {
+            "mean": 0.07725583668798208,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/one_step/position_rmse": {
+            "mean": 0.006633651326410472,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/one_step/rotation_geodesic_rad": {
+            "mean": 0.02491774200461805,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/persistent_contact/angular_velocity_rmse": {
+            "mean": 0.049797067418694496,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/persistent_contact/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/persistent_contact/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/persistent_contact/linear_velocity_rmse": {
+            "mean": 0.07683804584667087,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/persistent_contact/position_rmse": {
+            "mean": 0.006642083986662328,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/persistent_contact/rotation_geodesic_rad": {
+            "mean": 0.024933698819950223,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/rollout/angular_velocity_rmse": {
+            "mean": 0.13420359510928392,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/rollout/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/rollout/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/rollout/linear_velocity_rmse": {
+            "mean": 0.45977355539798737,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/rollout/position_rmse": {
+            "mean": 0.10905253514647484,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/rollout/rotation_geodesic_rad": {
+            "mean": 0.31905580684542656,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/diagnostics/contact_disagreement": {
+            "mean": 0.5234375,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/diagnostics/contact_onset_error_seconds": {
+            "mean": 0.033999999999999996,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/diagnostics/false_contact_onsets": {
+            "mean": 0.125,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/diagnostics/missed_contact_onsets": {
+            "mean": 0.875,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/diagnostics/penetration_max": {
+            "mean": 0.1300405378401386,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/diagnostics/penetration_mean": {
+            "mean": 0.06828877865957865,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/divergence_rate": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/evaluated_trajectories": {
+            "mean": 8.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/impact/angular_velocity_rmse": {
+            "mean": 0.8806066387998206,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/impact/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/impact/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/impact/linear_velocity_rmse": {
+            "mean": 0.7955298530203956,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/impact/position_rmse": {
+            "mean": 0.011898595839738846,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/impact/rotation_geodesic_rad": {
+            "mean": 0.03072383307984897,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/mean_latency_end_to_end_ms": {
+            "mean": 8.764041351604135,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/one_step/angular_velocity_rmse": {
+            "mean": 0.21108261065091938,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/one_step/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/one_step/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/one_step/linear_velocity_rmse": {
+            "mean": 0.1461401116102934,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/one_step/position_rmse": {
+            "mean": 0.009639775031246245,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/one_step/rotation_geodesic_rad": {
+            "mean": 0.031930111115798354,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/persistent_contact/angular_velocity_rmse": {
+            "mean": 0.11663978985909905,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/persistent_contact/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/persistent_contact/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/persistent_contact/linear_velocity_rmse": {
+            "mean": 0.143485498215471,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/persistent_contact/position_rmse": {
+            "mean": 0.007170749894742455,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/persistent_contact/rotation_geodesic_rad": {
+            "mean": 0.018158607184886932,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/rollout/angular_velocity_rmse": {
+            "mean": 0.6655851379036903,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/rollout/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/rollout/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/rollout/linear_velocity_rmse": {
+            "mean": 0.8075833581387997,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/rollout/position_rmse": {
+            "mean": 0.13737559039145708,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/rollout/rotation_geodesic_rad": {
+            "mean": 0.229354964569211,
+            "std": 0.0,
+            "seeds": 1
+          }
+        }
+      },
+      {
+        "model": "nerd_history10",
+        "budget": 32,
+        "metrics": {
+          "position_rmse": {
+            "mean": 0.011415659449994564,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "rotation_geodesic_rad": {
+            "mean": 0.03646905650384724,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "linear_velocity_rmse": {
+            "mean": 0.14434173074550927,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "angular_velocity_rmse": {
+            "mean": 0.21639175061136484,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          }
+        },
+        "ood_metrics": {
+          "angular_velocity_rmse": {
+            "mean": 0.05748924566432834,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "linear_velocity_rmse": {
+            "mean": 0.07578902970999479,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "position_rmse": {
+            "mean": 0.00954327394720167,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "rotation_geodesic_rad": {
+            "mean": 0.024431320372968912,
+            "std": 0.0,
+            "seeds": 1
+          }
+        },
+        "evaluation_metrics": {
+          "ood/diagnostics/contact_disagreement": {
+            "mean": 0.109375,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/diagnostics/contact_onset_error_seconds": {
+            "mean": 0.035,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/diagnostics/false_contact_onsets": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/diagnostics/missed_contact_onsets": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/diagnostics/penetration_max": {
+            "mean": 0.22239658249515448,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/diagnostics/penetration_mean": {
+            "mean": 0.1378660233522685,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/divergence_rate": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/evaluated_trajectories": {
+            "mean": 8.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/impact/angular_velocity_rmse": {
+            "mean": 0.250333271920681,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/impact/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/impact/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/impact/linear_velocity_rmse": {
+            "mean": 0.44426003843545914,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/impact/position_rmse": {
+            "mean": 0.01262683083768934,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/impact/rotation_geodesic_rad": {
+            "mean": 0.028821239713579416,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/mean_latency_end_to_end_ms": {
+            "mean": 83.06865863276158,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/one_step/angular_velocity_rmse": {
+            "mean": 0.05748924566432834,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/one_step/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/one_step/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/one_step/linear_velocity_rmse": {
+            "mean": 0.07578902970999479,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/one_step/position_rmse": {
+            "mean": 0.00954327394720167,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/one_step/rotation_geodesic_rad": {
+            "mean": 0.024431320372968912,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/persistent_contact/angular_velocity_rmse": {
+            "mean": 0.05505145946517587,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/persistent_contact/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/persistent_contact/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/persistent_contact/linear_velocity_rmse": {
+            "mean": 0.07524586794897914,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/persistent_contact/position_rmse": {
+            "mean": 0.009546744171530008,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/persistent_contact/rotation_geodesic_rad": {
+            "mean": 0.024384829914197326,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/rollout/angular_velocity_rmse": {
+            "mean": 0.24379310943186283,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/rollout/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/rollout/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/rollout/linear_velocity_rmse": {
+            "mean": 0.42552201822400093,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/rollout/position_rmse": {
+            "mean": 0.11752901785075665,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "ood/rollout/rotation_geodesic_rad": {
+            "mean": 0.2482673693448305,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/diagnostics/contact_disagreement": {
+            "mean": 0.390625,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/diagnostics/contact_onset_error_seconds": {
+            "mean": 0.024999999999999998,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/diagnostics/false_contact_onsets": {
+            "mean": 0.125,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/diagnostics/missed_contact_onsets": {
+            "mean": 0.75,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/diagnostics/penetration_max": {
+            "mean": 0.16848519471810625,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/diagnostics/penetration_mean": {
+            "mean": 0.09077274351769299,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/divergence_rate": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/evaluated_trajectories": {
+            "mean": 8.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/impact/angular_velocity_rmse": {
+            "mean": 0.8807420480464186,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/impact/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/impact/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/impact/linear_velocity_rmse": {
+            "mean": 0.7932114324399403,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/impact/position_rmse": {
+            "mean": 0.010677718158279146,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/impact/rotation_geodesic_rad": {
+            "mean": 0.03664752282202244,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/mean_latency_end_to_end_ms": {
+            "mean": 86.33634632033704,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/one_step/angular_velocity_rmse": {
+            "mean": 0.21639175061136484,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/one_step/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/one_step/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/one_step/linear_velocity_rmse": {
+            "mean": 0.14434173074550927,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/one_step/position_rmse": {
+            "mean": 0.011415659449994564,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/one_step/rotation_geodesic_rad": {
+            "mean": 0.03646905650384724,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/persistent_contact/angular_velocity_rmse": {
+            "mean": 0.12267119331019265,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/persistent_contact/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/persistent_contact/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/persistent_contact/linear_velocity_rmse": {
+            "mean": 0.1396531236491033,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/persistent_contact/position_rmse": {
+            "mean": 0.006736822559365204,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/persistent_contact/rotation_geodesic_rad": {
+            "mean": 0.02052972572190421,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/rollout/angular_velocity_rmse": {
+            "mean": 0.7150490917265415,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/rollout/joint_position_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/rollout/joint_velocity_rmse": {
+            "mean": 0.0,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/rollout/linear_velocity_rmse": {
+            "mean": 0.7882991265505552,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/rollout/position_rmse": {
+            "mean": 0.1365310363471508,
+            "std": 0.0,
+            "seeds": 1
+          },
+          "test/rollout/rotation_geodesic_rad": {
+            "mean": 0.2515050359070301,
+            "std": 0.0,
+            "seeds": 1
+          }
+        }
+      }
+    ],
+    "completed": true,
+    "planned_runs": 7,
+    "completed_runs": 7,
+    "signature": "863e19d3a54e78a631196ffc45358dd74f7455a77c292c4dba535e8c8d362996",
+    "fairness": "Same trajectory IDs per seed/budget, epoch passes, loss and fixed evaluation subsets. Effective batch and per-model overrides are recorded; parameter count and wall time are measured.",
+    "baseline_notice": "NeRD-like is a controlled local baseline, not official NeRD/FIGNet/RigidFormer."
+  },
+  "capacity": {
+    "gpu": "NVIDIA GeForce RTX 4060",
+    "gpu_total_memory_mb": 8187.5,
+    "torch_version": "2.7.1+cu126",
+    "precision": "bf16",
+    "records": [
+      {
+        "model": "hierarchical",
+        "batch_size": 32,
+        "status": "ok",
+        "scenario": "wall_only",
+        "point_count": 768,
+        "parameters": 1070910,
+        "measured_steps": 5,
+        "warmup_steps": 2,
+        "milliseconds_per_microbatch_update": 73.79472280008486,
+        "samples_per_second": 433.6353439078601,
+        "gpu_peak_allocated_mb": 653.9755859375,
+        "gpu_peak_reserved_mb": 736.0,
+        "last_probe_loss": 0.17334575951099396
+      },
+      {
+        "model": "state_mlp",
+        "batch_size": 32,
+        "status": "ok",
+        "scenario": "wall_only",
+        "point_count": 768,
+        "parameters": 47884,
+        "measured_steps": 5,
+        "warmup_steps": 2,
+        "milliseconds_per_microbatch_update": 21.83159300002444,
+        "samples_per_second": 1465.765691031533,
+        "gpu_peak_allocated_mb": 22.2138671875,
+        "gpu_peak_reserved_mb": 72.0,
+        "last_probe_loss": 0.005308154970407486
+      },
+      {
+        "model": "deepsets",
+        "batch_size": 32,
+        "status": "ok",
+        "scenario": "wall_only",
+        "point_count": 768,
+        "parameters": 1070910,
+        "measured_steps": 5,
+        "warmup_steps": 2,
+        "milliseconds_per_microbatch_update": 56.37169719993835,
+        "samples_per_second": 567.6607515736637,
+        "gpu_peak_allocated_mb": 649.517578125,
+        "gpu_peak_reserved_mb": 730.0,
+        "last_probe_loss": 0.005512576084583998
+      },
+      {
+        "model": "flat",
+        "batch_size": 32,
+        "status": "ok",
+        "scenario": "wall_only",
+        "point_count": 768,
+        "parameters": 1070910,
+        "measured_steps": 5,
+        "warmup_steps": 2,
+        "milliseconds_per_microbatch_update": 253.81330519994663,
+        "samples_per_second": 126.07692088793905,
+        "gpu_peak_allocated_mb": 4205.99853515625,
+        "gpu_peak_reserved_mb": 4632.0,
+        "last_probe_loss": 0.008456999436020851
+      },
+      {
+        "model": "independent",
+        "batch_size": 32,
+        "status": "ok",
+        "scenario": "wall_only",
+        "point_count": 768,
+        "parameters": 51736,
+        "measured_steps": 5,
+        "warmup_steps": 2,
+        "milliseconds_per_microbatch_update": 131.6545384001074,
+        "samples_per_second": 243.06036380416865,
+        "gpu_peak_allocated_mb": 3292.23095703125,
+        "gpu_peak_reserved_mb": 3450.0,
+        "last_probe_loss": 0.04559198021888733
+      },
+      {
+        "model": "nerd_history1",
+        "batch_size": 32,
+        "status": "ok",
+        "scenario": "wall_only",
+        "point_count": 768,
+        "parameters": 467468,
+        "measured_steps": 5,
+        "warmup_steps": 2,
+        "milliseconds_per_microbatch_update": 23.441005399945425,
+        "samples_per_second": 1365.1291595229316,
+        "gpu_peak_allocated_mb": 47.1650390625,
+        "gpu_peak_reserved_mb": 80.0,
+        "last_probe_loss": 0.12554538249969482
+      },
+      {
+        "model": "nerd_history10",
+        "batch_size": 32,
+        "status": "ok",
+        "scenario": "wall_only",
+        "point_count": 768,
+        "parameters": 468620,
+        "measured_steps": 5,
+        "warmup_steps": 2,
+        "milliseconds_per_microbatch_update": 73.20587419999356,
+        "samples_per_second": 437.12339139039767,
+        "gpu_peak_allocated_mb": 51.8056640625,
+        "gpu_peak_reserved_mb": 84.0,
+        "last_probe_loss": 0.1215728372335434
+      }
+    ],
+    "notice": "Short capacity probe on repeated simulator states; throughput and memory only, not accuracy or convergence. Includes one optimizer update per microbatch; full training accumulates gradients."
+  },
+  "resume": {
+    "gpu": "NVIDIA GeForce RTX 4060",
+    "precision": "bf16",
+    "optimizer_steps": 2,
+    "resumed_max_weight_difference": 0.0,
+    "scheduler_state_equal": true,
+    "offline_wandb_id_preserved": true,
+    "wandb_mode": "offline",
+    "online_verified": false,
+    "scope": "Runtime restoration check; not an accuracy experiment"
+  },
+  "check_config": {
+    "dataset": "data/cube-nerd",
+    "budgets": [
+      32
+    ],
+    "seeds": [
+      0
+    ],
+    "models": [
+      "hierarchical",
+      "state_mlp",
+      "deepsets",
+      "flat",
+      "independent",
+      {
+        "name": "nerd_like",
+        "label": "nerd_history1",
+        "history": 1
+      },
+      {
+        "name": "nerd_like",
+        "label": "nerd_history10",
+        "history": 10
+      }
+    ],
+    "training_config": "configs/train_gpu.json",
+    "training": {
+      "epochs": 3,
+      "max_steps": 1000,
+      "batch_size": 32,
+      "gradient_accumulation_steps": 4,
+      "validation_max_trajectories": 8,
+      "checkpoint_every_steps": 10,
+      "wandb": {
+        "mode": "offline",
+        "group": "gpu-runtime-check",
+        "tags": [
+          "gpu",
+          "short-check",
+          "not-full-study"
+        ]
+      }
+    },
+    "evaluation": {
+      "device": "cuda:0",
+      "batch_size": 32,
+      "max_trajectories": 8,
+      "save_rollouts": false
+    },
+    "rollout_horizon": 16
+  }
+}
