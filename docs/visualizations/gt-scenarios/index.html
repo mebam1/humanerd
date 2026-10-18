@@ -1,0 +1,31 @@
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>기존 Cube 데이터의 9가지 시나리오</title><style>
+body{margin:0;background:#eff3f4;color:#14313b;font:16px/1.6 system-ui,sans-serif}header{background:#153e49;color:white;padding:36px max(24px,calc((100vw - 1400px)/2))}header a{color:#a1f0d5}main{max-width:1400px;margin:30px auto;padding:0 24px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,480px),1fr));gap:24px}article{background:white;border:1px solid #d9e3e5;border-radius:12px;padding:22px}h1{font-size:30px;margin:0 0 12px}h2{margin:0 0 8px}p{margin:8px 0 18px}a{color:#08745e}video{width:100%;border-radius:8px;background:#1e2224}.notice{background:#fff5d8;border:1px solid #edd997;padding:18px;border-radius:10px;margin-bottom:24px}
+</style><header><a href="../../index.html">Cube 연구 문서</a><h1>기존 Cube 데이터: 시나리오별 GT</h1><p>삭제한 data/cube-nerd의 감사 기록입니다. 아래 영상은 당시 저장한 대표 사례입니다. <a href="../gt-toss/index.html">새 무작위 투척 데이터 보기 →</a></p></header>
+<main><div class="notice">기존 데이터에는 0이 아닌 외력이 포함된 trajectory가 있습니다. 이 페이지는 기존 데이터의 상태를 보여주는 감사용 결과입니다. 새로운 무입력 랜덤 투척 데이터와 구분해서 사용하세요.</div><div class="grid"><article><h2><a href="free_fall/index.html">free_fall</a></h2><p>ID 00000 · train · 1,500개 · nonzero-action 0개</p>
+      <video controls preload="metadata" poster="free_fall/trajectory_00000/gt.png" src="free_fall/trajectory_00000/gt.mp4"></video>
+      <p>초기 회전은 단위 quaternion입니다. 공중에서 떨어지는 장면입니다.</p><p><a href="free_fall/index.html">상태 그래프와 상세 데이터 보기 →</a></p></article>
+<article><h2><a href="impact/index.html">impact</a></h2><p>ID 01500 · train · 1,500개 · nonzero-action 1,500개</p>
+      <video controls preload="metadata" poster="impact/trajectory_01500/gt.png" src="impact/trajectory_01500/gt.mp4"></video>
+      <p>단위 quaternion으로 낮은 높이에서 낙하하며 바닥과 충돌합니다.</p><p><a href="impact/index.html">상태 그래프와 상세 데이터 보기 →</a></p></article>
+<article><h2><a href="rebound/index.html">rebound</a></h2><p>ID 03000 · train · 1,500개 · nonzero-action 1,500개</p>
+      <video controls preload="metadata" poster="rebound/trajectory_03000/gt.png" src="rebound/trajectory_03000/gt.mp4"></video>
+      <p>아래 방향 초기 속도를 주어 바닥 충돌과 반발을 관찰합니다.</p><p><a href="rebound/index.html">상태 그래프와 상세 데이터 보기 →</a></p></article>
+<article><h2><a href="settle/index.html">settle</a></h2><p>ID 04500 · train · 1,500개 · nonzero-action 0개</p>
+      <video controls preload="metadata" poster="settle/trajectory_04500/gt.png" src="settle/trajectory_04500/gt.mp4"></video>
+      <p>바닥 근처에서 시작해 접촉 후 안정화되는 장면입니다.</p><p><a href="settle/index.html">상태 그래프와 상세 데이터 보기 →</a></p></article>
+<article><h2><a href="rest/index.html">rest</a></h2><p>ID 06000 · train · 1,500개 · nonzero-action 0개</p>
+      <video controls preload="metadata" poster="rest/trajectory_06000/gt.png" src="rest/trajectory_06000/gt.mp4"></video>
+      <p>바닥 위에서 정지한 상태를 유지하는 장면입니다.</p><p><a href="rest/index.html">상태 그래프와 상세 데이터 보기 →</a></p></article>
+<article><h2><a href="slide/index.html">slide</a></h2><p>ID 07500 · train · 1,500개 · nonzero-action 1,500개</p>
+      <video controls preload="metadata" poster="slide/trajectory_07500/gt.png" src="slide/trajectory_07500/gt.mp4"></video>
+      <p>바닥을 따라 수평으로 미끄러지는 장면입니다.</p><p><a href="slide/index.html">상태 그래프와 상세 데이터 보기 →</a></p></article>
+<article><h2><a href="edge/index.html">edge</a></h2><p>ID 09000 · train · 1,500개 · nonzero-action 1,500개</p>
+      <video controls preload="metadata" poster="edge/trajectory_09000/gt.png" src="edge/trajectory_09000/gt.mp4"></video>
+      <p>기울어진 초기 자세로 모서리 접촉과 회전을 관찰합니다.</p><p><a href="edge/index.html">상태 그래프와 상세 데이터 보기 →</a></p></article>
+<article><h2><a href="wall_only/index.html">wall_only</a></h2><p>ID 10500 · train · 1,500개 · nonzero-action 1,500개</p>
+      <video controls preload="metadata" poster="wall_only/trajectory_10500/gt.png" src="wall_only/trajectory_10500/gt.mp4"></video>
+      <p>벽을 향해 이동하고 벽과 충돌하는 장면입니다.</p><p><a href="wall_only/index.html">상태 그래프와 상세 데이터 보기 →</a></p></article>
+<article><h2><a href="floor_wall/index.html">floor_wall</a></h2><p>ID 12000 · ood · 1,000개 · nonzero-action 1,000개</p>
+      <video controls preload="metadata" poster="floor_wall/trajectory_12000/gt.png" src="floor_wall/trajectory_12000/gt.mp4"></video>
+      <p>바닥과 벽이 함께 있는 OOD 장면입니다.</p><p><a href="floor_wall/index.html">상태 그래프와 상세 데이터 보기 →</a></p></article></div></main></html>

@@ -1,5 +1,5 @@
 {
-  "dataset": "data/cube-nerd",
+  "dataset": "data/cube-toss",
   "budgets": [32],
   "seeds": [0],
   "models": [
@@ -9,13 +9,13 @@
   ],
   "training_config": "configs/train_gpu.json",
   "training": {
-    "epochs": 3,
-    "max_steps": 1000,
+    "epochs": 5,
+    "max_steps": null,
     "batch_size": 32,
     "gradient_accumulation_steps": 4,
     "validation_max_trajectories": 8,
     "checkpoint_every_steps": 10,
-    "wandb": {"mode": "offline", "group": "gpu-runtime-check", "tags": ["gpu", "short-check", "not-full-study"]}
+    "wandb": {"mode": "offline", "group": "cube-toss-gpu-runtime-check-5ep", "tags": ["gpu", "toss", "zero-action", "short-check", "not-full-study"]}
   },
   "evaluation": {"device": "cuda:0", "batch_size": 32, "max_trajectories": 8, "save_rollouts": false},
   "rollout_horizon": 16

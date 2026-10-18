@@ -18,6 +18,7 @@ from .common import make_sim, read_config, sim_state
 from .storage import array_schema, atomic_json, content_hash, validate_shard
 
 DEFAULT_SCENARIOS = ["free_fall", "impact", "rebound", "settle", "rest", "slide", "edge", "wall_only"]
+GENERATOR_VERSION = 3
 
 
 def substep_events(sim, snapshots: list[dict]) -> dict:
@@ -88,6 +89,23 @@ def _settings(config: dict | str | None, backend: str, device: str) -> dict:
         raise ValueError("Training scenarios must be nonempty and scenario lists cannot contain duplicates")
     if set(scenarios) & set(ood):
         raise ValueError("OOD environments cannot also be training environments")
+    rigid_action_mode = cfg.get("rigid_action_mode", "zero")
+    if rigid_action_mode not in {"zero", "random_wrench"}:
+        raise ValueError("rigid_action_mode must be zero or random_wrench")
+    if not rigid and "rigid_action_mode" in cfg:
+        raise ValueError("rigid_action_mode only applies to cube or cuboid datasets")
+    if "toss" in scenarios + ood and rigid_action_mode != "zero":
+        raise ValueError("toss requires rigid_action_mode=zero; initialize velocities instead of applying external actions")
+    action_policy = (
+        {"mode": rigid_action_mode, "representation": "6D world-frame root COM force/torque (N/Nm)",
+         "description": "All recorded actions are zero; motion follows the initial state, gravity, and contacts."
+         if rigid_action_mode == "zero" else "Piecewise Gaussian external wrench; rest, settle, and free_fall remain zero.",
+         "zero_scenarios": scenarios + ood if rigid_action_mode == "zero"
+         else [scenario for scenario in scenarios + ood if scenario in {"rest", "settle", "free_fall"}]}
+        if rigid else
+        {"mode": "ant_gait_mixture" if kind == "ant" else "random_motor_control",
+         "representation": "Normalized motor controls clipped to [-1,1]"}
+    )
     per_split = cfg.get("trajectories_per_split", {"train": 4, "val": 1, "test": 1})
     if set(per_split) != {"train", "val", "test"}:
         raise ValueError("trajectories_per_split must contain exactly train, val, test")
@@ -110,8 +128,9 @@ def _settings(config: dict | str | None, backend: str, device: str) -> dict:
     if storage_format == "npz" and workers != 1:
         raise ValueError("Parallel generation requires storage.format=sharded_npy")
     _positive_integer(cfg.get("action_hold", 4), "action_hold")
-    if not np.isfinite(float(cfg.get("action_scale", .15 if kind == "ant" else .2))):
-        raise ValueError("action_scale must be finite")
+    action_scale = float(cfg.get("action_scale", .15 if kind == "ant" else .2))
+    if not np.isfinite(action_scale) or action_scale < 0:
+        raise ValueError("action_scale must be finite and nonnegative")
     # Validate the scene without compiling a MuJoCo model for a dry-run plan.
     from cube.sim import SceneSpec
     for scenario in scenarios + ood:
@@ -119,6 +138,7 @@ def _settings(config: dict | str | None, backend: str, device: str) -> dict:
     state_dim, action_dim = {"cube": (13, 6), "cuboid": (13, 6), "two_link": (15, 1), "ant": (29, 8)}[kind]
     schema = array_schema(steps, state_dim, action_dim, dtype)
     return {"config": cfg, "scene": scene, "kind": kind, "seed": int(cfg.get("seed", 0)),
+            "rigid_action_mode": rigid_action_mode if rigid else None, "action_policy": action_policy,
             "scenarios": scenarios, "ood": ood, "per_split": per_split, "ood_count": ood_count,
             "steps": steps, "format": storage_format, "dtype": dtype, "schema": schema,
             "shard_size": _positive_integer(storage.get("trajectories_per_shard", 256), "trajectories_per_shard"),
@@ -135,6 +155,8 @@ def dataset_plan(config: dict | str | None, backend: str = "mujoco", device: str
     per_trajectory = sum(int(np.prod(spec["shape"])) * np.dtype(spec["dtype"]).itemsize
                          for spec in settings["schema"].values())
     return {"kind": settings["kind"], "backend": backend, "device": device, "storage_format": settings["format"],
+            "generator_version": GENERATOR_VERSION, "rigid_action_mode": settings["rigid_action_mode"],
+            "action_policy": settings["action_policy"],
             "trajectories": trajectories, "steps_per_trajectory": settings["steps"],
             "transitions": trajectories * settings["steps"], "splits": splits,
             "transitions_per_split": {key: count * settings["steps"] for key, count in splits.items()},
@@ -195,7 +217,7 @@ def _simulate(entry: dict, settings: dict) -> dict:
         result[key][0] = diagnostic[key]
     random_action = np.zeros(sim.action_dim)
     for index in range(steps):
-        if index % int(cfg.get("action_hold", 4)) == 0:
+        if (kind not in {"cube", "cuboid"} or settings["rigid_action_mode"] == "random_wrench") and index % int(cfg.get("action_hold", 4)) == 0:
             random_action = rng.normal(0, float(cfg.get("action_scale", .15 if kind == "ant" else .2)), sim.action_dim)
         if kind == "ant":
             from .control import ant_gait_action
@@ -207,7 +229,8 @@ def _simulate(entry: dict, settings: dict) -> dict:
         elif kind == "two_link":
             action = np.clip(random_action, -1, 1)
         else:
-            action = np.zeros(sim.action_dim) if scenario in {"rest", "settle", "free_fall"} else random_action
+            action = (np.zeros(sim.action_dim) if settings["rigid_action_mode"] == "zero"
+                      or scenario in {"rest", "settle", "free_fall"} else random_action)
         initial = None if settings["record_substeps"] else _snapshot(sim)
         next_state = sim.step(action, record_substeps=settings["record_substeps"])
         snapshots = sim.last_substep_contacts if initial is None else [initial, _snapshot(sim)]
@@ -257,9 +280,10 @@ def _write_shard(output: str, entries: list[dict], settings: dict, fingerprint: 
 def _fingerprint(settings: dict) -> str:
     # Worker count/progress/provenance are operational/documentary; data semantics
     # (including scene, solver, precision, layout, and labels) are immutable.
-    return content_hash({"generator_version": 2, "mujoco_version": mujoco.__version__,
+    return content_hash({"generator_version": GENERATOR_VERSION, "mujoco_version": mujoco.__version__,
                          **{key: settings[key] for key in ("scene", "kind", "seed", "scenarios", "ood", "per_split",
-                             "ood_count", "steps", "format", "dtype", "schema", "shard_size", "record_substeps", "backend", "device")},
+                             "ood_count", "steps", "format", "dtype", "schema", "shard_size", "record_substeps", "backend", "device",
+                             "rigid_action_mode", "action_policy")},
                          "action_hold": settings["config"].get("action_hold", 4),
                          "action_scale": settings["config"].get("action_scale", .15 if settings["kind"] == "ant" else .2)})
 
@@ -372,6 +396,8 @@ def generate_dataset(config: dict | str | None, output: str, backend: str = "muj
         raise FileExistsError(f"Nonempty output directory has no dataset manifest: {root}")
     else:
         manifest = {"format_version": 2 if settings["format"] == "sharded_npy" else 1,
+                    "generator_version": GENERATOR_VERSION, "rigid_action_mode": settings["rigid_action_mode"],
+                    "action_policy": settings["action_policy"],
                     "status": "incomplete", "kind": settings["kind"], "backend": backend, "device": device,
                     "seed": settings["seed"], "dataset_fingerprint": fingerprint,
                     "schema": settings["schema"], "schema_hash": content_hash(settings["schema"]),

@@ -18,7 +18,7 @@
 | CUDA 학습 재개 | 1 update 후 재개한 2-update 결과와 연속 학습의 최대 가중치 차이 **0** |
 | W&B | 실제 SDK offline 기록·run ID 재사용 확인; online 연결은 인증 미설정으로 미검증 |
 
-완료된 데이터는 `data/cube-nerd/`에 있다. 같은 설정으로 `generate --resume`를 실행하면 완료 파일을 검증하고 재사용하며 manifest의 학습 식별자를 바꾸지 않는다. raw 결과는 `outputs/gpu-check/`, `outputs/gpu-resume-check/`, `outputs/runtime/`에 보존했다. [측정 JSON 다운로드](results/gpu_check.json)에도 실험 설정과 지표를 함께 저장했다.
+이 기록에 사용한 기존 `data/cube-nerd/`는 새 무구동 투척 데이터를 검증한 뒤 제거했다. 일부 기존 시나리오에는 random wrench가 있었으므로 새 투척 모델의 결과로 해석하지 않는다. raw 결과는 `outputs/gpu-check/`, `outputs/gpu-resume-check/`, `outputs/runtime/`에 보존했다. [측정 JSON 다운로드](results/gpu_check.json)에 당시 설정·데이터 식별자·지표를 저장했다. 현재 주 데이터는 [새 투척 데이터](15_cube_toss.md)의 `data/cube-toss/`다.
 
 ## 짧은 비교의 통제 조건
 
@@ -61,15 +61,14 @@ One-step 오차가 작아도 예측 상태를 다시 입력하는 rollout에서�
 ## 재현 명령과 다음 단계
 
 ```bash
-docker compose --profile cuda run --rm cuda python -m cube suite --config configs/suite_gpu_check.json --output outputs/gpu-check --resume
 docker compose --profile cuda run --rm cuda python scripts/report_gpu_check.py
 docker compose up -d docs
 ```
 
-동일 경로에서 완료된 suite는 학습을 반복하지 않는다. GPU check를 새로 측정하려면 다른 출력 폴더를 사용하고 report 스크립트의 입력 경로도 조정한다. 본 비교는 `.env`에 W&B 인증을 설정한 뒤 실행한다.
+위 명령은 보존한 과거 결과에서 보고서만 다시 만든다. 현재 `suite_gpu_check.json`은 새 투척 데이터·5 epochs로 변경되어 과거 `outputs/gpu-check`를 재개하는 데 사용하지 않는다. 새 실행은 별도 출력 폴더를 사용하며 본 비교는 `.env`에 W&B 인증을 설정한 뒤 실행한다.
 
 ```bash
-docker compose --profile cuda run --rm cuda python -m cube suite --config configs/suite_gpu.json --output outputs/cube-gpu-suite-5ep --resume
+docker compose --profile cuda run --rm cuda python -m cube suite --config configs/suite_gpu.json --output outputs/cube-toss-suite-5ep --resume
 ```
 
 먼저 계층형만 진행하려면 `--models hierarchical`을 추가한다. 기존 [소규모 CPU 실험](10_results.md)은 당시의 설정·결과로 보존하며, 이 GPU 기록과 동일한 실험인 것처럼 합산하지 않는다.

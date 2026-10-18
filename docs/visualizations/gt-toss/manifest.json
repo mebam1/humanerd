@@ -1,0 +1,481 @@
+{
+  "mode": "ground_truth",
+  "dataset": "data/cube-toss",
+  "backend": "mujoco",
+  "kind": "cube",
+  "dataset_fingerprint": "22d8d2e8ea66cd005a74dc7a80326084ea71ab58d26ef3f5b40a037c211ac319",
+  "checkpoint": null,
+  "model_name": null,
+  "device": null,
+  "selected_ids": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "camera": "fixed shared camera fitted to GT geometry",
+  "stride": 2,
+  "filters": {
+    "split": "train",
+    "scenario": "toss",
+    "trajectory_id": null,
+    "limit": 6,
+    "horizon": null
+  },
+  "selection": "Deterministic ID order; illustrative selected trajectories, not an aggregate benchmark",
+  "complete": true,
+  "trajectories": [
+    {
+      "id": 0,
+      "split": "train",
+      "scenario": "toss",
+      "seed": 104829,
+      "directory": "trajectory_00000",
+      "available_steps": 100,
+      "requested_horizon": null,
+      "completed_steps": 100,
+      "dt": 0.02,
+      "reason": null,
+      "diverged": false,
+      "initial_condition": {
+        "position_world": [
+          -0.8795819878578186,
+          -0.7732259035110474,
+          1.5599544048309326
+        ],
+        "quaternion_wxyz": [
+          -0.9725993871688843,
+          0.1025991439819336,
+          -0.13109058141708374,
+          -0.16229331493377686
+        ],
+        "linear_velocity_world": [
+          0.07635034620761871,
+          0.3710530996322632,
+          2.6197659969329834
+        ],
+        "angular_velocity_local": [
+          1.876341462135315,
+          -3.330524444580078,
+          -5.781303882598877
+        ]
+      },
+      "action_summary": {
+        "all_zero": true,
+        "max_abs": 0.0
+      },
+      "duration_seconds": 2.0,
+      "video_name": "gt.mp4",
+      "render": {
+        "video": "docs/visualizations/gt-toss/trajectory_00000/gt.mp4",
+        "poster": "docs/visualizations/gt-toss/trajectory_00000/gt.png",
+        "frames": 51,
+        "fps": 25.0,
+        "width": 640,
+        "height": 480,
+        "camera": {
+          "lookat": [
+            -0.7538760006427765,
+            -0.7394012957811356,
+            1.0522929430007935
+          ],
+          "distance": 4.672252518397212,
+          "azimuth": 130.0,
+          "elevation": -24.0,
+          "gt_bounds": [
+            [
+              -1.2259921493715942,
+              -1.3636714282221496,
+              -0.14496338989207141
+            ],
+            [
+              -0.28175985191395886,
+              -0.11513116334012158,
+              2.249549275893658
+            ]
+          ],
+          "mode": "fixed",
+          "fit": "ground_truth",
+          "shared_panels": false
+        }
+      }
+    },
+    {
+      "id": 1,
+      "split": "train",
+      "scenario": "toss",
+      "seed": 209558,
+      "directory": "trajectory_00001",
+      "available_steps": 100,
+      "requested_horizon": null,
+      "completed_steps": 100,
+      "dt": 0.02,
+      "reason": null,
+      "diverged": false,
+      "initial_condition": {
+        "position_world": [
+          -0.8478545546531677,
+          -0.9267675876617432,
+          1.0861518383026123
+        ],
+        "quaternion_wxyz": [
+          0.36191636323928833,
+          0.3816421329975128,
+          0.8474134206771851,
+          0.07250060141086578
+        ],
+        "linear_velocity_world": [
+          1.5901225805282593,
+          -1.3366934061050415,
+          2.0560359954833984
+        ],
+        "angular_velocity_local": [
+          0.3552837073802948,
+          0.8116760849952698,
+          -3.4096357822418213
+        ]
+      },
+      "action_summary": {
+        "all_zero": true,
+        "max_abs": 0.0
+      },
+      "duration_seconds": 2.0,
+      "video_name": "gt.mp4",
+      "render": {
+        "video": "docs/visualizations/gt-toss/trajectory_00001/gt.mp4",
+        "poster": "docs/visualizations/gt-toss/trajectory_00001/gt.png",
+        "frames": 51,
+        "fps": 25.0,
+        "width": 640,
+        "height": 480,
+        "camera": {
+          "lookat": [
+            -0.11352664232254028,
+            -1.5783016681671143,
+            0.7488628253340721
+          ],
+          "distance": 5.622367169229898,
+          "azimuth": 130.0,
+          "elevation": -24.0,
+          "gt_bounds": [
+            [
+              -1.1942647161669433,
+              -2.5762459101862607,
+              -0.14493854965636127
+            ],
+            [
+              0.9672114315218627,
+              -0.5803574261479676,
+              1.6426642003245056
+            ]
+          ],
+          "mode": "fixed",
+          "fit": "ground_truth",
+          "shared_panels": false
+        }
+      }
+    },
+    {
+      "id": 2,
+      "split": "train",
+      "scenario": "toss",
+      "seed": 314287,
+      "directory": "trajectory_00002",
+      "available_steps": 100,
+      "requested_horizon": null,
+      "completed_steps": 100,
+      "dt": 0.02,
+      "reason": null,
+      "diverged": false,
+      "initial_condition": {
+        "position_world": [
+          0.5037087202072144,
+          0.22525236010551453,
+          1.5364315509796143
+        ],
+        "quaternion_wxyz": [
+          -0.5296565294265747,
+          0.6448801755905151,
+          -0.4699190557003021,
+          0.2876971364021301
+        ],
+        "linear_velocity_world": [
+          1.8917481899261475,
+          -0.6314489841461182,
+          1.2086188793182373
+        ],
+        "angular_velocity_local": [
+          7.7683610916137695,
+          4.053528785705566,
+          -3.659670829772949
+        ]
+      },
+      "action_summary": {
+        "all_zero": true,
+        "max_abs": 0.0
+      },
+      "duration_seconds": 2.0,
+      "video_name": "gt.mp4",
+      "render": {
+        "video": "docs/visualizations/gt-toss/trajectory_00002/gt.mp4",
+        "poster": "docs/visualizations/gt-toss/trajectory_00002/gt.png",
+        "frames": 51,
+        "fps": 25.0,
+        "width": 640,
+        "height": 480,
+        "camera": {
+          "lookat": [
+            1.1037946343421936,
+            0.02573876827955246,
+            0.9046489000320435
+          ],
+          "distance": 4.949073030604037,
+          "azimuth": 130.0,
+          "elevation": -24.0,
+          "gt_bounds": [
+            [
+              0.15729855869343884,
+              -0.5201849850601852,
+              -0.14500320579478138
+            ],
+            [
+              2.050290709990948,
+              0.5716625216192901,
+              1.9543010058588683
+            ]
+          ],
+          "mode": "fixed",
+          "fit": "ground_truth",
+          "shared_panels": false
+        }
+      }
+    },
+    {
+      "id": 3,
+      "split": "train",
+      "scenario": "toss",
+      "seed": 419016,
+      "directory": "trajectory_00003",
+      "available_steps": 100,
+      "requested_horizon": null,
+      "completed_steps": 100,
+      "dt": 0.02,
+      "reason": null,
+      "diverged": false,
+      "initial_condition": {
+        "position_world": [
+          -0.11533188074827194,
+          -0.5689694285392761,
+          1.1326537132263184
+        ],
+        "quaternion_wxyz": [
+          -0.4961966574192047,
+          -0.22569586336612701,
+          0.6865636110305786,
+          -0.4811244010925293
+        ],
+        "linear_velocity_world": [
+          -1.6719965934753418,
+          -0.87565678358078,
+          0.43506425619125366
+        ],
+        "angular_velocity_local": [
+          7.299997329711914,
+          -0.8672180771827698,
+          4.609047889709473
+        ]
+      },
+      "action_summary": {
+        "all_zero": true,
+        "max_abs": 0.0
+      },
+      "duration_seconds": 2.0,
+      "video_name": "gt.mp4",
+      "render": {
+        "video": "docs/visualizations/gt-toss/trajectory_00003/gt.mp4",
+        "poster": "docs/visualizations/gt-toss/trajectory_00003/gt.png",
+        "frames": 51,
+        "fps": 25.0,
+        "width": 640,
+        "height": 480,
+        "camera": {
+          "lookat": [
+            -0.6758990250527859,
+            -0.7882982790470123,
+            0.6713859066367149
+          ],
+          "distance": 4.393208652168422,
+          "azimuth": 130.0,
+          "elevation": -24.0,
+          "gt_bounds": [
+            [
+              -1.5828763308710754,
+              -1.354037291068524,
+              -0.1448655935711562
+            ],
+            [
+              0.23107828076550357,
+              -0.2225592670255006,
+              1.4876374068445861
+            ]
+          ],
+          "mode": "fixed",
+          "fit": "ground_truth",
+          "shared_panels": false
+        }
+      }
+    },
+    {
+      "id": 4,
+      "split": "train",
+      "scenario": "toss",
+      "seed": 523745,
+      "directory": "trajectory_00004",
+      "available_steps": 100,
+      "requested_horizon": null,
+      "completed_steps": 100,
+      "dt": 0.02,
+      "reason": null,
+      "diverged": false,
+      "initial_condition": {
+        "position_world": [
+          0.507068932056427,
+          -0.8007372617721558,
+          1.702384352684021
+        ],
+        "quaternion_wxyz": [
+          -0.2374739646911621,
+          -0.3477184474468231,
+          -0.27841541171073914,
+          -0.8632397651672363
+        ],
+        "linear_velocity_world": [
+          -1.5116956233978271,
+          -0.7964871525764465,
+          1.4476057291030884
+        ],
+        "angular_velocity_local": [
+          -6.336827754974365,
+          6.586979866027832,
+          -1.5805888175964355
+        ]
+      },
+      "action_summary": {
+        "all_zero": true,
+        "max_abs": 0.0
+      },
+      "duration_seconds": 2.0,
+      "video_name": "gt.mp4",
+      "render": {
+        "video": "docs/visualizations/gt-toss/trajectory_00004/gt.mp4",
+        "poster": "docs/visualizations/gt-toss/trajectory_00004/gt.png",
+        "frames": 51,
+        "fps": 25.0,
+        "width": 640,
+        "height": 480,
+        "camera": {
+          "lookat": [
+            -0.44848504662513733,
+            -1.292993187904358,
+            1.003683179616928
+          ],
+          "distance": 6.297346748996303,
+          "azimuth": 130.0,
+          "elevation": -24.0,
+          "gt_bounds": [
+            [
+              -1.7504491868204772,
+              -2.1316592755503354,
+              -0.14452154066035144
+            ],
+            [
+              0.8534790935702026,
+              -0.45432710025838025,
+              2.1518878998942075
+            ]
+          ],
+          "mode": "fixed",
+          "fit": "ground_truth",
+          "shared_panels": false
+        }
+      }
+    },
+    {
+      "id": 5,
+      "split": "train",
+      "scenario": "toss",
+      "seed": 628474,
+      "directory": "trajectory_00005",
+      "available_steps": 100,
+      "requested_horizon": null,
+      "completed_steps": 100,
+      "dt": 0.02,
+      "reason": null,
+      "diverged": false,
+      "initial_condition": {
+        "position_world": [
+          0.16423837840557098,
+          -0.9814760684967041,
+          0.9482060074806213
+        ],
+        "quaternion_wxyz": [
+          -0.6040234565734863,
+          0.458522766828537,
+          -0.6508578062057495,
+          -0.03600922226905823
+        ],
+        "linear_velocity_world": [
+          -1.861113429069519,
+          -0.2606722116470337,
+          1.855765461921692
+        ],
+        "angular_velocity_local": [
+          3.126828193664551,
+          0.008541186340153217,
+          1.0348145961761475
+        ]
+      },
+      "action_summary": {
+        "all_zero": true,
+        "max_abs": 0.0
+      },
+      "duration_seconds": 2.0,
+      "video_name": "gt.mp4",
+      "render": {
+        "video": "docs/visualizations/gt-toss/trajectory_00005/gt.mp4",
+        "poster": "docs/visualizations/gt-toss/trajectory_00005/gt.png",
+        "frames": 51,
+        "fps": 25.0,
+        "width": 640,
+        "height": 480,
+        "camera": {
+          "lookat": [
+            -0.39777714759111404,
+            -1.1206470131874084,
+            0.6600790321826935
+          ],
+          "distance": 4.270676270763211,
+          "azimuth": 130.0,
+          "elevation": -24.0,
+          "gt_bounds": [
+            [
+              -1.3062028351015746,
+              -1.6062281193918884,
+              -0.14515931035944812
+            ],
+            [
+              0.5106485399193466,
+              -0.6350659069829285,
+              1.4653173747248351
+            ]
+          ],
+          "mode": "fixed",
+          "fit": "ground_truth",
+          "shared_panels": false
+        }
+      }
+    }
+  ]
+}

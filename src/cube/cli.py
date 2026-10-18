@@ -23,6 +23,28 @@ def main(argv=None):
     p.add_argument("--output", required=True)
     p.add_argument("--key", default="states")
     p.add_argument("--stride", type=int, default=1)
+    p = sub.add_parser("list-trajectories", help="List dataset trajectory IDs without loading all state arrays")
+    p.add_argument("--dataset", required=True)
+    p.add_argument("--split", choices=["train", "val", "test", "ood"])
+    p.add_argument("--scenario")
+    p.add_argument("--trajectory-id", type=int)
+    p.add_argument("--limit", type=int, default=10)
+    for command, description in (("visualize-data", "Render selected GT trajectories from NPZ or sharded datasets"),
+                                 ("visualize-rollout", "Render a learned autonomous rollout beside synchronized GT")):
+        p = sub.add_parser(command, help=description)
+        p.add_argument("--dataset", required=True)
+        p.add_argument("--split", choices=["train", "val", "test", "ood"])
+        p.add_argument("--scenario")
+        p.add_argument("--trajectory-id", type=int)
+        p.add_argument("--limit", type=int, default=4)
+        p.add_argument("--output", required=True, help="Gallery directory; put under docs/ to view at localhost")
+        p.add_argument("--width", type=int, default=640, help="Width of each video panel")
+        p.add_argument("--height", type=int, default=480)
+        p.add_argument("--stride", type=int, default=1)
+        p.add_argument("--horizon", type=int, default=100 if command == "visualize-rollout" else None)
+        if command == "visualize-rollout":
+            p.add_argument("--checkpoint", required=True)
+            p.add_argument("--device", default="cpu", help="Model inference device; rendering uses MUJOCO_GL independently")
     p = sub.add_parser("generate", help="Generate trajectory-split simulator data")
     p.add_argument("--config", required=True)
     p.add_argument("--output", required=True)
@@ -104,6 +126,12 @@ def main(argv=None):
     elif name == "render":
         from cube.rendering import render_trajectory
         result = render_trajectory(**args)
+    elif name == "list-trajectories":
+        from cube.visualization_data import list_trajectories
+        result = list_trajectories(**args)
+    elif name in {"visualize-data", "visualize-rollout"}:
+        from cube.visualization import visualize_data, visualize_rollout
+        result = (visualize_data if name == "visualize-data" else visualize_rollout)(**args)
     elif name == "quick":
         from cube.quick import run_quick
         result = run_quick(**args)
@@ -131,7 +159,7 @@ def main(argv=None):
         fn = getattr(experiments, {"generate": "generate_dataset", "suite": "run_suite"}.get(name, name))
         result = fn(**args)
     # Detailed arrays remain in result files; terminal summaries stay readable.
-    if isinstance(result, dict) and name != "doctor":
+    if isinstance(result, dict) and name not in {"doctor", "list-trajectories"}:
         result = {key: (f"{len(value)} records (see output JSON)" if isinstance(value, list)
                        else value) for key, value in result.items()
                   if key not in {"normalization", "transfer", "step_records"}}

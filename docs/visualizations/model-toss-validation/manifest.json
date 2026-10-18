@@ -1,0 +1,259 @@
+{
+  "mode": "model_rollout",
+  "dataset": "data/cube-toss",
+  "backend": "mujoco",
+  "kind": "cube",
+  "dataset_fingerprint": "22d8d2e8ea66cd005a74dc7a80326084ea71ab58d26ef3f5b40a037c211ac319",
+  "checkpoint": "outputs/toss-validation/hierarchical/best.pt",
+  "model_name": "hierarchical",
+  "device": "cuda:0",
+  "selected_ids": [
+    11000,
+    11001
+  ],
+  "camera": "fixed shared camera fitted to GT geometry",
+  "stride": 2,
+  "filters": {
+    "split": "test",
+    "scenario": "toss",
+    "trajectory_id": null,
+    "limit": 2,
+    "horizon": 100
+  },
+  "selection": "Deterministic ID order; illustrative selected trajectories, not an aggregate benchmark",
+  "complete": true,
+  "trajectories": [
+    {
+      "id": 11000,
+      "split": "test",
+      "scenario": "toss",
+      "seed": 1152123829,
+      "directory": "trajectory_11000",
+      "available_steps": 100,
+      "requested_horizon": 100,
+      "completed_steps": 100,
+      "dt": 0.02,
+      "reason": null,
+      "diverged": false,
+      "model_name": "hierarchical",
+      "checkpoint_meta": {
+        "seed": 0,
+        "epoch": 5,
+        "next_epoch": 5,
+        "batch_cursor": 0,
+        "global_step": 20,
+        "val_loss": 1.2582709312438964,
+        "best_val_loss": 1.2582709312438964,
+        "dataset_fingerprint": "5556a167aba34801a431f7a68bace04d8db190cc46ed6deccf6cdc2d84a56d86",
+        "dataset_manifest": "data/cube-toss/manifest.json",
+        "description": "Research implementation; NeRD-like baseline is not an official reproduction",
+        "path": "outputs/toss-validation/hierarchical/best.pt",
+        "model_config": {
+          "name": "hierarchical",
+          "hidden_dim": 128,
+          "heads": 4,
+          "local_layers": 3,
+          "global_layers": 3,
+          "window_size": 64,
+          "points_per_face": 64,
+          "floor_points": 256,
+          "floor_extent": 1.5,
+          "face_tokens": 1,
+          "serialization": "hilbert",
+          "history": 1,
+          "no_velocity": false,
+          "no_inertia": false,
+          "mean_pool": false,
+          "random_groups": false,
+          "no_face_exchange": false
+        }
+      },
+      "rollout_metrics": {
+        "position_rmse": 1.5617936849594116,
+        "rotation_geodesic_rad": 2.052509069442749,
+        "linear_velocity_rmse": 3.442661762237549,
+        "angular_velocity_rmse": 5.294893264770508,
+        "joint_position_rmse": 0.0,
+        "joint_velocity_rmse": 0.0
+      },
+      "initial_condition": {
+        "position_world": [
+          -0.25939086079597473,
+          0.9136455059051514,
+          1.47757887840271
+        ],
+        "quaternion_wxyz": [
+          0.8554397225379944,
+          0.054371222853660583,
+          -0.38291284441947937,
+          -0.3444479703903198
+        ],
+        "linear_velocity_world": [
+          1.1743884086608887,
+          -0.06903324276208878,
+          2.8736445903778076
+        ],
+        "angular_velocity_local": [
+          2.933218240737915,
+          2.383002519607544,
+          -6.294271945953369
+        ]
+      },
+      "action_summary": {
+        "all_zero": true,
+        "max_abs": 0.0
+      },
+      "duration_seconds": 2.0,
+      "video_name": "comparison.mp4",
+      "render": {
+        "video": "docs/visualizations/model-toss-validation/trajectory_11000/comparison.mp4",
+        "poster": "docs/visualizations/model-toss-validation/trajectory_11000/comparison.png",
+        "frames": 51,
+        "fps": 25.0,
+        "width": 1280,
+        "height": 480,
+        "camera": {
+          "lookat": [
+            0.45579491555690765,
+            0.8359792828559875,
+            1.0462000295519829
+          ],
+          "distance": 5.392527065246541,
+          "azimuth": 130.0,
+          "elevation": -24.0,
+          "gt_bounds": [
+            [
+              -0.6058010223097503,
+              0.4119028982930482,
+              -0.14487483229109638
+            ],
+            [
+              1.5173908534235656,
+              1.260055667418927,
+              2.237274891395062
+            ]
+          ],
+          "mode": "fixed",
+          "fit": "ground_truth",
+          "shared_panels": true
+        }
+      }
+    },
+    {
+      "id": 11001,
+      "split": "test",
+      "scenario": "toss",
+      "seed": 1152228558,
+      "directory": "trajectory_11001",
+      "available_steps": 100,
+      "requested_horizon": 100,
+      "completed_steps": 100,
+      "dt": 0.02,
+      "reason": null,
+      "diverged": false,
+      "model_name": "hierarchical",
+      "checkpoint_meta": {
+        "seed": 0,
+        "epoch": 5,
+        "next_epoch": 5,
+        "batch_cursor": 0,
+        "global_step": 20,
+        "val_loss": 1.2582709312438964,
+        "best_val_loss": 1.2582709312438964,
+        "dataset_fingerprint": "5556a167aba34801a431f7a68bace04d8db190cc46ed6deccf6cdc2d84a56d86",
+        "dataset_manifest": "data/cube-toss/manifest.json",
+        "description": "Research implementation; NeRD-like baseline is not an official reproduction",
+        "path": "outputs/toss-validation/hierarchical/best.pt",
+        "model_config": {
+          "name": "hierarchical",
+          "hidden_dim": 128,
+          "heads": 4,
+          "local_layers": 3,
+          "global_layers": 3,
+          "window_size": 64,
+          "points_per_face": 64,
+          "floor_points": 256,
+          "floor_extent": 1.5,
+          "face_tokens": 1,
+          "serialization": "hilbert",
+          "history": 1,
+          "no_velocity": false,
+          "no_inertia": false,
+          "mean_pool": false,
+          "random_groups": false,
+          "no_face_exchange": false
+        }
+      },
+      "rollout_metrics": {
+        "position_rmse": 1.8834296464920044,
+        "rotation_geodesic_rad": 1.9750943183898926,
+        "linear_velocity_rmse": 2.2552597522735596,
+        "angular_velocity_rmse": 4.261443614959717,
+        "joint_position_rmse": 0.0,
+        "joint_velocity_rmse": 0.0
+      },
+      "initial_condition": {
+        "position_world": [
+          -0.6277729868888855,
+          0.9506045579910278,
+          1.6291658878326416
+        ],
+        "quaternion_wxyz": [
+          -0.3456578254699707,
+          0.7968247532844543,
+          0.4665420651435852,
+          -0.16712112724781036
+        ],
+        "linear_velocity_world": [
+          1.6761938333511353,
+          -0.7779151201248169,
+          1.712961196899414
+        ],
+        "angular_velocity_local": [
+          -0.5920531749725342,
+          -7.698760032653809,
+          -1.5546876192092896
+        ]
+      },
+      "action_summary": {
+        "all_zero": true,
+        "max_abs": 0.0
+      },
+      "duration_seconds": 2.0,
+      "video_name": "comparison.mp4",
+      "render": {
+        "video": "docs/visualizations/model-toss-validation/trajectory_11001/comparison.mp4",
+        "poster": "docs/visualizations/model-toss-validation/trajectory_11001/comparison.png",
+        "frames": 51,
+        "fps": 25.0,
+        "width": 1280,
+        "height": 480,
+        "camera": {
+          "lookat": [
+            0.17534703016281128,
+            0.5889903530478477,
+            0.9873716235160827
+          ],
+          "distance": 5.7574658534439855,
+          "azimuth": 130.0,
+          "elevation": -24.0,
+          "gt_bounds": [
+            [
+              -0.9741831484026611,
+              -0.11903401340910785,
+              -0.1458293261713683
+            ],
+            [
+              1.3248772087282836,
+              1.2970147195048034,
+              2.1205725732035337
+            ]
+          ],
+          "mode": "fixed",
+          "fit": "ground_truth",
+          "shared_panels": true
+        }
+      }
+    }
+  ]
+}

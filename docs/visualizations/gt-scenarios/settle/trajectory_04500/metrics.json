@@ -1,0 +1,48 @@
+{
+  "id": 4500,
+  "split": "train",
+  "scenario": "settle",
+  "seed": 471385329,
+  "directory": "trajectory_04500",
+  "available_steps": 100,
+  "requested_horizon": null,
+  "completed_steps": 100,
+  "dt": 0.02,
+  "reason": null,
+  "diverged": false,
+  "duration_seconds": 2.0,
+  "video_name": "gt.mp4",
+  "render": {
+    "video": "docs/visualizations/gt-scenarios/settle/trajectory_04500/gt.mp4",
+    "poster": "docs/visualizations/gt-scenarios/settle/trajectory_04500/gt.png",
+    "frames": 51,
+    "fps": 25.0,
+    "width": 640,
+    "height": 480,
+    "camera": {
+      "lookat": [
+        -0.0021007456816732883,
+        0.0217593964189291,
+        0.23053345084190371
+      ],
+      "distance": 2.079481416674647,
+      "azimuth": 130.0,
+      "elevation": -24.0,
+      "gt_bounds": [
+        [
+          -0.36113952535757415,
+          -0.3464101615137755,
+          -0.14474723364779346
+        ],
+        [
+          0.3569380339942276,
+          0.3899289543516337,
+          0.6058141353316009
+        ]
+      ],
+      "mode": "fixed",
+      "fit": "ground_truth",
+      "shared_panels": false
+    }
+  }
+}

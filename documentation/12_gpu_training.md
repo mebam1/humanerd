@@ -2,6 +2,8 @@
 
 기존 smoke 결과는 파이프라인 검증이다. 이 문서는 Cube의 데이터 양과 학습 예산을 늘려 **계층형 구조의 one-step 정확도, 자율 rollout 안정성, 접촉 조합 일반화**를 비교하는 실행 절차를 설명한다. 기본 GPU 실험은 7개 모델 설정 × 3개 seed = **21회 학습**이다. 설정을 준비했다는 사실과 장기 학습이 완료됐다는 사실은 구별해야 한다.
 
+현재 주 데이터는 `data/cube-toss`의 **랜덤 초기 위치·회전·선속도·각속도, 이후 action 0인 투척**이다. 이전 `data/cube-nerd`는 접촉 진단 8개 시나리오의 데이터이며 일부 시나리오의 random wrench가 확인되었다. 새 데이터 검증 후 기존 원본을 제거했으며, 감사 결과·갤러리·과거 checkpoint는 기록으로 남긴다. [투척 데이터와 감사 결과](15_cube_toss.md)에서 분포와 변경 이유를 확인할 수 있다.
+
 ## NeRD에서 실제로 사용한 Cube 데이터 양
 
 [Neural Robot Dynamics 원논문](https://arxiv.org/html/2508.15755v1)의 **Appendix C.4**는 Cube tossing의 synthetic pretraining에 **10,000 trajectories, 길이 100**을 사용했다고 명시한다. §4의 일반 로봇 설정은 **100,000 trajectories, 길이 100**이므로 Cube 전용 수치와 구별했다. C.4의 실측 데이터는 별도로 570 trajectories·약 60K transitions이며 train/validation/test는 400/85/85이다. 이 저장소는 해당 실측 데이터를 포함하지 않는다.
@@ -10,17 +12,17 @@ Appendix B의 공통 학습 설정은 batch 512, history 10, learning rate 1e-3 
 
 | 항목 | 기본 Cube 설정 | 용도 |
 |---|---:|---|
-| Training | 8 시나리오 × 1,250 = **10,000** | 정규화와 가중치 학습 |
-| Validation | 8 × 125 = **1,000** | 독립 trajectory, checkpoint 선택 |
-| Test | 8 × 125 = **1,000** | 최종 정확도·안정성 평가 |
-| OOD | floor_wall **1,000** | 학습에 없는 바닥–벽 동시 접촉 |
+| Training | toss **10,000** | 정규화와 가중치 학습 |
+| Validation | toss **1,000** | 독립 trajectory, checkpoint 선택 |
+| Test | toss **1,000** | 최종 정확도·안정성 평가 |
+| OOD | floor_wall **1,000** | 기존 초기 조건의 바닥–벽 동시 접촉 진단; 투척 분포와 다름 |
 | Trajectory 길이 | **100 transitions / 101 states** | 이 저장소의 `steps` 정의 |
 | 전체 데이터 | **13,000 trajectories / 1,300,000 transitions** | train은 정확히 1,000,000 transitions |
 | 시간 간격 | control 0.02 s, substep 0.005 s | trajectory당 2 s, 접촉 라벨은 substep 관측 |
 
-설정의 `trajectories_per_split`은 **시나리오마다 적용되는 수**다. `train: 10000`을 넣으면 8배인 80,000개가 만들어지므로 기본값은 1,250이다. 모든 split은 독립 초기 조건·seed로 생성되며 같은 trajectory를 프레임 단위로 나누지 않는다. 100이라는 논문의 길이를 여기서는 저장된 상태 수가 아니라 transition 수로 해석했음을 config의 `reference`에도 남긴다.
+설정의 `trajectories_per_split`은 **시나리오마다 적용되는 수**다. 새 설정은 train/validation/test의 시나리오가 `toss` 하나이므로 `train: 10000`이 정확히 10,000개다. 기존 8개 시나리오 설정의 `train: 1250`과 혼동하지 않는다. 모든 split은 독립 초기 조건·seed로 생성되며 같은 trajectory를 프레임 단위로 나누지 않는다. 100이라는 논문의 길이를 여기서는 저장된 상태 수가 아니라 transition 수로 해석했음을 config의 `reference`에도 남긴다.
 
-추가 데이터 규모 실험에는 `configs/cube_nerd_general_scale.json`을 사용한다. 이는 §4의 일반 설정을 따른 train 100,000개·10,000,000 transitions이며, Cube 전용 기본 설정보다 10배 큰 별도 실험이다. validation/test/OOD는 각 1,000개이고 데이터 출력 폴더도 별도로 지정한다.
+기존 `configs/cube_nerd_general_scale.json`은 §4의 일반 수량을 참고한 8개 진단 시나리오의 train 100,000개 실험으로 남긴다. 새 투척 분포의 주 비교에는 이 설정을 사용하지 않는다. 데이터 수량만 같아도 초기 조건과 action 정책이 다르면 같은 데이터 실험이 아니다.
 
 ## 구현한 구성 요소와 이유
 
@@ -55,25 +57,28 @@ docker compose --profile cuda run --rm cuda python -m cube doctor
 ## 1. 데이터 수량을 확인하고 생성
 
 ```bash
-docker compose run --rm research python -m cube data-plan --config configs/cube_nerd_scale.json
-docker compose run --rm research python -m cube generate --config configs/cube_nerd_scale.json --backend mujoco --output data/cube-nerd
+docker compose run --rm research python -m cube data-plan --config configs/cube_toss_nerd_scale.json
+docker compose run --rm research python -m cube generate --config configs/cube_toss_nerd_scale.json --backend mujoco --output data/cube-toss
+docker compose run --rm research python scripts/audit_cube_toss.py --dataset data/cube-toss
 ```
 
 생성이 중단되면 **동일 config·backend·출력 폴더**로 이어서 진행한다.
 
 ```bash
-docker compose run --rm research python -m cube generate --config configs/cube_nerd_scale.json --backend mujoco --output data/cube-nerd --resume
+docker compose run --rm research python -m cube generate --config configs/cube_toss_nerd_scale.json --backend mujoco --output data/cube-toss --resume
 ```
 
-학습을 시작하기 전에 `data/cube-nerd/manifest.json`의 완성 상태와 train 10,000개를 확인한다. 완료되지 않은 데이터를 full dataset으로 취급하면 안 된다. 시뮬레이터와 신경망 학습 장치는 독립적이므로 MuJoCo CPU에서 만든 정답으로 CUDA 학습을 수행한다.
+학습을 시작하기 전에 `data/cube-toss/manifest.json`의 완성 상태와 train 10,000개를 확인한다. 완료되지 않은 데이터를 full dataset으로 취급하면 안 된다. 시뮬레이터와 신경망 학습 장치는 독립적이므로 MuJoCo CPU에서 만든 정답으로 CUDA 학습을 수행한다.
 
-현재 작업에서는 이 기본 데이터 **13,000 trajectories, 1,300,000 transitions**의 생성을 직접 완료했다. MuJoCo worker 8개 실행은 **171.794초**였고, `data/cube-nerd/manifest.json`은 `status: complete`다. 기존 데이터가 있는 같은 작업 폴더에서는 생성 명령에 `--resume`을 붙여 완료된 shard를 재사용한다. 이 시간은 이 환경에서의 데이터 생성 측정이며 GPU 학습 소요 시간이 아니다.
+새 데이터의 생성·검증 결과는 [투척 데이터 문서](15_cube_toss.md)에 기록한다. 이전에 보고한 **171.794초**는 기존 `data/cube-nerd` 13,000개를 생성한 시간이며 새 투척의 측정값이 아니다. 생성 정책 버전이 바뀌었으므로 기존 `data/cube-nerd`에 `--resume`하지 않는다. 새 `data/cube-toss`를 같은 생성 버전·설정으로 만들었거나 생성 중단한 경우에만 위 `--resume` 명령을 사용한다.
+
+새 13,000개 생성과 action 0 전수 검증은 완료했다. 메인 계층형 구조를 유지한 **16 trajectories·5 epochs GPU 학습**도 실제 수행해 정규화·학습·clipping 경로를 확인했다. 이는 작은 호환성 검증이며 one-step 위치 예측은 현재 상태 유지 baseline보다 나쁘고 장기 rollout도 부정확하다. [학습 검증 상세 결과](15_cube_toss.md)의 수치를 전체 10K 학습 결과와 구별한다.
 
 Warp 물리 경로는 기존 validation 또는 작은 별도 데이터로 확인할 수 있다.
 
 ```bash
 docker compose --profile gpu run --rm warp python -m cube validate --backend warp --device cuda:0 --output outputs/validation-warp
-docker compose --profile gpu run --rm warp python -m cube generate --config configs/cube_smoke.json --backend warp --device cuda:0 --output data/cube-warp-check
+docker compose --profile gpu run --rm warp python -m cube generate --config configs/cube_toss_smoke.json --backend warp --device cuda:0 --output data/cube-toss-warp-check
 ```
 
 현재 Warp adapter는 단일 world의 실제 CUDA physics 경로다. GPU 병렬 world 생성기의 속도를 제공한다고 가정하지 않는다. 큰 config를 Warp에 사용하려면 `generation.workers`를 1로 둔 별도 config와 출력 폴더를 사용한다. MuJoCo와 Warp 데이터를 섞는 실험은 먼저 backend 차이를 검증하고 별도로 기록한다.
@@ -81,7 +86,7 @@ docker compose --profile gpu run --rm warp python -m cube generate --config conf
 ## 2. 계층형 모델을 먼저 학습
 
 ```bash
-docker compose --profile cuda run --rm cuda python -m cube train --dataset data/cube-nerd --config configs/train_gpu.json --model hierarchical --seed 0 --output outputs/cube-gpu-5ep/hierarchical
+docker compose --profile cuda run --rm cuda python -m cube train --dataset data/cube-toss --config configs/train_gpu.json --model hierarchical --seed 0 --output outputs/cube-toss-gpu-5ep/hierarchical
 ```
 
 | 설정 | 기본값 | 해석 |
@@ -100,19 +105,19 @@ docker compose --profile cuda run --rm cuda python -m cube train --dataset data/
 
 5 epochs는 수렴을 보증하는 숫자가 아니다. W&B의 training/validation 추세와 실제 throughput을 보고 남은 시간을 판단한다. test/OOD 결과를 보고 hyperparameter를 계속 바꾸면 test가 tuning에 사용되므로, 연장·수정 여부는 validation으로 정한다. 비교할 모델 모두에 같은 변경 규칙을 적용하고 추가 실험 그룹으로 기록한다.
 
-`--resume`는 scheduler의 전체 길이를 포함한 동일 최적화 설정을 확인하므로 `epochs`를 바꾸는 용도로 사용하지 않는다. 이전 50-epoch 실행의 checkpoint를 5-epoch 설정으로 재개하지 않고, `outputs/cube-gpu-suite-5ep`처럼 새 출력 폴더에서 비교를 시작한다. 기본 `max_steps`는 `null`이며 각 모델·seed는 5 epochs를 마치면 종료한다. 선택적 rollout fine-tuning도 실행당 5 epochs이며 별도 학습 단계다.
+`--resume`는 dataset fingerprint와 scheduler의 전체 길이를 포함한 동일 최적화 설정을 확인한다. 다른 데이터나 `epochs`로 바꾸는 용도로 사용하지 않는다. 기존 데이터·50-epoch 실행의 checkpoint를 새 투척 데이터·5-epoch 설정으로 재개하지 않고, `outputs/cube-toss-suite-5ep`처럼 새 출력 폴더에서 비교를 시작한다. 기본 `max_steps`는 `null`이며 각 모델·seed는 5 epochs를 마치면 종료한다. 선택적 rollout fine-tuning도 실행당 5 epochs이며 별도 학습 단계다.
 
 W&B의 `train/gradient_norm`은 `clip_grad_norm_`이 반환하는 **clipping 전 global norm**이다. 로그 값이 1.0보다 커도 clipping이 빠진 것이 아니다. 실제 optimizer에는 L2 norm이 1.0 이하로 제한된 gradient가 전달된다.
 
 중단된 동일 실험은 아래처럼 재개한다. output과 config를 유지하며 `best.pt`가 아니라 `last.pt`를 사용한다.
 
 ```bash
-docker compose --profile cuda run --rm cuda python -m cube train --dataset data/cube-nerd --config configs/train_gpu.json --model hierarchical --seed 0 --output outputs/cube-gpu-5ep/hierarchical --resume outputs/cube-gpu-5ep/hierarchical/last.pt
+docker compose --profile cuda run --rm cuda python -m cube train --dataset data/cube-toss --config configs/train_gpu.json --model hierarchical --seed 0 --output outputs/cube-toss-gpu-5ep/hierarchical --resume outputs/cube-toss-gpu-5ep/hierarchical/last.pt
 ```
 
 VRAM이 부족하면 microbatch를 줄이고 accumulation을 반비례로 늘려 nominal batch를 유지한다. 예를 들어 32×16에서 16×32 또는 8×64로 바꾼다. 입력 point 수나 hidden width를 특정 모델만 줄이면 다른 연구 질문이 되므로, 메모리 조절과 구조 축소를 구별한다.
 
-학습의 bf16 batch 32와 평가는 별도로 설정한다. 본 suite의 **float32 평가 batch는 8**이다. wall_only 학습 장면은 768 points지만 floor_wall OOD는 바닥을 추가해 1,024 points가 되며, flat attention의 메모리는 point 수의 제곱에 비례한다. 실제 GPU check에서 float32 평가 batch 32의 OOD 처리량이 크게 낮아져 본 평가 batch를 줄였다. 입력 point 수와 평가 대상은 그대로 유지한다.
+학습의 bf16 batch 32와 평가는 별도로 설정한다. 본 suite의 **float32 평가 batch는 8**이다. toss 장면의 Cube와 바닥은 640 points이며 floor_wall OOD는 벽까지 추가해 1,024 points다. flat attention의 메모리는 point 수의 제곱에 비례한다. 이전 데이터의 GPU check에서 float32 평가 batch 32의 OOD 처리량이 크게 낮아져 평가 batch를 줄였다. 이 메모리 선택은 유지하며 새 투척의 실제 처리량은 실행 로그로 확인한다.
 
 ### 실제 GPU 용량 확인
 
@@ -133,7 +138,7 @@ RTX 4060, 총 VRAM 8,188 MiB에서 면당 64·floor 256 points, width 128, 3/3 l
 ## 3. 구조 비교와 seed 반복
 
 ```bash
-docker compose --profile cuda run --rm cuda python -m cube suite --config configs/suite_gpu.json --output outputs/cube-gpu-suite-5ep
+docker compose --profile cuda run --rm cuda python -m cube suite --config configs/suite_gpu.json --output outputs/cube-toss-suite-5ep
 ```
 
 | Label | 비교하는 요소 |
@@ -148,13 +153,13 @@ docker compose --profile cuda run --rm cuda python -m cube suite --config config
 
 NeRD-like의 입력 요약, architecture, solver는 원본 NeRD와 다르다. 여기서 측정하는 것은 저장소 내부의 통제 비교다. 파라미터 수·wall time·VRAM 사용량은 구조마다 다르므로 데이터와 최적화 예산이 같다고 계산 비용까지 같다고 가정하지 않는다.
 
-Suite는 `configs/train_gpu.json`을 읽고 동일 training 설정을 적용한다. 실행 경로는 `outputs/cube-gpu-suite-5ep/<label>_budget10000_seed<seed>/`다. 완성된 run의 결과와 seed별 요약은 `suite.json`에 기록한다. 기본 자동 평가는 test/OOD 각각 고정 최대 512 trajectories, 100-step rollout이며 원시 rollout 파일을 대량 저장하지 않는다. 전체 test 평가를 별도로 할 때는 checkpoint에 저장된 512 제한을 덮어쓰도록 아래 명령처럼 `--max-trajectories 1000`을 명시한다.
+Suite는 `configs/train_gpu.json`을 읽고 동일 training 설정을 적용한다. 실행 경로는 `outputs/cube-toss-suite-5ep/<label>_budget10000_seed<seed>/`다. 완성된 run의 결과와 seed별 요약은 `suite.json`에 기록한다. 기본 자동 평가는 test/OOD 각각 고정 최대 512 trajectories, 100-step rollout이며 원시 rollout 파일을 대량 저장하지 않는다. 전체 test 평가를 별도로 할 때는 checkpoint에 저장된 512 제한을 덮어쓰도록 아래 명령처럼 `--max-trajectories 1000`을 명시한다.
 
 긴 비교를 중단했거나 일부 모델부터 확인했다면 이어서 진행한다.
 
 ```bash
-docker compose --profile cuda run --rm cuda python -m cube suite --config configs/suite_gpu.json --output outputs/cube-gpu-suite-5ep --models hierarchical flat nerd_history10 --resume
-docker compose --profile cuda run --rm cuda python -m cube suite --config configs/suite_gpu.json --output outputs/cube-gpu-suite-5ep --resume
+docker compose --profile cuda run --rm cuda python -m cube suite --config configs/suite_gpu.json --output outputs/cube-toss-suite-5ep --models hierarchical flat nerd_history10 --resume
+docker compose --profile cuda run --rm cuda python -m cube suite --config configs/suite_gpu.json --output outputs/cube-toss-suite-5ep --resume
 ```
 
 완료한 run은 재사용하고 진행 중인 run은 checkpoint에서 이어간다. 모델 filter는 학습 범위를 선택하며 seed나 학습량을 자동 축소하지 않는다. 특정 모델 몇 개만 실행한 결과를 21회 전체 비교가 완료됐다고 해석하지 않는다.
@@ -162,9 +167,9 @@ docker compose --profile cuda run --rm cuda python -m cube suite --config config
 ## 4. 최종 test, OOD와 접촉 결합 실험
 
 ```bash
-docker compose --profile cuda run --rm cuda python -m cube evaluate --checkpoint outputs/cube-gpu-5ep/hierarchical/best.pt --dataset data/cube-nerd --device cuda:0 --batch-size 8 --max-trajectories 1000 --rollout-horizon 100 --no-save-rollouts --output outputs/cube-gpu-5ep/hierarchical/test-full
-docker compose --profile cuda run --rm cuda python -m cube evaluate --checkpoint outputs/cube-gpu-5ep/hierarchical/best.pt --dataset data/cube-nerd --split ood --device cuda:0 --batch-size 8 --max-trajectories 1000 --rollout-horizon 100 --no-save-rollouts --output outputs/cube-gpu-5ep/hierarchical/ood-full
-docker compose run --rm research python -m cube coupling --checkpoint outputs/cube-gpu-5ep/hierarchical/best.pt --output outputs/cube-gpu-5ep/hierarchical/coupling
+docker compose --profile cuda run --rm cuda python -m cube evaluate --checkpoint outputs/cube-toss-gpu-5ep/hierarchical/best.pt --dataset data/cube-toss --device cuda:0 --batch-size 8 --max-trajectories 1000 --rollout-horizon 100 --no-save-rollouts --output outputs/cube-toss-gpu-5ep/hierarchical/test-full
+docker compose --profile cuda run --rm cuda python -m cube evaluate --checkpoint outputs/cube-toss-gpu-5ep/hierarchical/best.pt --dataset data/cube-toss --split ood --device cuda:0 --batch-size 8 --max-trajectories 1000 --rollout-horizon 100 --no-save-rollouts --output outputs/cube-toss-gpu-5ep/hierarchical/ood-full
+docker compose run --rm research python -m cube coupling --checkpoint outputs/cube-toss-gpu-5ep/hierarchical/best.pt --output outputs/cube-toss-gpu-5ep/hierarchical/coupling
 ```
 
 비교할 지표는 one-step 위치·회전·속도 오차, 100-step 자율 rollout의 오차와 발산율, 접촉 진입·유지 구간별 오차, OOD floor_wall 오차, A/B 접촉 개입의 결합량 예측 오차다. 평균 오차가 작아도 드문 충돌에서 발산하면 안정적인 simulator라고 결론낼 수 없다. 3 seeds의 평균과 표준편차, 실제 runtime을 함께 보고한다.
@@ -176,7 +181,7 @@ Coupling은 동일 초기 상태에서 A, B, A+B, 접촉 없는 조건을 비교
 기본 one-step 비교를 먼저 저장한 다음 `configs/train_gpu_rollout.json`으로 multi-step 손실의 효과를 분리해 본다. 예측 상태에서 geometry와 다음 입력을 다시 만들어 4-step rollout 전체에 gradient를 전파한다.
 
 ```bash
-docker compose --profile cuda run --rm cuda python -m cube train --dataset data/cube-nerd --config configs/train_gpu_rollout.json --model hierarchical --seed 0 --transfer-checkpoint outputs/cube-gpu-5ep/hierarchical/best.pt --transfer-mode full --output outputs/cube-gpu-5ep/hierarchical-rollout4
+docker compose --profile cuda run --rm cuda python -m cube train --dataset data/cube-toss --config configs/train_gpu_rollout.json --model hierarchical --seed 0 --transfer-checkpoint outputs/cube-toss-gpu-5ep/hierarchical/best.pt --transfer-mode full --output outputs/cube-toss-gpu-5ep/hierarchical-rollout4
 ```
 
 이는 optimizer를 복원하는 resume와 달리, one-step 가중치에서 새 fine-tuning을 시작한다. config는 5 epochs·별도 optimizer step 상한 없음, microbatch 2 × accumulation 256, LR 1e-4 → 1e-5다. 성능을 비교하려면 모든 모델·seed에 같은 fine-tuning 예산과 평가를 적용한다. `nerd_history10`에는 기존 history 10을 유지한 별도 설정이 필요하다. 계층형만 fine-tune한 결과를 다른 모델의 one-step 결과와 섞어 순위를 만들지 않는다.
@@ -188,4 +193,4 @@ docker compose run --rm research python -m cube docs
 docker compose up -d docs
 ```
 
-[localhost GPU 실험 안내](http://localhost:8000/12_gpu_training.html)에서 이 절차를 볼 수 있다. 10K train을 포함한 전체 데이터는 생성 완료했으며, 짧은 GPU 용량 검사는 실행 경로·메모리 확인용이다. 21회 장기 학습과 online 계정에서의 run 확인은 각각 별도의 산출물로 완료 여부를 판단한다. 실제 추가 측정과 제한은 [새 GPU 실행 결과](13_gpu_results.md)에 기록한다. 기존 [소규모 측정 결과](10_results.md)를 이번 장기 GPU 실험 결과로 대체하거나 재해석하지 않는다.
+[localhost GPU 실험 안내](http://localhost:8000/12_gpu_training.html)에서 이 절차를 볼 수 있다. 새 데이터 생성 완료는 `data/cube-toss/manifest.json`, 새 21회 학습 완료는 `outputs/cube-toss-suite-5ep/suite.json`으로 각각 판단한다. 기존 [GPU 실행 결과](13_gpu_results.md)와 [소규모 측정 결과](10_results.md)는 이전 데이터의 실행 기록이며 새 투척 실험의 정확도로 재해석하지 않는다. 짧은 GPU 용량 검사는 실행 경로·메모리 확인용이다.

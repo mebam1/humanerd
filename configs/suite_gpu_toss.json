@@ -1,0 +1,24 @@
+{
+  "dataset": "data/cube-toss",
+  "budgets": [10000],
+  "seeds": [0, 1, 2],
+  "models": [
+    "hierarchical",
+    "state_mlp",
+    "deepsets",
+    "flat",
+    "independent",
+    {"name": "nerd_like", "label": "nerd_history1", "history": 1},
+    {"name": "nerd_like", "label": "nerd_history10", "history": 10}
+  ],
+  "rollout_horizon": 100,
+  "evaluation": {"device": "cuda:0", "batch_size": 8, "max_trajectories": 512, "save_rollouts": false},
+  "training_config": "configs/train_gpu.json",
+  "training": {
+    "wandb": {
+      "mode": "online",
+      "group": "cube-toss10k-5ep-single-step",
+      "tags": ["cube", "random-toss", "zero-action", "nerd-c4-10k", "single-step", "gpu"]
+    }
+  }
+}

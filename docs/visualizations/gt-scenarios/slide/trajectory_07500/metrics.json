@@ -1,0 +1,48 @@
+{
+  "id": 7500,
+  "split": "train",
+  "scenario": "slide",
+  "seed": 785572329,
+  "directory": "trajectory_07500",
+  "available_steps": 100,
+  "requested_horizon": null,
+  "completed_steps": 100,
+  "dt": 0.02,
+  "reason": null,
+  "diverged": false,
+  "duration_seconds": 2.0,
+  "video_name": "gt.mp4",
+  "render": {
+    "video": "docs/visualizations/gt-scenarios/slide/trajectory_07500/gt.mp4",
+    "poster": "docs/visualizations/gt-scenarios/slide/trajectory_07500/gt.png",
+    "frames": 51,
+    "fps": 25.0,
+    "width": 640,
+    "height": 480,
+    "camera": {
+      "lookat": [
+        0.06176766660064459,
+        0.005745748756453395,
+        0.2058435305953026
+      ],
+      "distance": 2.0429033033601707,
+      "azimuth": 130.0,
+      "elevation": -24.0,
+      "gt_bounds": [
+        [
+          -0.320034966502279,
+          -0.34264334587001793,
+          -0.14631015684077137
+        ],
+        [
+          0.44357029970356815,
+          0.3541348433829247,
+          0.5579972180313766
+        ]
+      ],
+      "mode": "fixed",
+      "fit": "ground_truth",
+      "shared_panels": false
+    }
+  }
+}

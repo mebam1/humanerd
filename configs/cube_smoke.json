@@ -6,5 +6,6 @@
   "trajectories_per_split": {"train": 2, "val": 1, "test": 1},
   "ood_trajectories": 1,
   "steps": 24,
-  "action_scale": 0.15
+  "rigid_action_mode": "zero",
+  "action_scale": 0.0
 }

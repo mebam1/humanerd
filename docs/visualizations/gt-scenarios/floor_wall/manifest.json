@@ -1,0 +1,74 @@
+{
+  "mode": "ground_truth",
+  "dataset": "data/cube-nerd",
+  "backend": "mujoco",
+  "kind": "cube",
+  "dataset_fingerprint": "e249098c67244e4b96cf3f4882e6739bb594ef9eb5dca1abf8792a8633038ec8",
+  "checkpoint": null,
+  "model_name": null,
+  "device": null,
+  "selected_ids": [
+    12000
+  ],
+  "camera": "fixed shared camera fitted to GT geometry",
+  "stride": 2,
+  "filters": {
+    "split": null,
+    "scenario": null,
+    "trajectory_id": 12000,
+    "limit": 1,
+    "horizon": null
+  },
+  "selection": "Deterministic ID order; illustrative selected trajectories, not an aggregate benchmark",
+  "complete": true,
+  "trajectories": [
+    {
+      "id": 12000,
+      "split": "ood",
+      "scenario": "floor_wall",
+      "seed": 1256852829,
+      "directory": "trajectory_12000",
+      "available_steps": 100,
+      "requested_horizon": null,
+      "completed_steps": 100,
+      "dt": 0.02,
+      "reason": null,
+      "diverged": false,
+      "duration_seconds": 2.0,
+      "video_name": "gt.mp4",
+      "render": {
+        "video": "docs/visualizations/gt-scenarios/floor_wall/trajectory_12000/gt.mp4",
+        "poster": "docs/visualizations/gt-scenarios/floor_wall/trajectory_12000/gt.png",
+        "frames": 51,
+        "fps": 25.0,
+        "width": 640,
+        "height": 480,
+        "camera": {
+          "lookat": [
+            -0.005614442368823802,
+            -0.0004987099091522396,
+            0.2017805948853493
+          ],
+          "distance": 1.9743909324923141,
+          "azimuth": 130.0,
+          "elevation": -24.0,
+          "gt_bounds": [
+            [
+              -0.35753904625394933,
+              -0.34740758133208,
+              -0.14631015684077137
+            ],
+            [
+              0.34631016151630173,
+              0.3464101615137755,
+              0.54987134661147
+            ]
+          ],
+          "mode": "fixed",
+          "fit": "ground_truth",
+          "shared_panels": false
+        }
+      }
+    }
+  ]
+}

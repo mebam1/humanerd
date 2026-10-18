@@ -8,15 +8,15 @@ from cube.experiments.common import read_config, write_json
 
 
 def main():
-    root = Path("outputs/gpu-resume-check")
+    root = Path("outputs/gpu-resume-check-toss")
     config = read_config("configs/train_gpu.json")
     config.update(epochs=2, trajectory_budget=4, validation_max_trajectories=2,
                   batch_size=16, gradient_accumulation_steps=2, max_steps=2,
                   progress={"enabled": False}, checkpoint_every_steps=1)
-    config["wandb"] = {"mode": "offline", "group": "gpu-resume-check"}
-    baseline = train("data/cube-nerd", str(root / "uninterrupted"), config, "state_mlp", seed=42)
-    first = train("data/cube-nerd", str(root / "resumed"), {**config, "max_steps": 1}, "state_mlp", seed=42)
-    resumed = train("data/cube-nerd", str(root / "resumed"), config, "state_mlp", seed=42,
+    config["wandb"] = {"mode": "offline", "group": "gpu-resume-check-toss"}
+    baseline = train("data/cube-toss", str(root / "uninterrupted"), config, "state_mlp", seed=42)
+    first = train("data/cube-toss", str(root / "resumed"), {**config, "max_steps": 1}, "state_mlp", seed=42)
+    resumed = train("data/cube-toss", str(root / "resumed"), config, "state_mlp", seed=42,
                     resume=first["last_checkpoint"])
     left = torch.load(baseline["last_checkpoint"], map_location="cpu", weights_only=False)
     right = torch.load(resumed["last_checkpoint"], map_location="cpu", weights_only=False)

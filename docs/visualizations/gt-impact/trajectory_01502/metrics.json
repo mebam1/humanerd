@@ -1,0 +1,48 @@
+{
+  "id": 1502,
+  "split": "train",
+  "scenario": "impact",
+  "seed": 157407787,
+  "directory": "trajectory_01502",
+  "available_steps": 100,
+  "requested_horizon": null,
+  "completed_steps": 100,
+  "dt": 0.02,
+  "reason": null,
+  "diverged": false,
+  "duration_seconds": 2.0,
+  "video_name": "gt.mp4",
+  "render": {
+    "video": "docs/visualizations/gt-impact/trajectory_01502/gt.mp4",
+    "poster": "docs/visualizations/gt-impact/trajectory_01502/gt.png",
+    "frames": 51,
+    "fps": 25.0,
+    "width": 640,
+    "height": 480,
+    "camera": {
+      "lookat": [
+        5.979085835861042e-05,
+        -0.00013214879436418414,
+        0.21156208962202075
+      ],
+      "distance": 1.9813435111925561,
+      "azimuth": 130.0,
+      "elevation": -24.0,
+      "gt_bounds": [
+        [
+          -0.3464101615137755,
+          -0.3466744591025039,
+          -0.14594114448496692
+        ],
+        [
+          0.34652974323049274,
+          0.3464101615137755,
+          0.5690653237290084
+        ]
+      ],
+      "mode": "fixed",
+      "fit": "ground_truth",
+      "shared_panels": false
+    }
+  }
+}

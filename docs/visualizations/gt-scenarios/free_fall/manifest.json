@@ -1,0 +1,74 @@
+{
+  "mode": "ground_truth",
+  "dataset": "data/cube-nerd",
+  "backend": "mujoco",
+  "kind": "cube",
+  "dataset_fingerprint": "e249098c67244e4b96cf3f4882e6739bb594ef9eb5dca1abf8792a8633038ec8",
+  "checkpoint": null,
+  "model_name": null,
+  "device": null,
+  "selected_ids": [
+    0
+  ],
+  "camera": "fixed shared camera fitted to GT geometry",
+  "stride": 2,
+  "filters": {
+    "split": null,
+    "scenario": null,
+    "trajectory_id": 0,
+    "limit": 1,
+    "horizon": null
+  },
+  "selection": "Deterministic ID order; illustrative selected trajectories, not an aggregate benchmark",
+  "complete": true,
+  "trajectories": [
+    {
+      "id": 0,
+      "split": "train",
+      "scenario": "free_fall",
+      "seed": 104829,
+      "directory": "trajectory_00000",
+      "available_steps": 100,
+      "requested_horizon": null,
+      "completed_steps": 100,
+      "dt": 0.02,
+      "reason": null,
+      "diverged": false,
+      "duration_seconds": 2.0,
+      "video_name": "gt.mp4",
+      "render": {
+        "video": "docs/visualizations/gt-scenarios/free_fall/trajectory_00000/gt.mp4",
+        "poster": "docs/visualizations/gt-scenarios/free_fall/trajectory_00000/gt.png",
+        "frames": 51,
+        "fps": 25.0,
+        "width": 640,
+        "height": 480,
+        "camera": {
+          "lookat": [
+            -0.017743606120347977,
+            0.011930611915886402,
+            0.4379127249121666
+          ],
+          "distance": 2.538428277323223,
+          "azimuth": 130.0,
+          "elevation": -24.0,
+          "gt_bounds": [
+            [
+              -0.38189737375447147,
+              -0.3464101615137755,
+              -0.1476787539906203
+            ],
+            [
+              0.3464101615137755,
+              0.3702713853455483,
+              1.0235042038149536
+            ]
+          ],
+          "mode": "fixed",
+          "fit": "ground_truth",
+          "shared_panels": false
+        }
+      }
+    }
+  ]
+}

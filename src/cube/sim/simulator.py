@@ -55,7 +55,17 @@ class Simulator:
         s = self.spec.scenario
         hx, hy, hz = self.spec.half_extents
         if self.spec.kind in {"cube", "cuboid"}:
-            if s == "free_fall":
+            if s == "toss":
+                q[:3] = rng.uniform(self.spec.toss_position_min, self.spec.toss_position_max)
+                # Normalizing an isotropic 4D normal samples the unit 3-sphere;
+                # its antipodal quaternion pairs induce Haar-uniform SO(3).
+                quaternion = rng.normal(size=4)
+                while np.linalg.norm(quaternion) < 1e-12:
+                    quaternion = rng.normal(size=4)
+                q[3:7] = quaternion / np.linalg.norm(quaternion)
+                v[:3] = rng.uniform(self.spec.toss_linear_velocity_min, self.spec.toss_linear_velocity_max)
+                v[3:6] = rng.uniform(self.spec.toss_angular_velocity_min, self.spec.toss_angular_velocity_max)
+            elif s == "free_fall":
                 q[2] = hz + rng.uniform(.45, .9)
                 v[:3] = rng.uniform(-.15, .15, 3)
             elif s in {"impact", "bounce", "rebound"}:

@@ -1,0 +1,7 @@
+{
+  "kind": "cube",
+  "dt": 0.02,
+  "substeps": 4,
+  "scenario": "impact",
+  "seed": 157407787
+}

@@ -9,7 +9,7 @@ from typing import Any
 
 SCENARIOS = (
     "free_fall", "impact", "bounce", "rebound", "settle", "rest", "slide",
-    "edge", "floor_wall", "wall_only", "wall", "intervention", "walk",
+    "edge", "floor_wall", "wall_only", "wall", "intervention", "walk", "toss",
 )
 
 
@@ -31,6 +31,12 @@ class SceneSpec:
     contact_margin: float = 0.001
     solver_iterations: int = 50
     actuator_gear: float = 20.0
+    toss_position_min: tuple[float, float, float] = (-1.0, -1.0, 0.8)
+    toss_position_max: tuple[float, float, float] = (1.0, 1.0, 1.8)
+    toss_linear_velocity_min: tuple[float, float, float] = (-2.0, -2.0, 0.0)
+    toss_linear_velocity_max: tuple[float, float, float] = (2.0, 2.0, 3.0)
+    toss_angular_velocity_min: tuple[float, float, float] = (-8.0, -8.0, -8.0)
+    toss_angular_velocity_max: tuple[float, float, float] = (8.0, 8.0, 8.0)
 
     def __post_init__(self) -> None:
         object.__setattr__(self, "half_extents", tuple(self.half_extents))
@@ -51,6 +57,34 @@ class SceneSpec:
             raise ValueError("support_layout must be same_face or cross_face")
         if self.contact_timeconst <= 0 or (self.contact_damping is not None and self.contact_damping <= 0):
             raise ValueError("Contact solver parameters must be positive")
+        for quantity in ("position", "linear_velocity", "angular_velocity"):
+            bounds = []
+            for side in ("min", "max"):
+                name = f"toss_{quantity}_{side}"
+                try:
+                    value = tuple(float(component) for component in getattr(self, name))
+                except (TypeError, ValueError) as exc:
+                    raise ValueError(f"{name} must have three finite components") from exc
+                if len(value) != 3 or not all(math.isfinite(component) for component in value):
+                    raise ValueError(f"{name} must have three finite components")
+                object.__setattr__(self, name, value)
+                bounds.append(value)
+            if any(lo > hi for lo, hi in zip(*bounds)):
+                raise ValueError(f"toss_{quantity}_min must be <= toss_{quantity}_max componentwise")
+        if self.scenario == "toss":
+            if self.kind not in {"cube", "cuboid"}:
+                raise ValueError("toss is only supported for cube or cuboid")
+            # The circumscribed radius bounds every rotated vertex's vertical
+            # extent. Reject unsafe ranges rather than truncating orientations,
+            # which would bias the promised uniform SO(3) distribution.
+            clearance = max(0.02, self.contact_margin + 0.001)
+            minimum_height = math.sqrt(sum(h * h for h in self.half_extents)) + clearance
+            if not math.isfinite(minimum_height) or self.toss_position_min[2] < minimum_height:
+                raise ValueError(
+                    "toss_position_min[2] must be at least "
+                    f"{minimum_height:.6g} m (box circumscribed radius + {clearance:.6g} m clearance) "
+                    "to keep every sampled orientation above the floor"
+                )
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)

@@ -6,7 +6,8 @@
   "trajectories_per_split": {"train": 1250, "val": 125, "test": 125},
   "ood_trajectories": 1000,
   "steps": 100,
-  "action_scale": 0.3,
+  "rigid_action_mode": "zero",
+  "action_scale": 0.0,
   "storage": {"format": "sharded_npy", "trajectories_per_shard": 256, "dtype": "float32"},
   "generation": {"workers": 8, "progress": true, "record_substeps": true},
   "reference": {

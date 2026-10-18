@@ -4,5 +4,7 @@
   "scenarios": ["impact", "rest", "slide", "edge"],
   "ood_scenarios": ["floor_wall"],
   "trajectories_per_split": {"train": 16, "val": 4, "test": 4},
-  "steps": 96
+  "steps": 96,
+  "rigid_action_mode": "zero",
+  "action_scale": 0.0
 }

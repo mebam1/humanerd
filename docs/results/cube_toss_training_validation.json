@@ -1,0 +1,271 @@
+{
+  "purpose": "Main architecture compatibility and numerical stability on a 16-trajectory subset, not full-data convergence or model-comparison evidence.",
+  "main_architecture_identical": true,
+  "model_config": {
+    "name": "hierarchical",
+    "hidden_dim": 128,
+    "heads": 4,
+    "local_layers": 3,
+    "global_layers": 3,
+    "window_size": 64,
+    "points_per_face": 64,
+    "floor_points": 256,
+    "floor_extent": 1.5,
+    "face_tokens": 1,
+    "serialization": "hilbert",
+    "history": 1,
+    "no_velocity": false,
+    "no_inertia": false,
+    "mean_pool": false,
+    "random_groups": false,
+    "no_face_exchange": false
+  },
+  "parameter_count": 1070910,
+  "train_trajectories": 16,
+  "train_transitions": 1600,
+  "action_shape": [
+    1600,
+    6
+  ],
+  "action_nonzero_count": 0,
+  "action_std": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "action_normalization": "No division by action standard deviation: actions feed the model unchanged. Training normalizes state deltas only.",
+  "state_finite": true,
+  "checkpoint_finite": true,
+  "delta_std_min": 0.02141732908785343,
+  "delta_std_max": 0.7382966876029968,
+  "epochs": [
+    {
+      "epoch": 1,
+      "epoch_complete": true,
+      "optimizer_step": 4,
+      "train_loss": 23.00591495513916,
+      "val_loss": 13.697349643707275,
+      "train_samples": 1600,
+      "validation_samples": 800,
+      "train_seconds": 4.89946884299934,
+      "samples_per_second": 326.56601180068276,
+      "learning_rate": 0.00082,
+      "gpu_peak_memory_mb": 562.2021484375
+    },
+    {
+      "epoch": 2,
+      "epoch_complete": true,
+      "optimizer_step": 8,
+      "train_loss": 10.815759150981902,
+      "val_loss": 3.2065709686279296,
+      "train_samples": 1600,
+      "validation_samples": 800,
+      "train_seconds": 3.44869239900072,
+      "samples_per_second": 463.94395756014944,
+      "learning_rate": 0.0006399999999999999,
+      "gpu_peak_memory_mb": 562.2060546875
+    },
+    {
+      "epoch": 3,
+      "epoch_complete": true,
+      "optimizer_step": 12,
+      "train_loss": 2.6275756120681764,
+      "val_loss": 1.8536118817329408,
+      "train_samples": 1600,
+      "validation_samples": 800,
+      "train_seconds": 3.34476788199936,
+      "samples_per_second": 478.3590540350406,
+      "learning_rate": 0.00045999999999999996,
+      "gpu_peak_memory_mb": 562.2060546875
+    },
+    {
+      "epoch": 4,
+      "epoch_complete": true,
+      "optimizer_step": 16,
+      "train_loss": 1.495986567735672,
+      "val_loss": 1.7722028607130051,
+      "train_samples": 1600,
+      "validation_samples": 800,
+      "train_seconds": 3.328385652999714,
+      "samples_per_second": 480.7135250562077,
+      "learning_rate": 0.0002799999999999999,
+      "gpu_peak_memory_mb": 562.2060546875
+    },
+    {
+      "epoch": 5,
+      "epoch_complete": true,
+      "optimizer_step": 20,
+      "train_loss": 1.3136590376496315,
+      "val_loss": 1.2582709312438964,
+      "train_samples": 1600,
+      "validation_samples": 800,
+      "train_seconds": 3.5362304390000645,
+      "samples_per_second": 452.45920128792005,
+      "learning_rate": 9.999999999999998e-05,
+      "gpu_peak_memory_mb": 562.2060546875
+    }
+  ],
+  "best_checkpoint_epoch": 5,
+  "elapsed_seconds": 24.672961285999918,
+  "gradient_probe": {
+    "device": "cuda:0",
+    "precision": "bf16",
+    "batch_size": 32,
+    "loss": 0.8184710741043091,
+    "preclip_norm": 70.77069091796875,
+    "postclip_norm": 1.0,
+    "finite": true,
+    "optimizer_step_performed": false
+  },
+  "wandb": {
+    "mode": "online",
+    "url": "https://forge.coreweave.com/wandb/mebam-korea-university/cube-contact/runs/mrom5try",
+    "history_read": true,
+    "updates": 20,
+    "preclip_gradient_norm_min": 36.99478530883789,
+    "preclip_gradient_norm_max": 643.5866088867188,
+    "updates_above_clip": 20,
+    "skipped_updates": 0,
+    "gradient_norm_semantics": "Training telemetry records the norm before clipping."
+  },
+  "evaluations": {
+    "val": {
+      "one_step": {
+        "position_rmse": 0.028067993698641658,
+        "rotation_geodesic_rad": 0.0703784259967506,
+        "linear_velocity_rmse": 0.30477020144462585,
+        "angular_velocity_rmse": 0.7596986070275307,
+        "joint_position_rmse": 0.0,
+        "joint_velocity_rmse": 0.0
+      },
+      "constant_state_one_step_baseline": {
+        "position_rmse": 0.02131988771725446,
+        "rotation_geodesic_rad": 0.07373609393835068,
+        "linear_velocity_rmse": 0.30336630158126354,
+        "angular_velocity_rmse": 0.7558149993419647,
+        "joint_position_rmse": 0.0,
+        "joint_velocity_rmse": 0.0
+      },
+      "rollout_100": {
+        "position_rmse": 1.7876294404268265,
+        "rotation_geodesic_rad": 2.055864065885544,
+        "linear_velocity_rmse": 2.1854125261306763,
+        "angular_velocity_rmse": 4.9412369430065155,
+        "joint_position_rmse": 0.0,
+        "joint_velocity_rmse": 0.0
+      },
+      "divergence_rate": 0.0,
+      "diagnostics": {
+        "penetration_mean": 0.5039690452986965,
+        "penetration_max": 1.174472654803561,
+        "contact_disagreement": 0.3975,
+        "contact_onset_error_seconds": 0.5094444444444445,
+        "missed_contact_onsets": 5.75,
+        "false_contact_onsets": 0.375
+      },
+      "trajectory_ids": [
+        10426,
+        10004,
+        10191,
+        10359,
+        10490,
+        10741,
+        10115,
+        10863
+      ]
+    },
+    "test": {
+      "one_step": {
+        "position_rmse": 0.026293891249224544,
+        "rotation_geodesic_rad": 0.05121648544445634,
+        "linear_velocity_rmse": 0.31080075539648533,
+        "angular_velocity_rmse": 0.5922793038189411,
+        "joint_position_rmse": 0.0,
+        "joint_velocity_rmse": 0.0
+      },
+      "constant_state_one_step_baseline": {
+        "position_rmse": 0.019644121872261167,
+        "rotation_geodesic_rad": 0.060286123771220446,
+        "linear_velocity_rmse": 0.31090269051492214,
+        "angular_velocity_rmse": 0.5904405862092972,
+        "joint_position_rmse": 0.0,
+        "joint_velocity_rmse": 0.0
+      },
+      "rollout_100": {
+        "position_rmse": 1.3334122747182846,
+        "rotation_geodesic_rad": 1.8518990576267242,
+        "linear_velocity_rmse": 1.905459776520729,
+        "angular_velocity_rmse": 3.9388146698474884,
+        "joint_position_rmse": 0.0,
+        "joint_velocity_rmse": 0.0
+      },
+      "divergence_rate": 0.0,
+      "diagnostics": {
+        "penetration_mean": 0.028540549363983175,
+        "penetration_max": 0.11808583913338727,
+        "contact_disagreement": 0.51875,
+        "contact_onset_error_seconds": 0.19428571428571426,
+        "missed_contact_onsets": 6.125,
+        "false_contact_onsets": 0.125
+      },
+      "trajectory_ids": [
+        11426,
+        11004,
+        11191,
+        11359,
+        11490,
+        11741,
+        11115,
+        11863
+      ]
+    },
+    "ood": {
+      "one_step": {
+        "position_rmse": 0.015739905880764127,
+        "rotation_geodesic_rad": 0.06459464225918055,
+        "linear_velocity_rmse": 0.07302894024178386,
+        "angular_velocity_rmse": 0.0838687727227807,
+        "joint_position_rmse": 0.0,
+        "joint_velocity_rmse": 0.0
+      },
+      "constant_state_one_step_baseline": {
+        "position_rmse": 0.0004375003991299309,
+        "rotation_geodesic_rad": 0.0,
+        "linear_velocity_rmse": 0.07202615402638912,
+        "angular_velocity_rmse": 0.0007170874323492171,
+        "joint_position_rmse": 0.0,
+        "joint_velocity_rmse": 0.0
+      },
+      "rollout_100": {
+        "position_rmse": 1.637242242693901,
+        "rotation_geodesic_rad": 2.0942672789096832,
+        "linear_velocity_rmse": 0.3892510049045086,
+        "angular_velocity_rmse": 4.112392216920853,
+        "joint_position_rmse": 0.0,
+        "joint_velocity_rmse": 0.0
+      },
+      "divergence_rate": 0.0,
+      "diagnostics": {
+        "penetration_mean": 0.033882690041299866,
+        "penetration_max": 0.3283845527176101,
+        "contact_disagreement": 0.7124999999999999,
+        "contact_onset_error_seconds": 0.04,
+        "missed_contact_onsets": 0.0,
+        "false_contact_onsets": 0.0
+      },
+      "trajectory_ids": [
+        12426,
+        12004,
+        12191,
+        12359,
+        12490,
+        12741,
+        12115,
+        12863
+      ]
+    }
+  }
+}

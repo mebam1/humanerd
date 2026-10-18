@@ -1,0 +1,89 @@
+{
+  "id": 2876,
+  "split": "test",
+  "scenario": "impact",
+  "seed": 301305433,
+  "directory": "trajectory_02876",
+  "available_steps": 100,
+  "requested_horizon": 100,
+  "completed_steps": 100,
+  "dt": 0.02,
+  "reason": null,
+  "diverged": false,
+  "model_name": "hierarchical",
+  "checkpoint_meta": {
+    "seed": 0,
+    "epoch": 3,
+    "next_epoch": 3,
+    "batch_cursor": 0,
+    "global_step": 78,
+    "val_loss": 0.3012908447626978,
+    "best_val_loss": 0.3012908447626978,
+    "dataset_fingerprint": "cbec40f6154469b815912d11ce50933074ef7203c8d8b09efb5dc4d511038e3b",
+    "dataset_manifest": "data/cube-nerd/manifest.json",
+    "description": "Research implementation; NeRD-like baseline is not an official reproduction",
+    "path": "outputs/gpu-check/hierarchical_budget32_seed0/best.pt",
+    "model_config": {
+      "name": "hierarchical",
+      "hidden_dim": 128,
+      "heads": 4,
+      "local_layers": 3,
+      "global_layers": 3,
+      "window_size": 64,
+      "points_per_face": 64,
+      "floor_points": 256,
+      "floor_extent": 1.5,
+      "face_tokens": 1,
+      "serialization": "hilbert",
+      "history": 1,
+      "no_velocity": false,
+      "no_inertia": false,
+      "mean_pool": false,
+      "random_groups": false,
+      "no_face_exchange": false
+    }
+  },
+  "rollout_metrics": {
+    "position_rmse": 2.3951735496520996,
+    "rotation_geodesic_rad": 1.4346431493759155,
+    "linear_velocity_rmse": 2.353360176086426,
+    "angular_velocity_rmse": 1.5796738862991333,
+    "joint_position_rmse": 0.0,
+    "joint_velocity_rmse": 0.0
+  },
+  "duration_seconds": 2.0,
+  "video_name": "comparison.mp4",
+  "render": {
+    "video": "docs/visualizations/model-impact/trajectory_02876/comparison.mp4",
+    "poster": "docs/visualizations/model-impact/trajectory_02876/comparison.png",
+    "frames": 51,
+    "fps": 25.0,
+    "width": 1280,
+    "height": 480,
+    "camera": {
+      "lookat": [
+        0.0002590100630186498,
+        -0.0005163446767255664,
+        0.222388431429863
+      ],
+      "distance": 2.01076107132751,
+      "azimuth": 130.0,
+      "elevation": -24.0,
+      "gt_bounds": [
+        [
+          -0.347000577068828,
+          -0.34760745538020127,
+          -0.1489430579132735
+        ],
+        [
+          0.3475185971948653,
+          0.34657476602675014,
+          0.5937199207729995
+        ]
+      ],
+      "mode": "fixed",
+      "fit": "ground_truth",
+      "shared_panels": true
+    }
+  }
+}

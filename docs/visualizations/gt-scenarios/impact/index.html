@@ -1,0 +1,73 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>학습 데이터 · Ground truth · CUBE LAB</title><style>
+:root{font-family:system-ui,'Segoe UI','Malgun Gothic',sans-serif;color:#173544;background:#f2f6f8;line-height:1.7}
+*{box-sizing:border-box}body{margin:0}main{max-width:1240px;margin:auto;padding:32px 24px 60px}
+header{padding:30px;background:#143d4d;color:#f0f8fa;border-radius:14px}header p{color:#c3dfe7}
+h1{font-size:30px;line-height:1.35;margin:8px 0 14px}h2{font-size:22px;margin:0}a{color:#067e8c}
+header a{color:#8be2e7}.eyebrow{font-size:12px;letter-spacing:2px}.toolbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:24px 0}
+select{padding:7px 12px;border:1px solid #a6bfc9;border-radius:6px;background:white;font:inherit}
+article{background:white;border:1px solid #d5e2e7;border-radius:12px;padding:24px;margin:24px 0;box-shadow:0 4px 18px #153d4d08}
+.meta{color:#526e7b;font-size:14px}.badge{padding:4px 10px;border-radius:15px;background:#e4f4ed;color:#216b4d;font-size:12px}
+.bad{background:#fff0e8;color:#9d3819}.status{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+video{display:block;width:100%;background:#13222c;border-radius:8px;margin:18px 0}img{width:100%;height:auto;border-radius:8px}
+.links{display:flex;gap:16px;flex-wrap:wrap;font-size:14px}pre{white-space:pre-wrap;overflow-wrap:anywhere;padding:16px;background:#eff5f7;border-radius:8px;font-size:12px}
+.note{border-left:4px solid #df9a3d;padding:10px 16px;background:#fff8ed}.metrics{display:flex;gap:20px;flex-wrap:wrap;margin:14px 0}.metrics b{display:block;font-size:20px}
+details{margin-top:18px}summary{cursor:pointer}footer{color:#526e7b;font-size:12px;margin-top:28px}
+@media(max-width:600px){main{padding:16px 10px}article,header{padding:18px}h1{font-size:24px}}
+</style></head><body><main>
+<header><div class="eyebrow">CUBE LAB / TRAJECTORY VIEWER</div><h1>학습 데이터 · Ground truth</h1><p>저장된 시뮬레이터 상태를 그대로 재생합니다. 새로운 물리 trajectory를 생성하지 않습니다.</p><p>Dataset: data/cube-nerd · source physics: mujoco · 1 trajectories</p></header>
+<div class="toolbar"><label for="speed">영상 재생 속도</label><select id="speed"><option value="0.25">0.25×</option><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option></select><a href="manifest.json">전체 메타데이터</a></div>
+<p class="note">기본 선택은 ID 오름차순이며 전체 데이터의 통계적 대표 표본은 아닙니다. split·scenario·trajectory ID를 바꿔 확인할 수 있습니다. 물리 시간 간격은 그대로 유지하고 stride는 영상 frame 수만 줄입니다.</p>
+<article><div class="status"><h2>Trajectory 01500</h2><span class="badge ">RECORDED GT</span></div>
+<p class="meta">train / impact · seed 157198329 · 100 transitions · 2.00 s</p>
+<video controls preload="metadata" playsinline poster="trajectory_01500/gt.png"><source src="trajectory_01500/gt.mp4" type="video/mp4"></video>
+<div class="links"><a href="trajectory_01500/gt.mp4" download>MP4</a><a href="trajectory_01500/trajectory.npz" download>Trajectory NPZ</a><a href="trajectory_01500/scene.json">Scene JSON</a><a href="trajectory_01500/metrics.json">Metrics JSON</a></div>
+<details open><summary>상태 변화와 오차</summary><img src="trajectory_01500/timeseries.png" loading="lazy" alt="Trajectory 1500 state time series"></details>
+<details><summary>선택한 데이터와 모델 정보</summary><pre>{
+  &quot;id&quot;: 1500,
+  &quot;split&quot;: &quot;train&quot;,
+  &quot;scenario&quot;: &quot;impact&quot;,
+  &quot;seed&quot;: 157198329,
+  &quot;directory&quot;: &quot;trajectory_01500&quot;,
+  &quot;available_steps&quot;: 100,
+  &quot;requested_horizon&quot;: null,
+  &quot;completed_steps&quot;: 100,
+  &quot;dt&quot;: 0.02,
+  &quot;reason&quot;: null,
+  &quot;diverged&quot;: false,
+  &quot;duration_seconds&quot;: 2.0,
+  &quot;video_name&quot;: &quot;gt.mp4&quot;,
+  &quot;render&quot;: {
+    &quot;video&quot;: &quot;docs/visualizations/gt-scenarios/impact/trajectory_01500/gt.mp4&quot;,
+    &quot;poster&quot;: &quot;docs/visualizations/gt-scenarios/impact/trajectory_01500/gt.png&quot;,
+    &quot;frames&quot;: 51,
+    &quot;fps&quot;: 25.0,
+    &quot;width&quot;: 640,
+    &quot;height&quot;: 480,
+    &quot;camera&quot;: {
+      &quot;lookat&quot;: [
+        0.0010948368581011891,
+        -0.0006128669962208733,
+        0.2209248393774033
+      ],
+      &quot;distance&quot;: 2.0052399817483826,
+      &quot;azimuth&quot;: 130.0,
+      &quot;elevation&quot;: -24.0,
+      &quot;gt_bounds&quot;: [
+        [
+          -0.3464101615137755,
+          -0.3476393528291359,
+          -0.14742726709315174
+        ],
+        [
+          0.3485998352299779,
+          0.34641361883669414,
+          0.5892769458479583
+        ]
+      ],
+      &quot;mode&quot;: &quot;fixed&quot;,
+      &quot;fit&quot;: &quot;ground_truth&quot;,
+      &quot;shared_panels&quot;: false
+    }
+  }
+}</pre></details></article><footer>Renderer: MuJoCo · Source data is read-only · Videos and diagnostics share the same exported states.</footer></main>
+<script>document.getElementById('speed').addEventListener('change',function(){document.querySelectorAll('video').forEach(v=>v.playbackRate=Number(this.value));});</script></body></html>
