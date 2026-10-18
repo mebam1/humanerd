@@ -1,5 +1,7 @@
 # 실제 GPU 실행과 대규모 데이터 준비 결과
 
+> 현재 실행 기본값은 모델·seed별 **5 epochs, gradient norm clipping 1.0**으로 변경됐다. 아래 수치는 이전에 실제 실행한 **3-epoch 검증** 기록이며, 본문의 50-epoch 계획은 당시 설정이다. 새 실행은 [최신 GPU 학습 안내](12_gpu_training.md)를 따른다.
+
 이번 기록은 **RTX 4060의 실제 CUDA 학습 경로 검증**이다. 본 실험용 데이터는 모두 생성했지만, **10K trajectories × 50 epochs × 21회 비교는 아직 실행하지 않았다.** 아래 짧은 학습은 모델 우열이나 수렴을 입증하지 않는다. 장기 실행 절차는 [GPU 학습 안내](12_gpu_training.md)를 따른다.
 
 ## 실제로 완료한 작업
@@ -67,7 +69,7 @@ docker compose up -d docs
 동일 경로에서 완료된 suite는 학습을 반복하지 않는다. GPU check를 새로 측정하려면 다른 출력 폴더를 사용하고 report 스크립트의 입력 경로도 조정한다. 본 비교는 `.env`에 W&B 인증을 설정한 뒤 실행한다.
 
 ```bash
-docker compose --profile cuda run --rm cuda python -m cube suite --config configs/suite_gpu.json --output outputs/cube-gpu-suite --resume
+docker compose --profile cuda run --rm cuda python -m cube suite --config configs/suite_gpu.json --output outputs/cube-gpu-suite-5ep --resume
 ```
 
 먼저 계층형만 진행하려면 `--models hierarchical`을 추가한다. 기존 [소규모 CPU 실험](10_results.md)은 당시의 설정·결과로 보존하며, 이 GPU 기록과 동일한 실험인 것처럼 합산하지 않는다.

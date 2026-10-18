@@ -1,7 +1,7 @@
 {
   "device": "cuda:0",
-  "epochs": 50,
-  "max_steps": 100000,
+  "epochs": 5,
+  "max_steps": null,
   "batch_size": 32,
   "gradient_accumulation_steps": 16,
   "mixed_precision": "bf16",
@@ -21,7 +21,7 @@
   "progress": {"enabled": true, "mininterval": 1.0},
   "wandb": {
     "mode": "online",
-    "group": "cube-nerd10k-single-step",
+    "group": "cube-nerd10k-5ep-single-step",
     "tags": ["cube", "nerd-c4-10k", "single-step", "gpu"]
   },
   "model": {

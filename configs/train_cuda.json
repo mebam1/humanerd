@@ -1,8 +1,9 @@
 {
   "device": "cuda:0",
-  "epochs": 20,
+  "epochs": 5,
   "batch_size": 32,
   "learning_rate": 0.0003,
+  "gradient_clip": 1.0,
   "rollout_steps": 1,
   "model": {
     "hidden_dim": 128, "heads": 4,
