@@ -1,0 +1,42 @@
+{
+  "device": "cuda:0",
+  "epochs": 5,
+  "trajectory_budget": 10000,
+  "max_steps": null,
+  "batch_size": 128,
+  "gradient_accumulation_steps": 4,
+  "mixed_precision": "none",
+  "learning_rate": 0.001,
+  "weight_decay": 0.00001,
+  "scheduler": {"name": "linear", "warmup_epochs": 0, "min_lr_ratio": 0.1},
+  "rollout_steps": 1,
+  "rollout_weight": 0.25,
+  "gradient_clip": 1.0,
+  "torch_threads": 1,
+  "validation_max_trajectories": 256,
+  "data_cache_size": 128,
+  "scene_cache_size": 16,
+  "normalization_chunk_size": 16384,
+  "input_normalization_batch_size": 128,
+  "checkpoint_every_steps": 250,
+  "log_every_steps": 10,
+  "progress": {"enabled": true, "mininterval": 1.0},
+  "wandb": {"mode": "disabled"},
+  "model": {
+    "name": "contact_mlp",
+    "history": 1,
+    "hidden_dims": [512, 256, 128, 64],
+    "activation": "relu",
+    "contact_min_distance": 0.1,
+    "contact_thickness_multiplier": 4.0,
+    "normalize_input": true,
+    "normalize_output": true,
+    "input_normalization_epsilon": 0.00001
+  },
+  "evaluation": {
+    "device": "cuda:0",
+    "batch_size": 128,
+    "max_trajectories": 1000,
+    "save_rollouts": false
+  }
+}

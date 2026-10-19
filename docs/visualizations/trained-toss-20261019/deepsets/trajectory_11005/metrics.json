@@ -1,0 +1,116 @@
+{
+  "id": 11005,
+  "split": "test",
+  "scenario": "toss",
+  "seed": 1152647474,
+  "directory": "trajectory_11005",
+  "available_steps": 100,
+  "requested_horizon": 100,
+  "completed_steps": 100,
+  "dt": 0.02,
+  "reason": null,
+  "diverged": false,
+  "model_name": "deepsets",
+  "checkpoint_meta": {
+    "seed": 0,
+    "epoch": 5,
+    "next_epoch": 5,
+    "batch_cursor": 0,
+    "global_step": 9770,
+    "val_loss": 0.06928695722707744,
+    "best_val_loss": 0.06928695722707744,
+    "dataset_fingerprint": "5556a167aba34801a431f7a68bace04d8db190cc46ed6deccf6cdc2d84a56d86",
+    "dataset_manifest": "data/cube-toss/manifest.json",
+    "description": "Research implementation; NeRD-like baseline is not an official reproduction",
+    "path": "outputs/visualization-checkpoints/trained-toss-20261019/deepsets-best.pt",
+    "model_config": {
+      "name": "deepsets",
+      "hidden_dim": 128,
+      "heads": 4,
+      "local_layers": 3,
+      "global_layers": 3,
+      "window_size": 64,
+      "points_per_face": 64,
+      "floor_points": 256,
+      "floor_extent": 1.5,
+      "face_tokens": 1,
+      "serialization": "hilbert",
+      "history": 1,
+      "no_velocity": false,
+      "no_inertia": false,
+      "mean_pool": false,
+      "random_groups": false,
+      "no_face_exchange": false
+    }
+  },
+  "rollout_metrics": {
+    "position_rmse": 0.09778133779764175,
+    "rotation_geodesic_rad": 0.10377924889326096,
+    "linear_velocity_rmse": 0.21699459850788116,
+    "angular_velocity_rmse": 0.7786004543304443,
+    "joint_position_rmse": 0.0,
+    "joint_velocity_rmse": 0.0
+  },
+  "initial_condition": {
+    "position_world": [
+      -0.22942088544368744,
+      -0.49385303258895874,
+      1.4265697002410889
+    ],
+    "quaternion_wxyz": [
+      0.5514999628067017,
+      -0.2541881203651428,
+      -0.09031257033348083,
+      -0.7893540263175964
+    ],
+    "linear_velocity_world": [
+      -1.132872223854065,
+      0.024136174470186234,
+      0.7848697900772095
+    ],
+    "angular_velocity_local": [
+      -7.5637993812561035,
+      -7.9012322425842285,
+      5.716084003448486
+    ]
+  },
+  "action_summary": {
+    "all_zero": true,
+    "max_abs": 0.0
+  },
+  "duration_seconds": 2.0,
+  "video_name": "comparison.mp4",
+  "render": {
+    "video": "docs/visualizations/trained-toss-20261019/deepsets/trajectory_11005/comparison.mp4",
+    "poster": "docs/visualizations/trained-toss-20261019/deepsets/trajectory_11005/comparison.png",
+    "frames": 101,
+    "fps": 50.0,
+    "width": 1280,
+    "height": 480,
+    "camera": {
+      "lookat": [
+        -0.6301364824175835,
+        -0.3876993656158447,
+        0.8288425803184509
+      ],
+      "distance": 4.272449833192405,
+      "azimuth": 130.0,
+      "elevation": -24.0,
+      "gt_bounds": [
+        [
+          -1.377262240905255,
+          -0.8402631941027343,
+          -0.14473033573099964
+        ],
+        [
+          0.11698927607008808,
+          0.0648644628710448,
+          1.8024154963679015
+        ]
+      ],
+      "mode": "fixed",
+      "fit": "ground_truth",
+      "shared_panels": true
+    }
+  }
+}

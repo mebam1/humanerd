@@ -1,0 +1,64 @@
+{
+  "added_ids": [
+    12756,
+    12301,
+    12363,
+    12408,
+    12716,
+    12254
+  ],
+  "preserved_ids": [
+    12426
+  ],
+  "total_trajectories": 7,
+  "verification": [
+    {
+      "id": 12756,
+      "frames_checked": 101,
+      "minimum_blue_cube_pixels": 53560,
+      "width": 960,
+      "height": 720,
+      "initial_vx": 0.507192850112915
+    },
+    {
+      "id": 12301,
+      "frames_checked": 101,
+      "minimum_blue_cube_pixels": 53585,
+      "width": 960,
+      "height": 720,
+      "initial_vx": 0.635793149471283
+    },
+    {
+      "id": 12363,
+      "frames_checked": 101,
+      "minimum_blue_cube_pixels": 53586,
+      "width": 960,
+      "height": 720,
+      "initial_vx": 0.7527262568473816
+    },
+    {
+      "id": 12408,
+      "frames_checked": 101,
+      "minimum_blue_cube_pixels": 53542,
+      "width": 960,
+      "height": 720,
+      "initial_vx": 0.9164073467254639
+    },
+    {
+      "id": 12716,
+      "frames_checked": 101,
+      "minimum_blue_cube_pixels": 53490,
+      "width": 960,
+      "height": 720,
+      "initial_vx": 1.0579991340637207
+    },
+    {
+      "id": 12254,
+      "frames_checked": 101,
+      "minimum_blue_cube_pixels": 53461,
+      "width": 960,
+      "height": 720,
+      "initial_vx": 1.1957626342773438
+    }
+  ]
+}

@@ -1,0 +1,131 @@
+{
+  "created_at": "2026-10-19T12:09:48.648869+09:00",
+  "dataset": "data/cube-toss",
+  "split": "test",
+  "scenario": "toss",
+  "horizon": 100,
+  "limit": 6,
+  "models": {
+    "state_mlp": {
+      "source_checkpoint": "outputs/cube-toss-suite-final/state_mlp_budget10000_seed0/best.pt",
+      "snapshot_checkpoint": "outputs/visualization-checkpoints/trained-toss-20261019/state_mlp-best.pt",
+      "sha256": "afe9e556a8013cf052b8d7afa05ed18cb59df28998cbde6f36126e2699ac6f08",
+      "checkpoint_meta": {
+        "seed": 0,
+        "epoch": 5,
+        "next_epoch": 5,
+        "batch_cursor": 0,
+        "global_step": 9770,
+        "val_loss": 0.11733629063830449,
+        "best_val_loss": 0.11733629063830449,
+        "dataset_fingerprint": "5556a167aba34801a431f7a68bace04d8db190cc46ed6deccf6cdc2d84a56d86",
+        "dataset_manifest": "data/cube-toss/manifest.json",
+        "description": "Research implementation; NeRD-like baseline is not an official reproduction",
+        "path": "outputs/visualization-checkpoints/trained-toss-20261019/state_mlp-best.pt",
+        "model_config": {
+          "name": "state_mlp",
+          "hidden_dim": 128,
+          "heads": 4,
+          "local_layers": 3,
+          "global_layers": 3,
+          "window_size": 64,
+          "points_per_face": 64,
+          "floor_points": 256,
+          "floor_extent": 1.5,
+          "face_tokens": 1,
+          "serialization": "hilbert",
+          "history": 1,
+          "no_velocity": false,
+          "no_inertia": false,
+          "mean_pool": false,
+          "random_groups": false,
+          "no_face_exchange": false
+        }
+      }
+    },
+    "deepsets": {
+      "source_checkpoint": "outputs/cube-toss-suite-final/deepsets_budget10000_seed0/best.pt",
+      "snapshot_checkpoint": "outputs/visualization-checkpoints/trained-toss-20261019/deepsets-best.pt",
+      "sha256": "ac8cffa0f1a5ed884f612aaaa84791c69f0777eb7c20bf7beec9d0d9ec234fc4",
+      "checkpoint_meta": {
+        "seed": 0,
+        "epoch": 5,
+        "next_epoch": 5,
+        "batch_cursor": 0,
+        "global_step": 9770,
+        "val_loss": 0.06928695722707744,
+        "best_val_loss": 0.06928695722707744,
+        "dataset_fingerprint": "5556a167aba34801a431f7a68bace04d8db190cc46ed6deccf6cdc2d84a56d86",
+        "dataset_manifest": "data/cube-toss/manifest.json",
+        "description": "Research implementation; NeRD-like baseline is not an official reproduction",
+        "path": "outputs/visualization-checkpoints/trained-toss-20261019/deepsets-best.pt",
+        "model_config": {
+          "name": "deepsets",
+          "hidden_dim": 128,
+          "heads": 4,
+          "local_layers": 3,
+          "global_layers": 3,
+          "window_size": 64,
+          "points_per_face": 64,
+          "floor_points": 256,
+          "floor_extent": 1.5,
+          "face_tokens": 1,
+          "serialization": "hilbert",
+          "history": 1,
+          "no_velocity": false,
+          "no_inertia": false,
+          "mean_pool": false,
+          "random_groups": false,
+          "no_face_exchange": false
+        }
+      }
+    },
+    "hierarchical": {
+      "source_checkpoint": "outputs/cube-toss-suite-final/hierarchical_budget10000_seed0/best.pt",
+      "snapshot_checkpoint": "outputs/visualization-checkpoints/trained-toss-20261019/hierarchical-best.pt",
+      "sha256": "848fb6c8921b78a85d814c128934a5001ee776dfccc9037611fca23b56eb718b",
+      "checkpoint_meta": {
+        "seed": 0,
+        "epoch": 5,
+        "next_epoch": 5,
+        "batch_cursor": 0,
+        "global_step": 9770,
+        "val_loss": 0.2954918560277656,
+        "best_val_loss": 0.2954918560277656,
+        "dataset_fingerprint": "5556a167aba34801a431f7a68bace04d8db190cc46ed6deccf6cdc2d84a56d86",
+        "dataset_manifest": "data/cube-toss/manifest.json",
+        "description": "Research implementation; NeRD-like baseline is not an official reproduction",
+        "path": "outputs/visualization-checkpoints/trained-toss-20261019/hierarchical-best.pt",
+        "model_config": {
+          "name": "hierarchical",
+          "hidden_dim": 128,
+          "heads": 4,
+          "local_layers": 3,
+          "global_layers": 3,
+          "window_size": 64,
+          "points_per_face": 64,
+          "floor_points": 256,
+          "floor_extent": 1.5,
+          "face_tokens": 1,
+          "serialization": "hilbert",
+          "history": 1,
+          "no_velocity": false,
+          "no_inertia": false,
+          "mean_pool": false,
+          "random_groups": false,
+          "no_face_exchange": false
+        }
+      }
+    }
+  },
+  "selected_ids": [
+    11000,
+    11001,
+    11002,
+    11003,
+    11004,
+    11005
+  ],
+  "complete": true,
+  "updated_at": "2026-10-19T15:43:50.401710+09:00"
+}

@@ -33,9 +33,11 @@ docker compose down
 
 주 학습 데이터는 **랜덤 위치·회전·선속도·각속도의 Cube 투척**으로 바꿨습니다. 투척 후 action은 모든 시점에서 0이며, 중력과 접촉으로 움직입니다. **[투척 데이터 구성과 기존 데이터 감사](http://localhost:8000/15_cube_toss.html)** · **[새 투척 GT 갤러리](http://localhost:8000/visualizations/gt-toss/index.html)**에서 확인합니다. 새 데이터 검증 후 기존 `data/cube-nerd` 원본을 제거했습니다. 감사 결과·갤러리·과거 checkpoint는 기록으로 남겼습니다. 짧은 7개 모델 CUDA 비교와 재개 검증인 **[GPU 실행 결과](http://localhost:8000/13_gpu_results.html)**는 이전 데이터의 3-epoch 검증 기록입니다.
 
-NeRD **Appendix C.4의 Cube 전용 synthetic 데이터는 랜덤 초기 상태의 투척 10,000 trajectories × 길이 100**입니다. 새 `configs/cube_toss_nerd_scale.json`은 학습용 투척 10,000개, validation/test 투척 각 1,000개, 별도 OOD 바닥–벽 동시 접촉 1,000개를 생성합니다. OOD는 기존 접촉 진단 초기 조건이며 랜덤 투척 분포가 아닙니다. 이 저장소의 길이는 100 transitions와 101 states입니다. 초기 분포의 구체적인 범위는 자체 설정이며 원본 NeRD의 모델·solver·실측 데이터 재현은 아닙니다. [원논문](https://arxiv.org/html/2508.15755v1#A3.SS4)
+NeRD **Appendix C.4의 Cube 전용 synthetic 데이터는 랜덤 초기 상태의 투척 10,000 trajectories × 길이 100**입니다. `configs/cube_toss_nerd_scale.json`의 학습용 투척 10,000개와 validation/test 각 1,000개는 유지합니다. 현재 OOD v2는 **랜덤 위치·회전에서 평평한 벽으로 던지는 장면 + 평평한 바닥 500개(50%)**, **학습과 같은 초기 투척 설정 + 각 평면이 수평에서 10° 기울어진 중앙이 낮은 V자 바닥 500개(50%)**입니다. 이 저장소의 길이는 100 transitions와 101 states입니다. 초기 분포의 구체적인 범위는 자체 설정이며 원본 NeRD의 모델·solver·실측 데이터 재현은 아닙니다. [원논문](https://arxiv.org/html/2508.15755v1#A3.SS4)
 
-새 13,000개 생성과 전수 검증을 완료했고 action은 모두 0입니다. 메인 계층형 구조 그대로 16개 trajectory를 GPU에서 5 epochs 학습해 로더·정규화·학습·clipping 경로도 검증했습니다. 이 작은 검증 모델은 아직 정확도가 낮으며 10,000개 전체 학습 결과가 아닙니다. [새 데이터 학습 검증 결과](http://localhost:8000/15_cube_toss.html)와 [검증 모델 rollout](http://localhost:8000/visualizations/model-toss-validation/index.html)에서 한계까지 확인할 수 있습니다.
+새 OOD 1,000개는 `configs/cube_toss_ood_v2.json`으로 **`data/cube-toss-ood-v2`에 별도 생성**했습니다. 기존 `data/cube-toss`의 학습·validation·test 및 체크포인트는 유지합니다. [OOD v2 GT 갤러리](http://localhost:8000/visualizations/ood-context/index.html)에 두 조건의 정답 영상을 모았습니다. 새 조건에서 5 epoch·seed 0의 `state_mlp`, `deepsets`, `hierarchical`, `contact_mlp`를 동일한 1,000개 전체에서 평가했습니다. [OOD v2 모델 비교](docs/ood_comparison.html)에서 전체·벽·V자 바닥의 오차와 발산 진단을 확인할 수 있습니다. 기존 W&B 막대 그래프는 이전 `floor_wall` v1의 512개 평가 기록이며 [v1 보관 문서](docs/ood_comparison_v1.html)에 남겼습니다. 구덩이·융기처럼 단일 기울기로 표현되지 않는 바닥에 대응한다는 [연구 목표](http://localhost:8000/nerd_goal.html)는 계속 유지합니다.
+
+기존 `data/cube-toss`의 13,000개 생성과 전수 검증을 완료했고 action은 모두 0입니다. 이 중 저장된 이전 OOD v1은 보관하고 새 평가는 별도 v2 데이터에서 수행하도록 설정했습니다. 초기에는 메인 계층형 구조 그대로 16개 trajectory를 GPU에서 5 epochs 학습해 로더·정규화·학습·clipping 경로를 검증했습니다. 이 작은 검증 모델은 아직 정확도가 낮으며 10,000개 전체 학습 결과가 아닙니다. [초기 데이터 학습 검증 결과](http://localhost:8000/15_cube_toss.html)와 [검증 모델 rollout](http://localhost:8000/visualizations/model-toss-validation/index.html)에서 한계까지 확인할 수 있습니다.
 
 1. `.env.example`을 참고해 저장소 루트의 로컬 `.env`에 `WANDB_API_KEY`, `WANDB_ENTITY`를 설정합니다. API 키는 명령이나 JSON config에 넣지 않습니다.
 2. 이미지를 빌드하고 `doctor`의 `torch_cuda: true`를 확인합니다.
@@ -44,23 +46,23 @@ NeRD **Appendix C.4의 Cube 전용 synthetic 데이터는 랜덤 초기 상태�
 ```bash
 docker compose --profile cuda build research cuda
 docker compose --profile cuda run --rm cuda python -m cube doctor
-docker compose run --rm research python -m cube data-plan --config configs/cube_toss_nerd_scale.json
-docker compose run --rm research python -m cube generate --config configs/cube_toss_nerd_scale.json --output data/cube-toss --resume
+docker compose run --rm research python -m cube data-plan --config configs/cube_toss_ood_v2.json
+docker compose run --rm research python -m cube generate --config configs/cube_toss_ood_v2.json --output data/cube-toss-ood-v2 --resume
 docker compose run --rm research python scripts/audit_cube_toss.py --dataset data/cube-toss
 docker compose run --rm research python scripts/verify_toss_model.py --dataset data/cube-toss --config configs/train_gpu.json --trajectories 40 --output docs/results/cube_toss_model_contract.json
 docker compose --profile cuda run --rm cuda python -m cube train --dataset data/cube-toss --config configs/train_gpu.json --model hierarchical --seed 0 --output outputs/cube-toss-gpu-5ep/hierarchical
 ```
 
-생성은 MuJoCo CPU worker 8개를 사용하고, 학습은 CUDA와 bf16을 사용합니다. 데이터는 NPY shard로 저장하며 필요한 부분만 읽습니다. 동일한 생성 버전·설정으로 만든 데이터의 `--resume`는 파일을 검증하고 재사용합니다. 중단된 생성은 완료된 shard부터 이어집니다. 기존 `data/cube-nerd`에 새 설정으로 `--resume`하지 마세요. 초기 상태·action 정책이 바뀌어 생성 fingerprint가 다르며 새 데이터와 새 학습 출력 폴더를 사용합니다.
+생성은 MuJoCo CPU worker 8개를 사용하고, 학습은 CUDA와 bf16을 사용합니다. 데이터는 NPY shard로 저장하며 필요한 부분만 읽습니다. 동일한 생성 버전·설정으로 만든 데이터의 `--resume`는 파일을 검증하고 재사용합니다. 중단된 생성은 완료된 shard부터 이어집니다. 위 생성 명령은 OOD v2만 다룹니다. 기존 `data/cube-toss`나 `data/cube-nerd`에 변경된 생성 설정으로 `--resume`하지 마세요. 초기 상태·환경·action 정책이 다르면 fingerprint가 달라집니다.
 
 기본 학습은 **모델·seed별 5 epochs, gradient L2 norm clipping 1.0, effective batch 512, LR 1e-3 → 1e-4**입니다. 이는 수렴을 보장하는 수치가 아니며 validation 추세를 확인해야 합니다. GPU 비교는 짧은 smoke보다 훨씬 오래 걸립니다. 먼저 아래 용량 측정으로 본인 GPU의 처리량과 메모리를 확인할 수 있습니다.
 
 ```bash
 docker compose --profile cuda run --rm cuda python scripts/benchmark_gpu.py --output outputs/gpu_capacity.json
-docker compose --profile cuda run --rm cuda python -m cube suite --config configs/suite_gpu.json --output outputs/cube-toss-suite-5ep --resume
+docker compose --profile cuda run --rm cuda python -m cube suite --config configs/suite_gpu.json --output outputs/cube-toss-suite-5ep-ood-v2 --resume
 ```
 
-Suite는 **7개 설정 × 3개 seed = 21회**를 비교합니다: `hierarchical`, `state_mlp`, `deepsets`, `flat`, `independent`, `nerd_history1`, `nerd_history10`. 같은 학습 데이터·epoch·검증 subset을 사용하고 test/OOD 평가와 seed별 요약을 `suite.json`에 저장합니다. `nerd_history*`는 내부 비교군입니다. 전체 비교에서 계층형부터 보고 싶으면 같은 suite 명령에 `--models hierarchical`을 추가한 다음, filter 없이 `--resume`로 나머지를 진행합니다.
+Suite는 **7개 설정 × 3개 seed = 21회**를 비교합니다: `hierarchical`, `state_mlp`, `deepsets`, `flat`, `independent`, `nerd_history1`, `nerd_history10`. 같은 학습 데이터·epoch·검증 subset을 사용하고 test/OOD 평가와 seed별 요약을 `suite.json`에 저장합니다. 현재 `suite_gpu.json`과 `suite_gpu_toss.json`은 train/test에 `data/cube-toss`, OOD에 `data/cube-toss-ood-v2`를 사용합니다. OOD manifest가 suite signature에 포함되므로 v1 평가가 있는 이전 suite 출력 폴더에 이어 쓰지 않습니다. `nerd_history*`는 내부 비교군입니다. 전체 비교에서 계층형부터 보고 싶으면 같은 suite 명령에 `--models hierarchical`을 추가한 다음, filter 없이 `--resume`로 나머지를 진행합니다.
 
 W&B online에 학습/검증 loss, LR, 처리량, GPU 메모리, test/OOD의 one-step·rollout·접촉 지표를 기록합니다. 링크와 run ID는 각 실행의 `wandb_run.json`에 남습니다. online 인증 실패는 오류로 처리합니다. 인증 없이 로컬 기록을 시험하려면 별도 출력 폴더와 `--wandb-mode offline`을 사용합니다. offline 로그는 온라인 전송 완료를 의미하지 않습니다.
 
@@ -75,13 +77,13 @@ docker compose --profile cuda run --rm cuda python -m cube suite --config config
 ```bash
 docker compose --profile cuda run --rm cuda python -m cube train --dataset data/cube-toss --config configs/train_gpu.json --model hierarchical --seed 0 --output outputs/cube-toss-gpu-5ep/hierarchical --resume outputs/cube-toss-gpu-5ep/hierarchical/last.pt
 docker compose --profile cuda run --rm cuda python -m cube evaluate --checkpoint outputs/cube-toss-gpu-5ep/hierarchical/best.pt --dataset data/cube-toss --device cuda:0 --batch-size 8 --max-trajectories 1000 --rollout-horizon 100 --no-save-rollouts --output outputs/cube-toss-gpu-5ep/hierarchical/test-full
-docker compose --profile cuda run --rm cuda python -m cube evaluate --checkpoint outputs/cube-toss-gpu-5ep/hierarchical/best.pt --dataset data/cube-toss --split ood --device cuda:0 --batch-size 8 --max-trajectories 1000 --rollout-horizon 100 --no-save-rollouts --output outputs/cube-toss-gpu-5ep/hierarchical/ood-full
+docker compose --profile cuda run --rm cuda python -m cube evaluate --checkpoint outputs/cube-toss-gpu-5ep/hierarchical/best.pt --dataset data/cube-toss-ood-v2 --split ood --device cuda:0 --batch-size 8 --max-trajectories 1000 --rollout-horizon 100 --no-save-rollouts --output outputs/cube-toss-gpu-5ep/hierarchical/ood-v2-full
 docker compose run --rm research python -m cube coupling --checkpoint outputs/cube-toss-gpu-5ep/hierarchical/best.pt --output outputs/cube-toss-gpu-5ep/hierarchical/coupling
 ```
 
 `best.pt`는 validation으로 선택한 평가용 모델, `last.pt`는 optimizer·scheduler·RNG·배치 진행 위치까지 복원하는 재개용입니다. 최적화 설정을 바꾸면 새 출력 폴더를 사용합니다. `epochs` 변경은 동일 학습 재개가 아닙니다. tqdm은 데이터 생성·정규화·학습·검증·평가·suite에서 진행률을 표시합니다. 로그만 필요한 환경에서는 Compose `run` 뒤에 `-e TQDM_DISABLE=1`을 붙입니다.
 
-이전 데이터·50-epoch 실행은 새 투척 데이터의 5-epoch 실행으로 재개하지 않습니다. 위 명령은 새 `outputs/cube-toss-suite-5ep`를 사용합니다. Clipping은 AMP unscale·gradient accumulation 평균화 후 optimizer step 전에 global L2 norm 1.0으로 적용됩니다. W&B의 `train/gradient_norm`은 **clipping 전 값**입니다.
+이전 데이터·50-epoch 실행은 새 투척 데이터의 5-epoch 실행으로 재개하지 않습니다. OOD v2 suite 명령은 별도 `outputs/cube-toss-suite-5ep-ood-v2`를 사용합니다. OOD v2는 5 epoch·seed 0의 `state_mlp`, `deepsets`, `hierarchical`, `contact_mlp` 체크포인트를 같은 1,000개(벽 500개 + V자 바닥 500개)에서 100스텝 평가했습니다. 결과는 [OOD v2 비교 문서](docs/ood_comparison.html), 원본은 `outputs/ood-v2-evaluation/{model}/evaluation.json`에 저장했습니다. 기존 W&B v1 기록은 [별도 문서](docs/ood_comparison_v1.html)로 보존합니다. Clipping은 AMP unscale·gradient accumulation 평균화 후 optimizer step 전에 global L2 norm 1.0으로 적용됩니다. W&B의 `train/gradient_norm`은 **clipping 전 값**입니다.
 
 ## 작은 실험 전체 재현
 
@@ -119,7 +121,15 @@ docker compose run --rm research python -m cube suite --config configs/suite_smo
 
 접촉 시나리오는 자유 낙하, 착지, 반발, 정착, 정지, sliding, 모서리 회전, 벽 단독, 바닥–벽 동시 접촉입니다. 학습에 포함하지 않은 동시 접촉 조합은 OOD split로 분리합니다. 데이터는 trajectory 단위로 나뉘며 접촉 사건 진단은 내부 substep에서도 기록합니다.
 
-비교 모델: `state_mlp`, `nerd_like`, `deepsets`, `flat`, `independent`, `hierarchical`. **`nerd_like`는 내부 통제 비교군이며 원본 NeRD 재현이 아닙니다.** Hilbert/Morton, velocity·inertia 제거, mean pooling, 무작위 face grouping, face token 수, face 간 정보 교환, history 등의 설정은 `configs/suite_research.json`과 모델 문서를 참고하세요.
+비교 모델: `state_mlp`, `contact_mlp`, `nerd_like`, `deepsets`, `flat`, `independent`, `hierarchical`. **`nerd_like`는 내부 통제 비교군이며 원본 NeRD 재현이 아닙니다.** Hilbert/Morton, velocity·inertia 제거, mean pooling, 무작위 face grouping, face token 수, face 간 정보 교환, history 등의 설정은 `configs/suite_research.json`과 모델 문서를 참고하세요.
+
+`contact_mlp`는 [NeRD 논문](https://arxiv.org/pdf/2508.15755)과 공식 코드의 명시적 contact 입력을 따르는 Cube 모델입니다. Point cloud를 만들지 않고 **고정된 꼭짓점 8개에서 환경 표면점·법선·부호 있는 거리**를 계산합니다. 현재 속도·외력·중력 방향과 결합한 71차원 입력을 `512 → 256 → 128 → 64` ReLU MLP로 처리합니다. 원본에서 가져온 부분과 Cube에 맞춘 차이는 [모델 설명](documentation/05_models.md)에 기록했습니다. 5 epoch 학습을 완료한 `contact_mlp`를 기존 세 모델과 같은 OOD v2 1,000개·100스텝 조건에서 평가했습니다. 네 모델의 결과는 [OOD 비교 문서](docs/ood_comparison.html)에서 확인할 수 있습니다.
+
+별도 5 epoch 학습과 test/OOD v2 평가를 실행하는 설정입니다. W&B 로깅은 기본적으로 꺼져 있습니다.
+
+```bash
+docker compose --profile cuda run --rm cuda python -m cube suite --config configs/suite_contact_mlp.json --output outputs/contact-mlp-suite-5ep
+```
 
 ## 전이 학습: Cube → 직육면체 / 두 링크 / Ant
 
@@ -192,10 +202,11 @@ docker compose run --rm -e MUJOCO_GL=osmesa research python -m cube visualize-ro
 docker compose --profile cuda run --rm -e MUJOCO_GL=osmesa cuda python -m cube visualize-rollout --dataset data/cube-toss --checkpoint outputs/cube-toss-suite-5ep/hierarchical_budget10000_seed0/best.pt --split test --scenario toss --limit 6 --horizon 100 --device cuda:0 --output docs/visualizations/model-toss
 ```
 
-CUDA 추론과 OOD 바닥–벽 동시 접촉 비교는 다음과 같습니다. checkpoint가 존재해야 실행할 수 있습니다.
+CUDA 추론과 OOD v2 비교는 다음과 같습니다. checkpoint가 존재해야 실행할 수 있으며 아래는 향후 모델 예측 시각화 예시입니다. 새 GT만 확인하려면 [OOD v2 GT 갤러리](http://localhost:8000/visualizations/ood-context/index.html)를 엽니다.
 
 ```bash
-docker compose --profile cuda run --rm -e MUJOCO_GL=osmesa cuda python -m cube visualize-rollout --dataset data/cube-toss --checkpoint outputs/cube-toss-suite-5ep/hierarchical_budget10000_seed0/best.pt --split ood --scenario floor_wall --limit 2 --horizon 100 --device cuda:0 --output docs/visualizations/model-toss-ood
+docker compose --profile cuda run --rm -e MUJOCO_GL=osmesa cuda python -m cube visualize-rollout --dataset data/cube-toss-ood-v2 --checkpoint outputs/cube-toss-suite-5ep/hierarchical_budget10000_seed0/best.pt --split ood --scenario toss_wall --limit 2 --horizon 100 --device cuda:0 --output docs/visualizations/model-toss-ood-v2-wall
+docker compose --profile cuda run --rm -e MUJOCO_GL=osmesa cuda python -m cube visualize-rollout --dataset data/cube-toss-ood-v2 --checkpoint outputs/cube-toss-suite-5ep/hierarchical_budget10000_seed0/best.pt --split ood --scenario toss_valley --limit 2 --horizon 100 --device cuda:0 --output docs/visualizations/model-toss-ood-v2-valley
 docker compose run --rm research python -m cube docs
 ```
 

@@ -214,6 +214,52 @@ def fit_normalization(entries, cache, floor, chunk_size, progress_config=None):
             "method": "streaming float64 Welford; deltas float32 on CPU"}
 
 
+def fit_input_normalization(model, entries, cache, scenes, batch_size, epsilon=1e-5,
+                            progress_config=None):
+    """Fit contact input statistics using only current states/actions in the train split.
+
+    Collision queries are recomputed from each current pose. The loader used here
+    exposes only states/actions, so saved contact labels and future states cannot
+    become feature inputs. Scene-homogeneous chunks bound both memory and queries.
+    """
+    if not entries or any(entry.get("split") != "train" for entry in entries):
+        raise ValueError("Input normalization requires nonempty train-only trajectories")
+    if int(batch_size) < 1 or not math.isfinite(epsilon) or epsilon <= 0:
+        raise ValueError("Input normalization batch size and epsilon must be positive")
+    device = next(model.parameters()).device
+    plan = BatchPlan(entries, cache, int(batch_size), rollout_steps=1)
+    count, mean, m2 = 0, None, None
+    with torch.no_grad():
+        for batch in progress(plan.iterate(0, shuffle=False), config=progress_config,
+                              total=plan.batches, desc="Train contact input normalization", unit="batch"):
+            scenes.activate(model, batch[0][0])
+            states, actions = [], []
+            for entry, indices in batch:
+                value = cache.get(entry)
+                states.append(value["states"][indices])
+                actions.append(value["actions"][indices])
+            current = torch.from_numpy(np.concatenate(states).astype(np.float32, copy=False)).to(device)
+            action = torch.from_numpy(np.concatenate(actions).astype(np.float32, copy=False)).to(device)
+            values = model.raw_input(current, action).detach().to(device="cpu", dtype=torch.float64)
+            if values.ndim != 2 or not torch.isfinite(values).all():
+                raise ValueError("Contact input features must be a finite two-dimensional tensor")
+            n, average = len(values), values.mean(0)
+            variance_sum = (values-average).square().sum(0)
+            if count == 0:
+                mean, m2 = average, variance_sum
+            else:
+                difference = average-mean
+                m2 = m2 + variance_sum + difference.square()*count*n/(count+n)
+                mean = mean + difference*n/(count+n)
+            count += n
+    return {"mean": mean.float().tolist(), "scale": (m2/count+epsilon).sqrt().float().tolist(),
+            "variance": (m2/count).tolist(), "epsilon": epsilon, "fit_split": "train",
+            "trajectory_ids": [entry["id"] for entry in entries], "transitions": count,
+            "feature_dimension": len(mean), "batch_size": int(batch_size),
+            "feature_source": "current state/action and current-pose collision query; no stored contact labels or future state",
+            "method": "streaming float64 Welford; population scale=sqrt(variance+epsilon)"}
+
+
 def _rng_state():
     return {"python": random.getstate(), "numpy": np.random.get_state(), "torch": torch.get_rng_state(),
             "cuda": torch.cuda.get_rng_state_all() if torch.cuda.is_available() else []}
@@ -368,6 +414,25 @@ def run_training(dataset, output, config, model_name, seed, epochs, transfer_che
         normalization = previous["normalization"] if previous else fit_normalization(
             train_entries, data, float(cfg.get("normalization_floor", .02)), chunk_size, cfg.get("progress"))
         scale = torch.tensor(normalization["delta_std"], dtype=torch.float32, device=device)
+        contact_model = model.kind == "contact_mlp"
+        input_normalization = None
+        if contact_model:
+            if previous:
+                # Normalization buffers have already been restored by load_state_dict.
+                # Never refit on resume or overwrite checkpoint precision/values.
+                input_normalization = previous["input_normalization"]
+            else:
+                if model.config.get("normalize_input", True):
+                    input_normalization = fit_input_normalization(
+                        model, train_entries, data, scenes,
+                        int(cfg.get("input_normalization_batch_size", batch_size)),
+                        float(model.config.get("input_normalization_epsilon", 1e-5)), cfg.get("progress"))
+                    input_normalization["dataset_manifest_sha256"] = fingerprint
+                    model.set_input_normalization(input_normalization["mean"], input_normalization["scale"])
+                else:
+                    input_normalization = {"enabled": False, "fit_split": None, "trajectory_ids": [], "transitions": 0}
+                if model.config.get("normalize_output", True):
+                    model.set_output_normalization(normalization["delta_mean"], normalization["delta_std"])
         if previous:
             optimizer.load_state_dict(previous["optimizer_state_dict"])
             scheduler.load_state_dict(previous["scheduler_state_dict"])
@@ -385,6 +450,7 @@ def run_training(dataset, output, config, model_name, seed, epochs, transfer_che
         def payload(next_epoch, cursor):
             return {"state_dict": model.state_dict(), "model_config": model.config, "metadata": model.metadata,
                     "scene_spec": train_entries[0]["scene_spec"], "normalization": normalization,
+                    **({"input_normalization": input_normalization} if contact_model else {}),
                     "training_config": cfg, "training_contract": contract, "seed": seed,
                     "epoch": next_epoch + (cursor > 0), "next_epoch": next_epoch, "batch_cursor": cursor,
                     "global_step": global_step, "epoch_loss_sum": epoch_sum, "epoch_samples": epoch_samples,
@@ -519,6 +585,7 @@ def run_training(dataset, output, config, model_name, seed, epochs, transfer_che
                   "train_transitions_per_epoch": train_plan.transitions, "optimizer_steps": global_step,
                   "effective_batch_size": batch_size*accumulation, "epochs": records, "best_val_loss": best,
                   "normalization": normalization, "transfer": transfer_report, "dataset_fingerprint": fingerprint,
+                  **({"input_normalization": input_normalization} if contact_model else {}),
                   "stop_reason": "max_steps" if exhausted else "epochs", "wandb": {"mode": tracker.mode, "id": tracker.id, "url": tracker.url},
                   "elapsed_seconds": previous_elapsed+time.perf_counter()-started}
         write_json(output_dir / "training.json", report)

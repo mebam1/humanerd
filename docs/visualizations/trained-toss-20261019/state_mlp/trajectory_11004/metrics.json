@@ -1,0 +1,116 @@
+{
+  "id": 11004,
+  "split": "test",
+  "scenario": "toss",
+  "seed": 1152542745,
+  "directory": "trajectory_11004",
+  "available_steps": 100,
+  "requested_horizon": 100,
+  "completed_steps": 100,
+  "dt": 0.02,
+  "reason": null,
+  "diverged": false,
+  "model_name": "state_mlp",
+  "checkpoint_meta": {
+    "seed": 0,
+    "epoch": 5,
+    "next_epoch": 5,
+    "batch_cursor": 0,
+    "global_step": 9770,
+    "val_loss": 0.11733629063830449,
+    "best_val_loss": 0.11733629063830449,
+    "dataset_fingerprint": "5556a167aba34801a431f7a68bace04d8db190cc46ed6deccf6cdc2d84a56d86",
+    "dataset_manifest": "data/cube-toss/manifest.json",
+    "description": "Research implementation; NeRD-like baseline is not an official reproduction",
+    "path": "outputs/visualization-checkpoints/trained-toss-20261019/state_mlp-best.pt",
+    "model_config": {
+      "name": "state_mlp",
+      "hidden_dim": 128,
+      "heads": 4,
+      "local_layers": 3,
+      "global_layers": 3,
+      "window_size": 64,
+      "points_per_face": 64,
+      "floor_points": 256,
+      "floor_extent": 1.5,
+      "face_tokens": 1,
+      "serialization": "hilbert",
+      "history": 1,
+      "no_velocity": false,
+      "no_inertia": false,
+      "mean_pool": false,
+      "random_groups": false,
+      "no_face_exchange": false
+    }
+  },
+  "rollout_metrics": {
+    "position_rmse": 0.22920426726341248,
+    "rotation_geodesic_rad": 1.0135434865951538,
+    "linear_velocity_rmse": 0.36796051263809204,
+    "angular_velocity_rmse": 1.3340026140213013,
+    "joint_position_rmse": 0.0,
+    "joint_velocity_rmse": 0.0
+  },
+  "initial_condition": {
+    "position_world": [
+      0.5690324306488037,
+      0.18206028640270233,
+      1.739494800567627
+    ],
+    "quaternion_wxyz": [
+      -0.12993915379047394,
+      -0.4097796082496643,
+      0.2308945208787918,
+      -0.87285977602005
+    ],
+    "linear_velocity_world": [
+      -1.932464599609375,
+      1.5695737600326538,
+      0.25846701860427856
+    ],
+    "angular_velocity_local": [
+      -3.2779922485351562,
+      0.6514614820480347,
+      3.3509809970855713
+    ]
+  },
+  "action_summary": {
+    "all_zero": true,
+    "max_abs": 0.0
+  },
+  "duration_seconds": 2.0,
+  "video_name": "comparison.mp4",
+  "render": {
+    "video": "docs/visualizations/trained-toss-20261019/state_mlp/trajectory_11004/comparison.mp4",
+    "poster": "docs/visualizations/trained-toss-20261019/state_mlp/trajectory_11004/comparison.png",
+    "frames": 101,
+    "fps": 50.0,
+    "width": 1280,
+    "height": 480,
+    "camera": {
+      "lookat": [
+        -0.31140661239624023,
+        0.6215409263968468,
+        0.9717701077461242
+      ],
+      "distance": 5.9964525086321245,
+      "azimuth": 130.0,
+      "elevation": -24.0,
+      "gt_bounds": [
+        [
+          -1.5382558169550598,
+          -0.16434987511107318,
+          -0.1450816455073058
+        ],
+        [
+          0.9154425921625793,
+          1.4074317279047668,
+          2.088621860999554
+        ]
+      ],
+      "mode": "fixed",
+      "fit": "ground_truth",
+      "shared_panels": true
+    }
+  }
+}

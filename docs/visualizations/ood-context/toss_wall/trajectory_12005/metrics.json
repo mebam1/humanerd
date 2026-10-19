@@ -1,0 +1,76 @@
+{
+  "id": 12005,
+  "split": "ood",
+  "scenario": "toss_wall",
+  "seed": 1257376474,
+  "directory": "trajectory_12005",
+  "available_steps": 100,
+  "requested_horizon": 100,
+  "completed_steps": 100,
+  "dt": 0.02,
+  "reason": null,
+  "diverged": false,
+  "initial_condition": {
+    "position_world": [
+      -0.5087025761604309,
+      -0.4096216559410095,
+      1.1668332815170288
+    ],
+    "quaternion_wxyz": [
+      -0.18315419554710388,
+      -0.5217575430870056,
+      0.2479308843612671,
+      -0.7954582571983337
+    ],
+    "linear_velocity_world": [
+      8.231857299804688,
+      0.49682489037513733,
+      1.5051780939102173
+    ],
+    "angular_velocity_local": [
+      4.178502082824707,
+      -5.886006832122803,
+      -5.590323448181152
+    ]
+  },
+  "action_summary": {
+    "all_zero": true,
+    "max_abs": 0.0
+  },
+  "duration_seconds": 2.0,
+  "video_name": "gt.mp4",
+  "render": {
+    "video": "docs/visualizations/ood-context/toss_wall/trajectory_12005/gt.mp4",
+    "poster": "docs/visualizations/ood-context/toss_wall/trajectory_12005/gt.png",
+    "frames": 101,
+    "fps": 50.0,
+    "width": 960,
+    "height": 720,
+    "camera": {
+      "lookat": [
+        0.8601823747158049,
+        -0.7193727046251297,
+        0.7397004216909409
+      ],
+      "distance": 6.843658232688464,
+      "azimuth": 68.68661340824768,
+      "elevation": -24.0,
+      "gt_bounds": [
+        [
+          -0.8551127376742065,
+          -1.5345178904719055,
+          -0.14517918850848072
+        ],
+        [
+          2.5754774871058164,
+          0.095772481221646,
+          1.6245800318903625
+        ]
+      ],
+      "wall_aware": true,
+      "mode": "fixed",
+      "fit": "ground_truth",
+      "shared_panels": false
+    }
+  }
+}

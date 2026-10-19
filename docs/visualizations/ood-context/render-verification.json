@@ -1,0 +1,101 @@
+{
+  "frames_checked": 1212,
+  "videos": [
+    {
+      "id": 12000,
+      "scenario": "toss_wall",
+      "frames_checked": 101,
+      "minimum_visible_cube_pixels": 2610,
+      "width": 960,
+      "height": 720
+    },
+    {
+      "id": 12001,
+      "scenario": "toss_wall",
+      "frames_checked": 101,
+      "minimum_visible_cube_pixels": 3584,
+      "width": 960,
+      "height": 720
+    },
+    {
+      "id": 12002,
+      "scenario": "toss_wall",
+      "frames_checked": 101,
+      "minimum_visible_cube_pixels": 5384,
+      "width": 960,
+      "height": 720
+    },
+    {
+      "id": 12003,
+      "scenario": "toss_wall",
+      "frames_checked": 101,
+      "minimum_visible_cube_pixels": 2913,
+      "width": 960,
+      "height": 720
+    },
+    {
+      "id": 12004,
+      "scenario": "toss_wall",
+      "frames_checked": 101,
+      "minimum_visible_cube_pixels": 3136,
+      "width": 960,
+      "height": 720
+    },
+    {
+      "id": 12005,
+      "scenario": "toss_wall",
+      "frames_checked": 101,
+      "minimum_visible_cube_pixels": 2566,
+      "width": 960,
+      "height": 720
+    },
+    {
+      "id": 12500,
+      "scenario": "toss_valley",
+      "frames_checked": 101,
+      "minimum_visible_cube_pixels": 7440,
+      "width": 960,
+      "height": 720
+    },
+    {
+      "id": 12501,
+      "scenario": "toss_valley",
+      "frames_checked": 101,
+      "minimum_visible_cube_pixels": 5796,
+      "width": 960,
+      "height": 720
+    },
+    {
+      "id": 12502,
+      "scenario": "toss_valley",
+      "frames_checked": 101,
+      "minimum_visible_cube_pixels": 4580,
+      "width": 960,
+      "height": 720
+    },
+    {
+      "id": 12503,
+      "scenario": "toss_valley",
+      "frames_checked": 101,
+      "minimum_visible_cube_pixels": 5915,
+      "width": 960,
+      "height": 720
+    },
+    {
+      "id": 12504,
+      "scenario": "toss_valley",
+      "frames_checked": 101,
+      "minimum_visible_cube_pixels": 3133,
+      "width": 960,
+      "height": 720
+    },
+    {
+      "id": 12505,
+      "scenario": "toss_valley",
+      "frames_checked": 101,
+      "minimum_visible_cube_pixels": 3248,
+      "width": 960,
+      "height": 720
+    }
+  ]
+}

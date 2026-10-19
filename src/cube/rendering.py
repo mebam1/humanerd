@@ -52,13 +52,24 @@ def _camera_for_states(sim, states, width, height):
     camera.lookat[:] = (lower + upper) * .5
     camera.azimuth = 130.
     camera.elevation = -24.
+    # MuJoCo's azimuth describes the viewing direction toward lookat. A camera
+    # on the far side of an opaque wall can hide every dynamic geom even when
+    # the GT-fitted bounds are correct. View diagonally toward a named wall
+    # from the object's side, while retaining the same GT fit for both panels.
+    wall = mujoco.mj_name2id(sim.model, mujoco.mjtObj.mjOBJ_GEOM, "wall")
+    wall_aware = False
+    if wall >= 0:
+        toward_wall = sim.data.geom_xpos[wall, :2] - camera.lookat[:2]
+        if np.linalg.norm(toward_wall) > 1e-8:
+            camera.azimuth = float(np.rad2deg(np.arctan2(toward_wall[1], toward_wall[0])) + 45.)
+            wall_aware = True
     half_fov = np.deg2rad(float(sim.model.vis.global_.fovy)) / 2
     half_fov = min(half_fov, np.arctan(np.tan(half_fov) * width / height))
     # Leave room for panel captions; both panels retain the same scale and pose.
     camera.distance = max(.5, float(np.linalg.norm(upper - lower) * .5) / np.sin(half_fov) * 1.25)
     info = {"lookat": camera.lookat.tolist(), "distance": float(camera.distance),
             "azimuth": float(camera.azimuth), "elevation": float(camera.elevation),
-            "gt_bounds": [lower.tolist(), upper.tolist()]}
+            "gt_bounds": [lower.tolist(), upper.tolist()], "wall_aware": wall_aware}
     return camera, info
 
 

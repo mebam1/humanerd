@@ -1,0 +1,73 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>OOD v2 · 랜덤 투척 GT</title><style>
+:root{font-family:system-ui,'Segoe UI','Malgun Gothic',sans-serif;color:#173544;background:#f2f6f8;line-height:1.7}
+*{box-sizing:border-box}body{margin:0}main{max-width:1240px;margin:auto;padding:32px 24px 60px}
+header{padding:30px;background:#143d4d;color:#f0f8fa;border-radius:14px}header p{color:#c3dfe7}
+h1{font-size:30px;line-height:1.35;margin:8px 0 14px}h2{font-size:22px;margin:0}a{color:#067e8c}
+header a{color:#8be2e7}.eyebrow{font-size:12px;letter-spacing:2px}.toolbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:24px 0}
+select{padding:7px 12px;border:1px solid #a6bfc9;border-radius:6px;background:white;font:inherit}
+article{background:white;border:1px solid #d5e2e7;border-radius:12px;padding:24px;margin:24px 0;box-shadow:0 4px 18px #153d4d08}
+.meta{color:#526e7b;font-size:14px}.badge{padding:4px 10px;border-radius:15px;background:#e4f4ed;color:#216b4d;font-size:12px}
+.bad{background:#fff0e8;color:#9d3819}.status{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+video{display:block;width:100%;background:#13222c;border-radius:8px;margin:18px 0}img{width:100%;height:auto;border-radius:8px}
+.links{display:flex;gap:16px;flex-wrap:wrap;font-size:14px}pre{white-space:pre-wrap;overflow-wrap:anywhere;padding:16px;background:#eff5f7;border-radius:8px;font-size:12px}
+.note{border-left:4px solid #df9a3d;padding:10px 16px;background:#fff8ed}.metrics{display:flex;gap:20px;flex-wrap:wrap;margin:14px 0}.metrics b{display:block;font-size:20px}
+details{margin-top:18px}summary{cursor:pointer}footer{color:#526e7b;font-size:12px;margin-top:28px}
+@media(max-width:600px){main{padding:16px 10px}article,header{padding:18px}h1{font-size:24px}}
+
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.cards article{min-width:0;margin:0;padding:20px}.cards h3{margin:0;font-size:19px}.scenario{margin-top:36px}.scene-title{display:flex;align-items:center;gap:15px;flex-wrap:wrap}.scene-title h2{font-size:24px}.tabs{display:flex;flex-wrap:wrap;gap:12px;margin:22px 0}.tabs a{padding:9px 14px;background:white;border:1px solid #bcd7d9;border-radius:9px;text-decoration:none}header h1{font-size:34px}[hidden]{display:none!important}@media(max-width:850px){.cards{grid-template-columns:1fr}header h1{font-size:27px}}
+</style></head><body><main><header><div class="eyebrow">CUBE LAB / OOD V2 / GROUND TRUTH</div><h1>랜덤 투척으로 바꾼 OOD 평가 데이터</h1><p>벽을 향한 투척 500개(50%) + 각 평면 10°인 V자 바닥 투척 500개(50%). 총 1,000개 OOD 중 각 조건 6개씩, 12개 GT 영상을 보여 줍니다.</p>
+<p>두 조건 모두 랜덤 위치·회전으로 시작하며 모든 action은 0입니다. V자 바닥은 train과 같은 초기 선속도·각속도 분포를 사용하고, 벽 조건은 바닥에 닿기 전 벽을 맞도록 x방향 초기 속도를 정합니다.</p><p>V자 바닥: 중앙이 낮고 양쪽이 높은 z = |x| tan(10°), 각 평면의 수평 대비 경사 10°.</p></header>
+<div class="tabs"><a href="#toss_wall">① 벽 + 평평한 바닥 · 50%</a><a href="#toss_valley">② 각 10° V자 바닥 · 50%</a><a href="../../nerd_goal.html">연구 목표</a><a href="manifest.json">선택·데이터 메타데이터</a><a href="../ood-context-v1/index.html">이전 OOD v1 GT 기록</a></div>
+<div class="toolbar"><label for="speed">재생 속도</label><select id="speed"><option value="0.25">0.25배</option><option value="0.5" selected>0.5배</option><option value="1">1배</option><option value="2">2배</option></select><span class="meta">960×720 · 50 FPS · 각 2초 · 저장된 상태 재생</span></div>
+<p class="note">이번 페이지는 새 OOD v2의 정답(GT)입니다. state_mlp·DeepSets·hierarchical·contact_mlp의 5 epoch 체크포인트를 새 두 장면의 1,000개 전체에서 평가했습니다. <a href="../../ood_comparison.html">새 OOD v2 모델 오차·조건별 비교 보기</a> · <a href="../../ood_comparison_v1.html">기존 W&amp;B v1 기록</a></p>
+<section id="toss_wall" class="scenario"><div class="scene-title"><h2>벽을 향한 랜덤 투척 + 평평한 바닥</h2><span class="badge">전체 OOD의 50% · 500개</span></div>
+<p class="note">평가 의미 — 랜덤 위치·회전에서 평평한 벽을 향해 날아가 충돌한 뒤 바닥에 내려오는 반응을 확인합니다.</p><p>조건별 첫 6개 ID를 골라 같은 100스텝(2초)의 저장된 GT를 재생합니다. <a href="toss_wall/index.html">이 조건의 상세 갤러리</a></p><div class="cards"><article><h3>Trajectory 12000</h3>
+<p class="meta">초기 위치 [-0.49, -0.44, 0.93] m · 초기 선속도 [7.41, 1.62, 1.37] m/s · 랜덤 초기 회전</p>
+<video controls playsinline preload="metadata" poster="toss_wall/trajectory_12000/gt.png"><source src="toss_wall/trajectory_12000/gt.mp4" type="video/mp4"></video>
+<div class="links"><a href="toss_wall/trajectory_12000/gt.mp4" download>MP4 저장</a><a href="toss_wall/trajectory_12000/metrics.json">메타데이터</a><a href="toss_wall/trajectory_12000/trajectory.npz" download>GT 상태</a></div>
+<details><summary>상태·접촉 시계열</summary><img src="toss_wall/trajectory_12000/timeseries.png" loading="lazy" alt="toss_wall ID 12000의 위치·속도·접촉 시계열"></details></article><article><h3>Trajectory 12001</h3>
+<p class="meta">초기 위치 [0.90, 0.81, 1.46] m · 초기 선속도 [2.57, 1.31, 2.71] m/s · 랜덤 초기 회전</p>
+<video controls playsinline preload="metadata" poster="toss_wall/trajectory_12001/gt.png"><source src="toss_wall/trajectory_12001/gt.mp4" type="video/mp4"></video>
+<div class="links"><a href="toss_wall/trajectory_12001/gt.mp4" download>MP4 저장</a><a href="toss_wall/trajectory_12001/metrics.json">메타데이터</a><a href="toss_wall/trajectory_12001/trajectory.npz" download>GT 상태</a></div>
+<details><summary>상태·접촉 시계열</summary><img src="toss_wall/trajectory_12001/timeseries.png" loading="lazy" alt="toss_wall ID 12001의 위치·속도·접촉 시계열"></details></article><article><h3>Trajectory 12002</h3>
+<p class="meta">초기 위치 [0.76, 0.54, 0.90] m · 초기 선속도 [6.37, -0.75, 0.45] m/s · 랜덤 초기 회전</p>
+<video controls playsinline preload="metadata" poster="toss_wall/trajectory_12002/gt.png"><source src="toss_wall/trajectory_12002/gt.mp4" type="video/mp4"></video>
+<div class="links"><a href="toss_wall/trajectory_12002/gt.mp4" download>MP4 저장</a><a href="toss_wall/trajectory_12002/metrics.json">메타데이터</a><a href="toss_wall/trajectory_12002/trajectory.npz" download>GT 상태</a></div>
+<details><summary>상태·접촉 시계열</summary><img src="toss_wall/trajectory_12002/timeseries.png" loading="lazy" alt="toss_wall ID 12002의 위치·속도·접촉 시계열"></details></article><article><h3>Trajectory 12003</h3>
+<p class="meta">초기 위치 [-0.23, -0.79, 1.37] m · 초기 선속도 [5.95, -1.06, 2.11] m/s · 랜덤 초기 회전</p>
+<video controls playsinline preload="metadata" poster="toss_wall/trajectory_12003/gt.png"><source src="toss_wall/trajectory_12003/gt.mp4" type="video/mp4"></video>
+<div class="links"><a href="toss_wall/trajectory_12003/gt.mp4" download>MP4 저장</a><a href="toss_wall/trajectory_12003/metrics.json">메타데이터</a><a href="toss_wall/trajectory_12003/trajectory.npz" download>GT 상태</a></div>
+<details><summary>상태·접촉 시계열</summary><img src="toss_wall/trajectory_12003/timeseries.png" loading="lazy" alt="toss_wall ID 12003의 위치·속도·접촉 시계열"></details></article><article><h3>Trajectory 12004</h3>
+<p class="meta">초기 위치 [0.79, 0.76, 1.25] m · 초기 선속도 [3.42, -0.70, 2.35] m/s · 랜덤 초기 회전</p>
+<video controls playsinline preload="metadata" poster="toss_wall/trajectory_12004/gt.png"><source src="toss_wall/trajectory_12004/gt.mp4" type="video/mp4"></video>
+<div class="links"><a href="toss_wall/trajectory_12004/gt.mp4" download>MP4 저장</a><a href="toss_wall/trajectory_12004/metrics.json">메타데이터</a><a href="toss_wall/trajectory_12004/trajectory.npz" download>GT 상태</a></div>
+<details><summary>상태·접촉 시계열</summary><img src="toss_wall/trajectory_12004/timeseries.png" loading="lazy" alt="toss_wall ID 12004의 위치·속도·접촉 시계열"></details></article><article><h3>Trajectory 12005</h3>
+<p class="meta">초기 위치 [-0.51, -0.41, 1.17] m · 초기 선속도 [8.23, 0.50, 1.51] m/s · 랜덤 초기 회전</p>
+<video controls playsinline preload="metadata" poster="toss_wall/trajectory_12005/gt.png"><source src="toss_wall/trajectory_12005/gt.mp4" type="video/mp4"></video>
+<div class="links"><a href="toss_wall/trajectory_12005/gt.mp4" download>MP4 저장</a><a href="toss_wall/trajectory_12005/metrics.json">메타데이터</a><a href="toss_wall/trajectory_12005/trajectory.npz" download>GT 상태</a></div>
+<details><summary>상태·접촉 시계열</summary><img src="toss_wall/trajectory_12005/timeseries.png" loading="lazy" alt="toss_wall ID 12005의 위치·속도·접촉 시계열"></details></article></div></section><section id="toss_valley" class="scenario"><div class="scene-title"><h2>train과 같은 랜덤 투척 + 각 10° V자 바닥</h2><span class="badge">전체 OOD의 50% · 500개</span></div>
+<p class="note">평가 의미 — 학습과 같은 초기 투척 분포에서 두 경사면이 만나는 낮은 중앙과 새로운 접촉 조합에 대한 반응을 확인합니다.</p><p>조건별 첫 6개 ID를 골라 같은 100스텝(2초)의 저장된 GT를 재생합니다. <a href="toss_valley/index.html">이 조건의 상세 갤러리</a></p><div class="cards"><article><h3>Trajectory 12500</h3>
+<p class="meta">초기 위치 [-0.82, -0.54, 1.14] m · 초기 선속도 [1.47, 1.85, 0.28] m/s · 랜덤 초기 회전</p>
+<video controls playsinline preload="metadata" poster="toss_valley/trajectory_12500/gt.png"><source src="toss_valley/trajectory_12500/gt.mp4" type="video/mp4"></video>
+<div class="links"><a href="toss_valley/trajectory_12500/gt.mp4" download>MP4 저장</a><a href="toss_valley/trajectory_12500/metrics.json">메타데이터</a><a href="toss_valley/trajectory_12500/trajectory.npz" download>GT 상태</a></div>
+<details><summary>상태·접촉 시계열</summary><img src="toss_valley/trajectory_12500/timeseries.png" loading="lazy" alt="toss_valley ID 12500의 위치·속도·접촉 시계열"></details></article><article><h3>Trajectory 12501</h3>
+<p class="meta">초기 위치 [-0.08, -0.53, 1.15] m · 초기 선속도 [0.69, 1.70, 0.57] m/s · 랜덤 초기 회전</p>
+<video controls playsinline preload="metadata" poster="toss_valley/trajectory_12501/gt.png"><source src="toss_valley/trajectory_12501/gt.mp4" type="video/mp4"></video>
+<div class="links"><a href="toss_valley/trajectory_12501/gt.mp4" download>MP4 저장</a><a href="toss_valley/trajectory_12501/metrics.json">메타데이터</a><a href="toss_valley/trajectory_12501/trajectory.npz" download>GT 상태</a></div>
+<details><summary>상태·접촉 시계열</summary><img src="toss_valley/trajectory_12501/timeseries.png" loading="lazy" alt="toss_valley ID 12501의 위치·속도·접촉 시계열"></details></article><article><h3>Trajectory 12502</h3>
+<p class="meta">초기 위치 [-0.54, -0.70, 1.24] m · 초기 선속도 [-1.69, -1.25, 2.64] m/s · 랜덤 초기 회전</p>
+<video controls playsinline preload="metadata" poster="toss_valley/trajectory_12502/gt.png"><source src="toss_valley/trajectory_12502/gt.mp4" type="video/mp4"></video>
+<div class="links"><a href="toss_valley/trajectory_12502/gt.mp4" download>MP4 저장</a><a href="toss_valley/trajectory_12502/metrics.json">메타데이터</a><a href="toss_valley/trajectory_12502/trajectory.npz" download>GT 상태</a></div>
+<details><summary>상태·접촉 시계열</summary><img src="toss_valley/trajectory_12502/timeseries.png" loading="lazy" alt="toss_valley ID 12502의 위치·속도·접촉 시계열"></details></article><article><h3>Trajectory 12503</h3>
+<p class="meta">초기 위치 [0.04, -0.99, 1.18] m · 초기 선속도 [1.51, -1.01, 1.52] m/s · 랜덤 초기 회전</p>
+<video controls playsinline preload="metadata" poster="toss_valley/trajectory_12503/gt.png"><source src="toss_valley/trajectory_12503/gt.mp4" type="video/mp4"></video>
+<div class="links"><a href="toss_valley/trajectory_12503/gt.mp4" download>MP4 저장</a><a href="toss_valley/trajectory_12503/metrics.json">메타데이터</a><a href="toss_valley/trajectory_12503/trajectory.npz" download>GT 상태</a></div>
+<details><summary>상태·접촉 시계열</summary><img src="toss_valley/trajectory_12503/timeseries.png" loading="lazy" alt="toss_valley ID 12503의 위치·속도·접촉 시계열"></details></article><article><h3>Trajectory 12504</h3>
+<p class="meta">초기 위치 [-0.45, -0.93, 1.61] m · 초기 선속도 [0.33, -1.71, 2.38] m/s · 랜덤 초기 회전</p>
+<video controls playsinline preload="metadata" poster="toss_valley/trajectory_12504/gt.png"><source src="toss_valley/trajectory_12504/gt.mp4" type="video/mp4"></video>
+<div class="links"><a href="toss_valley/trajectory_12504/gt.mp4" download>MP4 저장</a><a href="toss_valley/trajectory_12504/metrics.json">메타데이터</a><a href="toss_valley/trajectory_12504/trajectory.npz" download>GT 상태</a></div>
+<details><summary>상태·접촉 시계열</summary><img src="toss_valley/trajectory_12504/timeseries.png" loading="lazy" alt="toss_valley ID 12504의 위치·속도·접촉 시계열"></details></article><article><h3>Trajectory 12505</h3>
+<p class="meta">초기 위치 [-0.03, -0.61, 1.55] m · 초기 선속도 [-0.94, -1.81, 2.50] m/s · 랜덤 초기 회전</p>
+<video controls playsinline preload="metadata" poster="toss_valley/trajectory_12505/gt.png"><source src="toss_valley/trajectory_12505/gt.mp4" type="video/mp4"></video>
+<div class="links"><a href="toss_valley/trajectory_12505/gt.mp4" download>MP4 저장</a><a href="toss_valley/trajectory_12505/metrics.json">메타데이터</a><a href="toss_valley/trajectory_12505/trajectory.npz" download>GT 상태</a></div>
+<details><summary>상태·접촉 시계열</summary><img src="toss_valley/trajectory_12505/timeseries.png" loading="lazy" alt="toss_valley ID 12505의 위치·속도·접촉 시계열"></details></article></div></section><footer>생성: 2026-10-19T17:01:56.446132+09:00 · 원본 데이터: data/cube-toss-ood-v2 · 궤적마다 GT 기준 고정 카메라를 사용합니다.</footer></main><script>const speed=document.getElementById('speed');function rate(){document.querySelectorAll('video').forEach(v=>v.playbackRate=Number(speed.value));}speed.addEventListener('change',rate);rate();</script></body></html>

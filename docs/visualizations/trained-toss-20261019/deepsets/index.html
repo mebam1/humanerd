@@ -1,0 +1,741 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>GT · Model rollout 비교 · CUBE LAB</title><style>
+:root{font-family:system-ui,'Segoe UI','Malgun Gothic',sans-serif;color:#173544;background:#f2f6f8;line-height:1.7}
+*{box-sizing:border-box}body{margin:0}main{max-width:1240px;margin:auto;padding:32px 24px 60px}
+header{padding:30px;background:#143d4d;color:#f0f8fa;border-radius:14px}header p{color:#c3dfe7}
+h1{font-size:30px;line-height:1.35;margin:8px 0 14px}h2{font-size:22px;margin:0}a{color:#067e8c}
+header a{color:#8be2e7}.eyebrow{font-size:12px;letter-spacing:2px}.toolbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:24px 0}
+select{padding:7px 12px;border:1px solid #a6bfc9;border-radius:6px;background:white;font:inherit}
+article{background:white;border:1px solid #d5e2e7;border-radius:12px;padding:24px;margin:24px 0;box-shadow:0 4px 18px #153d4d08}
+.meta{color:#526e7b;font-size:14px}.badge{padding:4px 10px;border-radius:15px;background:#e4f4ed;color:#216b4d;font-size:12px}
+.bad{background:#fff0e8;color:#9d3819}.status{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+video{display:block;width:100%;background:#13222c;border-radius:8px;margin:18px 0}img{width:100%;height:auto;border-radius:8px}
+.links{display:flex;gap:16px;flex-wrap:wrap;font-size:14px}pre{white-space:pre-wrap;overflow-wrap:anywhere;padding:16px;background:#eff5f7;border-radius:8px;font-size:12px}
+.note{border-left:4px solid #df9a3d;padding:10px 16px;background:#fff8ed}.metrics{display:flex;gap:20px;flex-wrap:wrap;margin:14px 0}.metrics b{display:block;font-size:20px}
+details{margin-top:18px}summary{cursor:pointer}footer{color:#526e7b;font-size:12px;margin-top:28px}
+@media(max-width:600px){main{padding:16px 10px}article,header{padding:18px}h1{font-size:24px}}
+</style></head><body><main>
+<header><div class="eyebrow">CUBE LAB / TRAJECTORY VIEWER</div><h1>GT · Model rollout 비교</h1><p>왼쪽은 저장된 GT, 오른쪽은 모델의 자율 예측입니다. 두 화면은 같은 시각과 카메라를 사용합니다. 모델은 초기 GT 상태와 기록된 action만 받아 예측 상태를 다음 입력으로 사용합니다.</p><p>Dataset: data/cube-toss · source physics: mujoco · 6 trajectories</p><p>Model: deepsets · checkpoint: outputs/visualization-checkpoints/trained-toss-20261019/deepsets-best.pt</p></header>
+<div class="toolbar"><label for="speed">영상 재생 속도</label><select id="speed"><option value="0.25">0.25×</option><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option></select><a href="manifest.json">전체 메타데이터</a></div>
+<p class="note">기록된 action을 그대로 재생하는 open-loop 비교입니다. MPC나 새 action을 만드는 controller가 아닙니다. 선택한 trajectory의 예시이며 전체 성능 평가는 evaluate 결과로 판단하세요. 물리 시간 간격은 그대로 유지하고 stride는 영상 frame 수만 줄입니다.</p>
+<p class="note">ROLLOUT COMPLETE는 선택한 구간의 수치 계산이 끝났다는 뜻입니다. 물리적으로 정확하다는 판정은 아닙니다. 예측이 바닥을 관통하거나 GT 기준 카메라 밖으로 벗어나도 보정하지 않으며, 아래 상태 그래프와 오차에 그대로 기록합니다.</p><article><div class="status"><h2>Trajectory 11000</h2><span class="badge ">ROLLOUT COMPLETE</span></div>
+<p class="meta">test / toss · seed 1152123829 · 100 transitions · 2.00 s</p>
+<p class="meta">초기 위치 [-0.259, 0.914, 1.478] m · 회전 wxyz [0.855, 0.054, -0.383, -0.344]</p><p class="meta">초기 선속도 [1.174, -0.069, 2.874] m/s · 각속도(local) [2.933, 2.383, -6.294] rad/s · 모든 action = 0</p><div class="metrics"><span>Root position RMSE<b>0.2571 m</b></span><span>Rotation geodesic mean<b>52.79°</b></span><span>Linear velocity RMSE<b>0.4708 m/s</b></span></div><video controls preload="metadata" playsinline poster="trajectory_11000/comparison.png"><source src="trajectory_11000/comparison.mp4" type="video/mp4"></video>
+<div class="links"><a href="trajectory_11000/comparison.mp4" download>MP4</a><a href="trajectory_11000/trajectory.npz" download>Trajectory NPZ</a><a href="trajectory_11000/scene.json">Scene JSON</a><a href="trajectory_11000/metrics.json">Metrics JSON</a></div>
+<details open><summary>상태 변화와 오차</summary><img src="trajectory_11000/timeseries.png" loading="lazy" alt="Trajectory 11000 state time series"></details>
+<details><summary>선택한 데이터와 모델 정보</summary><pre>{
+  &quot;id&quot;: 11000,
+  &quot;split&quot;: &quot;test&quot;,
+  &quot;scenario&quot;: &quot;toss&quot;,
+  &quot;seed&quot;: 1152123829,
+  &quot;directory&quot;: &quot;trajectory_11000&quot;,
+  &quot;available_steps&quot;: 100,
+  &quot;requested_horizon&quot;: 100,
+  &quot;completed_steps&quot;: 100,
+  &quot;dt&quot;: 0.02,
+  &quot;reason&quot;: null,
+  &quot;diverged&quot;: false,
+  &quot;model_name&quot;: &quot;deepsets&quot;,
+  &quot;checkpoint_meta&quot;: {
+    &quot;seed&quot;: 0,
+    &quot;epoch&quot;: 5,
+    &quot;next_epoch&quot;: 5,
+    &quot;batch_cursor&quot;: 0,
+    &quot;global_step&quot;: 9770,
+    &quot;val_loss&quot;: 0.06928695722707744,
+    &quot;best_val_loss&quot;: 0.06928695722707744,
+    &quot;dataset_fingerprint&quot;: &quot;5556a167aba34801a431f7a68bace04d8db190cc46ed6deccf6cdc2d84a56d86&quot;,
+    &quot;dataset_manifest&quot;: &quot;data/cube-toss/manifest.json&quot;,
+    &quot;description&quot;: &quot;Research implementation; NeRD-like baseline is not an official reproduction&quot;,
+    &quot;path&quot;: &quot;outputs/visualization-checkpoints/trained-toss-20261019/deepsets-best.pt&quot;,
+    &quot;model_config&quot;: {
+      &quot;name&quot;: &quot;deepsets&quot;,
+      &quot;hidden_dim&quot;: 128,
+      &quot;heads&quot;: 4,
+      &quot;local_layers&quot;: 3,
+      &quot;global_layers&quot;: 3,
+      &quot;window_size&quot;: 64,
+      &quot;points_per_face&quot;: 64,
+      &quot;floor_points&quot;: 256,
+      &quot;floor_extent&quot;: 1.5,
+      &quot;face_tokens&quot;: 1,
+      &quot;serialization&quot;: &quot;hilbert&quot;,
+      &quot;history&quot;: 1,
+      &quot;no_velocity&quot;: false,
+      &quot;no_inertia&quot;: false,
+      &quot;mean_pool&quot;: false,
+      &quot;random_groups&quot;: false,
+      &quot;no_face_exchange&quot;: false
+    }
+  },
+  &quot;rollout_metrics&quot;: {
+    &quot;position_rmse&quot;: 0.2570691406726837,
+    &quot;rotation_geodesic_rad&quot;: 0.921363890171051,
+    &quot;linear_velocity_rmse&quot;: 0.4707542657852173,
+    &quot;angular_velocity_rmse&quot;: 1.3030688762664795,
+    &quot;joint_position_rmse&quot;: 0.0,
+    &quot;joint_velocity_rmse&quot;: 0.0
+  },
+  &quot;initial_condition&quot;: {
+    &quot;position_world&quot;: [
+      -0.25939086079597473,
+      0.9136455059051514,
+      1.47757887840271
+    ],
+    &quot;quaternion_wxyz&quot;: [
+      0.8554397225379944,
+      0.054371222853660583,
+      -0.38291284441947937,
+      -0.3444479703903198
+    ],
+    &quot;linear_velocity_world&quot;: [
+      1.1743884086608887,
+      -0.06903324276208878,
+      2.8736445903778076
+    ],
+    &quot;angular_velocity_local&quot;: [
+      2.933218240737915,
+      2.383002519607544,
+      -6.294271945953369
+    ]
+  },
+  &quot;action_summary&quot;: {
+    &quot;all_zero&quot;: true,
+    &quot;max_abs&quot;: 0.0
+  },
+  &quot;duration_seconds&quot;: 2.0,
+  &quot;video_name&quot;: &quot;comparison.mp4&quot;,
+  &quot;render&quot;: {
+    &quot;video&quot;: &quot;docs/visualizations/trained-toss-20261019/deepsets/trajectory_11000/comparison.mp4&quot;,
+    &quot;poster&quot;: &quot;docs/visualizations/trained-toss-20261019/deepsets/trajectory_11000/comparison.png&quot;,
+    &quot;frames&quot;: 101,
+    &quot;fps&quot;: 50.0,
+    &quot;width&quot;: 1280,
+    &quot;height&quot;: 480,
+    &quot;camera&quot;: {
+      &quot;lookat&quot;: [
+        0.45579491555690765,
+        0.8359792828559875,
+        1.0462000295519829
+      ],
+      &quot;distance&quot;: 5.392527065246541,
+      &quot;azimuth&quot;: 130.0,
+      &quot;elevation&quot;: -24.0,
+      &quot;gt_bounds&quot;: [
+        [
+          -0.6058010223097503,
+          0.4119028982930482,
+          -0.14487483229109638
+        ],
+        [
+          1.5173908534235656,
+          1.260055667418927,
+          2.237274891395062
+        ]
+      ],
+      &quot;mode&quot;: &quot;fixed&quot;,
+      &quot;fit&quot;: &quot;ground_truth&quot;,
+      &quot;shared_panels&quot;: true
+    }
+  }
+}</pre></details></article><article><div class="status"><h2>Trajectory 11001</h2><span class="badge ">ROLLOUT COMPLETE</span></div>
+<p class="meta">test / toss · seed 1152228558 · 100 transitions · 2.00 s</p>
+<p class="meta">초기 위치 [-0.628, 0.951, 1.629] m · 회전 wxyz [-0.346, 0.797, 0.467, -0.167]</p><p class="meta">초기 선속도 [1.676, -0.778, 1.713] m/s · 각속도(local) [-0.592, -7.699, -1.555] rad/s · 모든 action = 0</p><div class="metrics"><span>Root position RMSE<b>0.2018 m</b></span><span>Rotation geodesic mean<b>51.18°</b></span><span>Linear velocity RMSE<b>0.3951 m/s</b></span></div><video controls preload="metadata" playsinline poster="trajectory_11001/comparison.png"><source src="trajectory_11001/comparison.mp4" type="video/mp4"></video>
+<div class="links"><a href="trajectory_11001/comparison.mp4" download>MP4</a><a href="trajectory_11001/trajectory.npz" download>Trajectory NPZ</a><a href="trajectory_11001/scene.json">Scene JSON</a><a href="trajectory_11001/metrics.json">Metrics JSON</a></div>
+<details open><summary>상태 변화와 오차</summary><img src="trajectory_11001/timeseries.png" loading="lazy" alt="Trajectory 11001 state time series"></details>
+<details><summary>선택한 데이터와 모델 정보</summary><pre>{
+  &quot;id&quot;: 11001,
+  &quot;split&quot;: &quot;test&quot;,
+  &quot;scenario&quot;: &quot;toss&quot;,
+  &quot;seed&quot;: 1152228558,
+  &quot;directory&quot;: &quot;trajectory_11001&quot;,
+  &quot;available_steps&quot;: 100,
+  &quot;requested_horizon&quot;: 100,
+  &quot;completed_steps&quot;: 100,
+  &quot;dt&quot;: 0.02,
+  &quot;reason&quot;: null,
+  &quot;diverged&quot;: false,
+  &quot;model_name&quot;: &quot;deepsets&quot;,
+  &quot;checkpoint_meta&quot;: {
+    &quot;seed&quot;: 0,
+    &quot;epoch&quot;: 5,
+    &quot;next_epoch&quot;: 5,
+    &quot;batch_cursor&quot;: 0,
+    &quot;global_step&quot;: 9770,
+    &quot;val_loss&quot;: 0.06928695722707744,
+    &quot;best_val_loss&quot;: 0.06928695722707744,
+    &quot;dataset_fingerprint&quot;: &quot;5556a167aba34801a431f7a68bace04d8db190cc46ed6deccf6cdc2d84a56d86&quot;,
+    &quot;dataset_manifest&quot;: &quot;data/cube-toss/manifest.json&quot;,
+    &quot;description&quot;: &quot;Research implementation; NeRD-like baseline is not an official reproduction&quot;,
+    &quot;path&quot;: &quot;outputs/visualization-checkpoints/trained-toss-20261019/deepsets-best.pt&quot;,
+    &quot;model_config&quot;: {
+      &quot;name&quot;: &quot;deepsets&quot;,
+      &quot;hidden_dim&quot;: 128,
+      &quot;heads&quot;: 4,
+      &quot;local_layers&quot;: 3,
+      &quot;global_layers&quot;: 3,
+      &quot;window_size&quot;: 64,
+      &quot;points_per_face&quot;: 64,
+      &quot;floor_points&quot;: 256,
+      &quot;floor_extent&quot;: 1.5,
+      &quot;face_tokens&quot;: 1,
+      &quot;serialization&quot;: &quot;hilbert&quot;,
+      &quot;history&quot;: 1,
+      &quot;no_velocity&quot;: false,
+      &quot;no_inertia&quot;: false,
+      &quot;mean_pool&quot;: false,
+      &quot;random_groups&quot;: false,
+      &quot;no_face_exchange&quot;: false
+    }
+  },
+  &quot;rollout_metrics&quot;: {
+    &quot;position_rmse&quot;: 0.2017793208360672,
+    &quot;rotation_geodesic_rad&quot;: 0.893276035785675,
+    &quot;linear_velocity_rmse&quot;: 0.3951079547405243,
+    &quot;angular_velocity_rmse&quot;: 1.4402154684066772,
+    &quot;joint_position_rmse&quot;: 0.0,
+    &quot;joint_velocity_rmse&quot;: 0.0
+  },
+  &quot;initial_condition&quot;: {
+    &quot;position_world&quot;: [
+      -0.6277729868888855,
+      0.9506045579910278,
+      1.6291658878326416
+    ],
+    &quot;quaternion_wxyz&quot;: [
+      -0.3456578254699707,
+      0.7968247532844543,
+      0.4665420651435852,
+      -0.16712112724781036
+    ],
+    &quot;linear_velocity_world&quot;: [
+      1.6761938333511353,
+      -0.7779151201248169,
+      1.712961196899414
+    ],
+    &quot;angular_velocity_local&quot;: [
+      -0.5920531749725342,
+      -7.698760032653809,
+      -1.5546876192092896
+    ]
+  },
+  &quot;action_summary&quot;: {
+    &quot;all_zero&quot;: true,
+    &quot;max_abs&quot;: 0.0
+  },
+  &quot;duration_seconds&quot;: 2.0,
+  &quot;video_name&quot;: &quot;comparison.mp4&quot;,
+  &quot;render&quot;: {
+    &quot;video&quot;: &quot;docs/visualizations/trained-toss-20261019/deepsets/trajectory_11001/comparison.mp4&quot;,
+    &quot;poster&quot;: &quot;docs/visualizations/trained-toss-20261019/deepsets/trajectory_11001/comparison.png&quot;,
+    &quot;frames&quot;: 101,
+    &quot;fps&quot;: 50.0,
+    &quot;width&quot;: 1280,
+    &quot;height&quot;: 480,
+    &quot;camera&quot;: {
+      &quot;lookat&quot;: [
+        0.17534703016281128,
+        0.5889903530478477,
+        0.9873716235160827
+      ],
+      &quot;distance&quot;: 5.7574658534439855,
+      &quot;azimuth&quot;: 130.0,
+      &quot;elevation&quot;: -24.0,
+      &quot;gt_bounds&quot;: [
+        [
+          -0.9741831484026611,
+          -0.11903401340910785,
+          -0.1458293261713683
+        ],
+        [
+          1.3248772087282836,
+          1.2970147195048034,
+          2.1205725732035337
+        ]
+      ],
+      &quot;mode&quot;: &quot;fixed&quot;,
+      &quot;fit&quot;: &quot;ground_truth&quot;,
+      &quot;shared_panels&quot;: true
+    }
+  }
+}</pre></details></article><article><div class="status"><h2>Trajectory 11002</h2><span class="badge ">ROLLOUT COMPLETE</span></div>
+<p class="meta">test / toss · seed 1152333287 · 100 transitions · 2.00 s</p>
+<p class="meta">초기 위치 [0.642, 0.963, 1.158] m · 회전 wxyz [-0.631, -0.440, 0.528, 0.361]</p><p class="meta">초기 선속도 [-0.336, 1.573, 1.047] m/s · 각속도(local) [-1.992, -5.293, -6.243] rad/s · 모든 action = 0</p><div class="metrics"><span>Root position RMSE<b>0.2127 m</b></span><span>Rotation geodesic mean<b>73.92°</b></span><span>Linear velocity RMSE<b>0.3944 m/s</b></span></div><video controls preload="metadata" playsinline poster="trajectory_11002/comparison.png"><source src="trajectory_11002/comparison.mp4" type="video/mp4"></video>
+<div class="links"><a href="trajectory_11002/comparison.mp4" download>MP4</a><a href="trajectory_11002/trajectory.npz" download>Trajectory NPZ</a><a href="trajectory_11002/scene.json">Scene JSON</a><a href="trajectory_11002/metrics.json">Metrics JSON</a></div>
+<details open><summary>상태 변화와 오차</summary><img src="trajectory_11002/timeseries.png" loading="lazy" alt="Trajectory 11002 state time series"></details>
+<details><summary>선택한 데이터와 모델 정보</summary><pre>{
+  &quot;id&quot;: 11002,
+  &quot;split&quot;: &quot;test&quot;,
+  &quot;scenario&quot;: &quot;toss&quot;,
+  &quot;seed&quot;: 1152333287,
+  &quot;directory&quot;: &quot;trajectory_11002&quot;,
+  &quot;available_steps&quot;: 100,
+  &quot;requested_horizon&quot;: 100,
+  &quot;completed_steps&quot;: 100,
+  &quot;dt&quot;: 0.02,
+  &quot;reason&quot;: null,
+  &quot;diverged&quot;: false,
+  &quot;model_name&quot;: &quot;deepsets&quot;,
+  &quot;checkpoint_meta&quot;: {
+    &quot;seed&quot;: 0,
+    &quot;epoch&quot;: 5,
+    &quot;next_epoch&quot;: 5,
+    &quot;batch_cursor&quot;: 0,
+    &quot;global_step&quot;: 9770,
+    &quot;val_loss&quot;: 0.06928695722707744,
+    &quot;best_val_loss&quot;: 0.06928695722707744,
+    &quot;dataset_fingerprint&quot;: &quot;5556a167aba34801a431f7a68bace04d8db190cc46ed6deccf6cdc2d84a56d86&quot;,
+    &quot;dataset_manifest&quot;: &quot;data/cube-toss/manifest.json&quot;,
+    &quot;description&quot;: &quot;Research implementation; NeRD-like baseline is not an official reproduction&quot;,
+    &quot;path&quot;: &quot;outputs/visualization-checkpoints/trained-toss-20261019/deepsets-best.pt&quot;,
+    &quot;model_config&quot;: {
+      &quot;name&quot;: &quot;deepsets&quot;,
+      &quot;hidden_dim&quot;: 128,
+      &quot;heads&quot;: 4,
+      &quot;local_layers&quot;: 3,
+      &quot;global_layers&quot;: 3,
+      &quot;window_size&quot;: 64,
+      &quot;points_per_face&quot;: 64,
+      &quot;floor_points&quot;: 256,
+      &quot;floor_extent&quot;: 1.5,
+      &quot;face_tokens&quot;: 1,
+      &quot;serialization&quot;: &quot;hilbert&quot;,
+      &quot;history&quot;: 1,
+      &quot;no_velocity&quot;: false,
+      &quot;no_inertia&quot;: false,
+      &quot;mean_pool&quot;: false,
+      &quot;random_groups&quot;: false,
+      &quot;no_face_exchange&quot;: false
+    }
+  },
+  &quot;rollout_metrics&quot;: {
+    &quot;position_rmse&quot;: 0.21269537508487701,
+    &quot;rotation_geodesic_rad&quot;: 1.2900669574737549,
+    &quot;linear_velocity_rmse&quot;: 0.3943784236907959,
+    &quot;angular_velocity_rmse&quot;: 1.6078579425811768,
+    &quot;joint_position_rmse&quot;: 0.0,
+    &quot;joint_velocity_rmse&quot;: 0.0
+  },
+  &quot;initial_condition&quot;: {
+    &quot;position_world&quot;: [
+      0.6424950957298279,
+      0.9630010724067688,
+      1.1581742763519287
+    ],
+    &quot;quaternion_wxyz&quot;: [
+      -0.6305659413337708,
+      -0.44007521867752075,
+      0.5279093980789185,
+      0.3605995774269104
+    ],
+    &quot;linear_velocity_world&quot;: [
+      -0.33605265617370605,
+      1.5726782083511353,
+      1.0471619367599487
+    ],
+    &quot;angular_velocity_local&quot;: [
+      -1.9920623302459717,
+      -5.292812824249268,
+      -6.242841720581055
+    ]
+  },
+  &quot;action_summary&quot;: {
+    &quot;all_zero&quot;: true,
+    &quot;max_abs&quot;: 0.0
+  },
+  &quot;duration_seconds&quot;: 2.0,
+  &quot;video_name&quot;: &quot;comparison.mp4&quot;,
+  &quot;render&quot;: {
+    &quot;video&quot;: &quot;docs/visualizations/trained-toss-20261019/deepsets/trajectory_11002/comparison.mp4&quot;,
+    &quot;poster&quot;: &quot;docs/visualizations/trained-toss-20261019/deepsets/trajectory_11002/comparison.png&quot;,
+    &quot;frames&quot;: 101,
+    &quot;fps&quot;: 50.0,
+    &quot;width&quot;: 1280,
+    &quot;height&quot;: 480,
+    &quot;camera&quot;: {
+      &quot;lookat&quot;: [
+        0.31441315403208137,
+        1.4625215828418732,
+        0.7057735323905945
+      ],
+      &quot;distance&quot;: 4.498264339030678,
+      &quot;azimuth&quot;: 130.0,
+      &quot;elevation&quot;: -24.0,
+      &quot;gt_bounds&quot;: [
+        [
+          -0.36007894917944067,
+          0.6165909108929932,
+          -0.14625108863779895
+        ],
+        [
+          0.9889052572436035,
+          2.308452254790753,
+          1.557798153418988
+        ]
+      ],
+      &quot;mode&quot;: &quot;fixed&quot;,
+      &quot;fit&quot;: &quot;ground_truth&quot;,
+      &quot;shared_panels&quot;: true
+    }
+  }
+}</pre></details></article><article><div class="status"><h2>Trajectory 11003</h2><span class="badge ">ROLLOUT COMPLETE</span></div>
+<p class="meta">test / toss · seed 1152438016 · 100 transitions · 2.00 s</p>
+<p class="meta">초기 위치 [0.879, 0.281, 1.246] m · 회전 wxyz [-0.131, -0.746, -0.618, 0.209]</p><p class="meta">초기 선속도 [1.944, -1.138, 2.856] m/s · 각속도(local) [-7.100, 1.975, 6.266] rad/s · 모든 action = 0</p><div class="metrics"><span>Root position RMSE<b>0.2200 m</b></span><span>Rotation geodesic mean<b>7.49°</b></span><span>Linear velocity RMSE<b>0.3749 m/s</b></span></div><video controls preload="metadata" playsinline poster="trajectory_11003/comparison.png"><source src="trajectory_11003/comparison.mp4" type="video/mp4"></video>
+<div class="links"><a href="trajectory_11003/comparison.mp4" download>MP4</a><a href="trajectory_11003/trajectory.npz" download>Trajectory NPZ</a><a href="trajectory_11003/scene.json">Scene JSON</a><a href="trajectory_11003/metrics.json">Metrics JSON</a></div>
+<details open><summary>상태 변화와 오차</summary><img src="trajectory_11003/timeseries.png" loading="lazy" alt="Trajectory 11003 state time series"></details>
+<details><summary>선택한 데이터와 모델 정보</summary><pre>{
+  &quot;id&quot;: 11003,
+  &quot;split&quot;: &quot;test&quot;,
+  &quot;scenario&quot;: &quot;toss&quot;,
+  &quot;seed&quot;: 1152438016,
+  &quot;directory&quot;: &quot;trajectory_11003&quot;,
+  &quot;available_steps&quot;: 100,
+  &quot;requested_horizon&quot;: 100,
+  &quot;completed_steps&quot;: 100,
+  &quot;dt&quot;: 0.02,
+  &quot;reason&quot;: null,
+  &quot;diverged&quot;: false,
+  &quot;model_name&quot;: &quot;deepsets&quot;,
+  &quot;checkpoint_meta&quot;: {
+    &quot;seed&quot;: 0,
+    &quot;epoch&quot;: 5,
+    &quot;next_epoch&quot;: 5,
+    &quot;batch_cursor&quot;: 0,
+    &quot;global_step&quot;: 9770,
+    &quot;val_loss&quot;: 0.06928695722707744,
+    &quot;best_val_loss&quot;: 0.06928695722707744,
+    &quot;dataset_fingerprint&quot;: &quot;5556a167aba34801a431f7a68bace04d8db190cc46ed6deccf6cdc2d84a56d86&quot;,
+    &quot;dataset_manifest&quot;: &quot;data/cube-toss/manifest.json&quot;,
+    &quot;description&quot;: &quot;Research implementation; NeRD-like baseline is not an official reproduction&quot;,
+    &quot;path&quot;: &quot;outputs/visualization-checkpoints/trained-toss-20261019/deepsets-best.pt&quot;,
+    &quot;model_config&quot;: {
+      &quot;name&quot;: &quot;deepsets&quot;,
+      &quot;hidden_dim&quot;: 128,
+      &quot;heads&quot;: 4,
+      &quot;local_layers&quot;: 3,
+      &quot;global_layers&quot;: 3,
+      &quot;window_size&quot;: 64,
+      &quot;points_per_face&quot;: 64,
+      &quot;floor_points&quot;: 256,
+      &quot;floor_extent&quot;: 1.5,
+      &quot;face_tokens&quot;: 1,
+      &quot;serialization&quot;: &quot;hilbert&quot;,
+      &quot;history&quot;: 1,
+      &quot;no_velocity&quot;: false,
+      &quot;no_inertia&quot;: false,
+      &quot;mean_pool&quot;: false,
+      &quot;random_groups&quot;: false,
+      &quot;no_face_exchange&quot;: false
+    }
+  },
+  &quot;rollout_metrics&quot;: {
+    &quot;position_rmse&quot;: 0.22002343833446503,
+    &quot;rotation_geodesic_rad&quot;: 0.1306597888469696,
+    &quot;linear_velocity_rmse&quot;: 0.3748842179775238,
+    &quot;angular_velocity_rmse&quot;: 0.9166626334190369,
+    &quot;joint_position_rmse&quot;: 0.0,
+    &quot;joint_velocity_rmse&quot;: 0.0
+  },
+  &quot;initial_condition&quot;: {
+    &quot;position_world&quot;: [
+      0.8790310621261597,
+      0.2809390723705292,
+      1.2460176944732666
+    ],
+    &quot;quaternion_wxyz&quot;: [
+      -0.13134770095348358,
+      -0.7464867234230042,
+      -0.6180151104927063,
+      0.20871670544147491
+    ],
+    &quot;linear_velocity_world&quot;: [
+      1.9444820880889893,
+      -1.138296127319336,
+      2.856285333633423
+    ],
+    &quot;angular_velocity_local&quot;: [
+      -7.099740982055664,
+      1.9749257564544678,
+      6.265653610229492
+    ]
+  },
+  &quot;action_summary&quot;: {
+    &quot;all_zero&quot;: true,
+    &quot;max_abs&quot;: 0.0
+  },
+  &quot;duration_seconds&quot;: 2.0,
+  &quot;video_name&quot;: &quot;comparison.mp4&quot;,
+  &quot;render&quot;: {
+    &quot;video&quot;: &quot;docs/visualizations/trained-toss-20261019/deepsets/trajectory_11003/comparison.mp4&quot;,
+    &quot;poster&quot;: &quot;docs/visualizations/trained-toss-20261019/deepsets/trajectory_11003/comparison.png&quot;,
+    &quot;frames&quot;: 101,
+    &quot;fps&quot;: 50.0,
+    &quot;width&quot;: 1280,
+    &quot;height&quot;: 480,
+    &quot;camera&quot;: {
+      &quot;lookat&quot;: [
+        1.755330741405487,
+        -0.18073435127735138,
+        0.9271348267793654
+      ],
+      &quot;distance&quot;: 5.934360511331507,
+      &quot;azimuth&quot;: 130.0,
+      &quot;elevation&quot;: -24.0,
+      &quot;gt_bounds&quot;: [
+        [
+          0.5326209006123841,
+          -0.9888179364390075,
+          -0.14649913336703174
+        ],
+        [
+          2.97804058219859,
+          0.6273492338843047,
+          2.0007687869257627
+        ]
+      ],
+      &quot;mode&quot;: &quot;fixed&quot;,
+      &quot;fit&quot;: &quot;ground_truth&quot;,
+      &quot;shared_panels&quot;: true
+    }
+  }
+}</pre></details></article><article><div class="status"><h2>Trajectory 11004</h2><span class="badge ">ROLLOUT COMPLETE</span></div>
+<p class="meta">test / toss · seed 1152542745 · 100 transitions · 2.00 s</p>
+<p class="meta">초기 위치 [0.569, 0.182, 1.739] m · 회전 wxyz [-0.130, -0.410, 0.231, -0.873]</p><p class="meta">초기 선속도 [-1.932, 1.570, 0.258] m/s · 각속도(local) [-3.278, 0.651, 3.351] rad/s · 모든 action = 0</p><div class="metrics"><span>Root position RMSE<b>0.2243 m</b></span><span>Rotation geodesic mean<b>59.39°</b></span><span>Linear velocity RMSE<b>0.3623 m/s</b></span></div><video controls preload="metadata" playsinline poster="trajectory_11004/comparison.png"><source src="trajectory_11004/comparison.mp4" type="video/mp4"></video>
+<div class="links"><a href="trajectory_11004/comparison.mp4" download>MP4</a><a href="trajectory_11004/trajectory.npz" download>Trajectory NPZ</a><a href="trajectory_11004/scene.json">Scene JSON</a><a href="trajectory_11004/metrics.json">Metrics JSON</a></div>
+<details open><summary>상태 변화와 오차</summary><img src="trajectory_11004/timeseries.png" loading="lazy" alt="Trajectory 11004 state time series"></details>
+<details><summary>선택한 데이터와 모델 정보</summary><pre>{
+  &quot;id&quot;: 11004,
+  &quot;split&quot;: &quot;test&quot;,
+  &quot;scenario&quot;: &quot;toss&quot;,
+  &quot;seed&quot;: 1152542745,
+  &quot;directory&quot;: &quot;trajectory_11004&quot;,
+  &quot;available_steps&quot;: 100,
+  &quot;requested_horizon&quot;: 100,
+  &quot;completed_steps&quot;: 100,
+  &quot;dt&quot;: 0.02,
+  &quot;reason&quot;: null,
+  &quot;diverged&quot;: false,
+  &quot;model_name&quot;: &quot;deepsets&quot;,
+  &quot;checkpoint_meta&quot;: {
+    &quot;seed&quot;: 0,
+    &quot;epoch&quot;: 5,
+    &quot;next_epoch&quot;: 5,
+    &quot;batch_cursor&quot;: 0,
+    &quot;global_step&quot;: 9770,
+    &quot;val_loss&quot;: 0.06928695722707744,
+    &quot;best_val_loss&quot;: 0.06928695722707744,
+    &quot;dataset_fingerprint&quot;: &quot;5556a167aba34801a431f7a68bace04d8db190cc46ed6deccf6cdc2d84a56d86&quot;,
+    &quot;dataset_manifest&quot;: &quot;data/cube-toss/manifest.json&quot;,
+    &quot;description&quot;: &quot;Research implementation; NeRD-like baseline is not an official reproduction&quot;,
+    &quot;path&quot;: &quot;outputs/visualization-checkpoints/trained-toss-20261019/deepsets-best.pt&quot;,
+    &quot;model_config&quot;: {
+      &quot;name&quot;: &quot;deepsets&quot;,
+      &quot;hidden_dim&quot;: 128,
+      &quot;heads&quot;: 4,
+      &quot;local_layers&quot;: 3,
+      &quot;global_layers&quot;: 3,
+      &quot;window_size&quot;: 64,
+      &quot;points_per_face&quot;: 64,
+      &quot;floor_points&quot;: 256,
+      &quot;floor_extent&quot;: 1.5,
+      &quot;face_tokens&quot;: 1,
+      &quot;serialization&quot;: &quot;hilbert&quot;,
+      &quot;history&quot;: 1,
+      &quot;no_velocity&quot;: false,
+      &quot;no_inertia&quot;: false,
+      &quot;mean_pool&quot;: false,
+      &quot;random_groups&quot;: false,
+      &quot;no_face_exchange&quot;: false
+    }
+  },
+  &quot;rollout_metrics&quot;: {
+    &quot;position_rmse&quot;: 0.2242920845746994,
+    &quot;rotation_geodesic_rad&quot;: 1.0366078615188599,
+    &quot;linear_velocity_rmse&quot;: 0.36228853464126587,
+    &quot;angular_velocity_rmse&quot;: 1.592372179031372,
+    &quot;joint_position_rmse&quot;: 0.0,
+    &quot;joint_velocity_rmse&quot;: 0.0
+  },
+  &quot;initial_condition&quot;: {
+    &quot;position_world&quot;: [
+      0.5690324306488037,
+      0.18206028640270233,
+      1.739494800567627
+    ],
+    &quot;quaternion_wxyz&quot;: [
+      -0.12993915379047394,
+      -0.4097796082496643,
+      0.2308945208787918,
+      -0.87285977602005
+    ],
+    &quot;linear_velocity_world&quot;: [
+      -1.932464599609375,
+      1.5695737600326538,
+      0.25846701860427856
+    ],
+    &quot;angular_velocity_local&quot;: [
+      -3.2779922485351562,
+      0.6514614820480347,
+      3.3509809970855713
+    ]
+  },
+  &quot;action_summary&quot;: {
+    &quot;all_zero&quot;: true,
+    &quot;max_abs&quot;: 0.0
+  },
+  &quot;duration_seconds&quot;: 2.0,
+  &quot;video_name&quot;: &quot;comparison.mp4&quot;,
+  &quot;render&quot;: {
+    &quot;video&quot;: &quot;docs/visualizations/trained-toss-20261019/deepsets/trajectory_11004/comparison.mp4&quot;,
+    &quot;poster&quot;: &quot;docs/visualizations/trained-toss-20261019/deepsets/trajectory_11004/comparison.png&quot;,
+    &quot;frames&quot;: 101,
+    &quot;fps&quot;: 50.0,
+    &quot;width&quot;: 1280,
+    &quot;height&quot;: 480,
+    &quot;camera&quot;: {
+      &quot;lookat&quot;: [
+        -0.31140661239624023,
+        0.6215409263968468,
+        0.9717701077461242
+      ],
+      &quot;distance&quot;: 5.9964525086321245,
+      &quot;azimuth&quot;: 130.0,
+      &quot;elevation&quot;: -24.0,
+      &quot;gt_bounds&quot;: [
+        [
+          -1.5382558169550598,
+          -0.16434987511107318,
+          -0.1450816455073058
+        ],
+        [
+          0.9154425921625793,
+          1.4074317279047668,
+          2.088621860999554
+        ]
+      ],
+      &quot;mode&quot;: &quot;fixed&quot;,
+      &quot;fit&quot;: &quot;ground_truth&quot;,
+      &quot;shared_panels&quot;: true
+    }
+  }
+}</pre></details></article><article><div class="status"><h2>Trajectory 11005</h2><span class="badge ">ROLLOUT COMPLETE</span></div>
+<p class="meta">test / toss · seed 1152647474 · 100 transitions · 2.00 s</p>
+<p class="meta">초기 위치 [-0.229, -0.494, 1.427] m · 회전 wxyz [0.551, -0.254, -0.090, -0.789]</p><p class="meta">초기 선속도 [-1.133, 0.024, 0.785] m/s · 각속도(local) [-7.564, -7.901, 5.716] rad/s · 모든 action = 0</p><div class="metrics"><span>Root position RMSE<b>0.0978 m</b></span><span>Rotation geodesic mean<b>5.95°</b></span><span>Linear velocity RMSE<b>0.2170 m/s</b></span></div><video controls preload="metadata" playsinline poster="trajectory_11005/comparison.png"><source src="trajectory_11005/comparison.mp4" type="video/mp4"></video>
+<div class="links"><a href="trajectory_11005/comparison.mp4" download>MP4</a><a href="trajectory_11005/trajectory.npz" download>Trajectory NPZ</a><a href="trajectory_11005/scene.json">Scene JSON</a><a href="trajectory_11005/metrics.json">Metrics JSON</a></div>
+<details open><summary>상태 변화와 오차</summary><img src="trajectory_11005/timeseries.png" loading="lazy" alt="Trajectory 11005 state time series"></details>
+<details><summary>선택한 데이터와 모델 정보</summary><pre>{
+  &quot;id&quot;: 11005,
+  &quot;split&quot;: &quot;test&quot;,
+  &quot;scenario&quot;: &quot;toss&quot;,
+  &quot;seed&quot;: 1152647474,
+  &quot;directory&quot;: &quot;trajectory_11005&quot;,
+  &quot;available_steps&quot;: 100,
+  &quot;requested_horizon&quot;: 100,
+  &quot;completed_steps&quot;: 100,
+  &quot;dt&quot;: 0.02,
+  &quot;reason&quot;: null,
+  &quot;diverged&quot;: false,
+  &quot;model_name&quot;: &quot;deepsets&quot;,
+  &quot;checkpoint_meta&quot;: {
+    &quot;seed&quot;: 0,
+    &quot;epoch&quot;: 5,
+    &quot;next_epoch&quot;: 5,
+    &quot;batch_cursor&quot;: 0,
+    &quot;global_step&quot;: 9770,
+    &quot;val_loss&quot;: 0.06928695722707744,
+    &quot;best_val_loss&quot;: 0.06928695722707744,
+    &quot;dataset_fingerprint&quot;: &quot;5556a167aba34801a431f7a68bace04d8db190cc46ed6deccf6cdc2d84a56d86&quot;,
+    &quot;dataset_manifest&quot;: &quot;data/cube-toss/manifest.json&quot;,
+    &quot;description&quot;: &quot;Research implementation; NeRD-like baseline is not an official reproduction&quot;,
+    &quot;path&quot;: &quot;outputs/visualization-checkpoints/trained-toss-20261019/deepsets-best.pt&quot;,
+    &quot;model_config&quot;: {
+      &quot;name&quot;: &quot;deepsets&quot;,
+      &quot;hidden_dim&quot;: 128,
+      &quot;heads&quot;: 4,
+      &quot;local_layers&quot;: 3,
+      &quot;global_layers&quot;: 3,
+      &quot;window_size&quot;: 64,
+      &quot;points_per_face&quot;: 64,
+      &quot;floor_points&quot;: 256,
+      &quot;floor_extent&quot;: 1.5,
+      &quot;face_tokens&quot;: 1,
+      &quot;serialization&quot;: &quot;hilbert&quot;,
+      &quot;history&quot;: 1,
+      &quot;no_velocity&quot;: false,
+      &quot;no_inertia&quot;: false,
+      &quot;mean_pool&quot;: false,
+      &quot;random_groups&quot;: false,
+      &quot;no_face_exchange&quot;: false
+    }
+  },
+  &quot;rollout_metrics&quot;: {
+    &quot;position_rmse&quot;: 0.09778133779764175,
+    &quot;rotation_geodesic_rad&quot;: 0.10377924889326096,
+    &quot;linear_velocity_rmse&quot;: 0.21699459850788116,
+    &quot;angular_velocity_rmse&quot;: 0.7786004543304443,
+    &quot;joint_position_rmse&quot;: 0.0,
+    &quot;joint_velocity_rmse&quot;: 0.0
+  },
+  &quot;initial_condition&quot;: {
+    &quot;position_world&quot;: [
+      -0.22942088544368744,
+      -0.49385303258895874,
+      1.4265697002410889
+    ],
+    &quot;quaternion_wxyz&quot;: [
+      0.5514999628067017,
+      -0.2541881203651428,
+      -0.09031257033348083,
+      -0.7893540263175964
+    ],
+    &quot;linear_velocity_world&quot;: [
+      -1.132872223854065,
+      0.024136174470186234,
+      0.7848697900772095
+    ],
+    &quot;angular_velocity_local&quot;: [
+      -7.5637993812561035,
+      -7.9012322425842285,
+      5.716084003448486
+    ]
+  },
+  &quot;action_summary&quot;: {
+    &quot;all_zero&quot;: true,
+    &quot;max_abs&quot;: 0.0
+  },
+  &quot;duration_seconds&quot;: 2.0,
+  &quot;video_name&quot;: &quot;comparison.mp4&quot;,
+  &quot;render&quot;: {
+    &quot;video&quot;: &quot;docs/visualizations/trained-toss-20261019/deepsets/trajectory_11005/comparison.mp4&quot;,
+    &quot;poster&quot;: &quot;docs/visualizations/trained-toss-20261019/deepsets/trajectory_11005/comparison.png&quot;,
+    &quot;frames&quot;: 101,
+    &quot;fps&quot;: 50.0,
+    &quot;width&quot;: 1280,
+    &quot;height&quot;: 480,
+    &quot;camera&quot;: {
+      &quot;lookat&quot;: [
+        -0.6301364824175835,
+        -0.3876993656158447,
+        0.8288425803184509
+      ],
+      &quot;distance&quot;: 4.272449833192405,
+      &quot;azimuth&quot;: 130.0,
+      &quot;elevation&quot;: -24.0,
+      &quot;gt_bounds&quot;: [
+        [
+          -1.377262240905255,
+          -0.8402631941027343,
+          -0.14473033573099964
+        ],
+        [
+          0.11698927607008808,
+          0.0648644628710448,
+          1.8024154963679015
+        ]
+      ],
+      &quot;mode&quot;: &quot;fixed&quot;,
+      &quot;fit&quot;: &quot;ground_truth&quot;,
+      &quot;shared_panels&quot;: true
+    }
+  }
+}</pre></details></article><footer>Renderer: MuJoCo · Source data is read-only · Videos and diagnostics share the same exported states.</footer></main>
+<script>document.getElementById('speed').addEventListener('change',function(){document.querySelectorAll('video').forEach(v=>v.playbackRate=Number(this.value));});</script></body></html>

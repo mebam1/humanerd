@@ -163,7 +163,16 @@ def run_suite(config: dict | str, output: str, backend: str = "mujoco", device: 
         dataset = str(output_dir / "dataset")
         generate_dataset(cfg.get("data", {}), dataset, backend, device, resume=resume)
     dataset_root, manifest = load_manifest(dataset)
-    has_ood = any(entry["split"] == "ood" for entry in manifest["trajectories"])
+    ood_dataset = cfg.get("ood_dataset")
+    ood_root, ood_manifest = load_manifest(ood_dataset) if ood_dataset is not None else (dataset_root, manifest)
+    has_ood = any(entry["split"] == "ood" for entry in ood_manifest["trajectories"])
+    if ood_dataset is not None:
+        if not has_ood:
+            raise ValueError("The configured OOD dataset must contain trajectories in the ood split")
+        if ood_manifest["kind"] != manifest["kind"]:
+            raise ValueError("The OOD dataset must have the same body kind as the training dataset")
+    else:
+        ood_dataset = dataset
     available = sum(e["split"] == "train" for e in manifest["trajectories"])
     budgets = cfg.get("budgets", [available])
     variants = []
@@ -189,6 +198,10 @@ def run_suite(config: dict | str, output: str, backend: str = "mujoco", device: 
     signature = {"dataset_sha256": hashlib.sha256((dataset_root / "manifest.json").read_bytes()).hexdigest(),
                  "budgets": budgets, "seeds": seeds, "models": variants, "training": base_training,
                  "evaluation": evaluation_config, "rollout_horizon": int(cfg.get("rollout_horizon", 32))}
+    # Omit the optional identity for existing suites so their resume plans remain
+    # compatible. Switching OOD sources requires a new suite output directory.
+    if cfg.get("ood_dataset") is not None:
+        signature["ood_dataset_sha256"] = hashlib.sha256((ood_root / "manifest.json").read_bytes()).hexdigest()
     signature_hash = content_hash(signature)
     output_dir.mkdir(parents=True, exist_ok=True)
     state_path, plan_path = output_dir / "suite.json", output_dir / "suite_plan.json"
@@ -214,6 +227,9 @@ def run_suite(config: dict | str, output: str, backend: str = "mujoco", device: 
                   "planned_runs": total, "completed_runs": len(records), "signature": signature_hash,
                   "fairness": "Same trajectory IDs per seed/budget, epoch passes, loss and fixed evaluation subsets. Effective batch and per-model overrides are recorded; parameter count and wall time are measured.",
                   "baseline_notice": "NeRD-like is a controlled local baseline, not official NeRD/FIGNet/RigidFormer."}
+        if cfg.get("ood_dataset") is not None:
+            report["ood_dataset"] = {"path": str(ood_root), "manifest_sha256": signature["ood_dataset_sha256"],
+                                     "dataset_fingerprint": ood_manifest.get("dataset_fingerprint")}
         atomic_json(state_path, report)
         return report
 
@@ -242,7 +258,7 @@ def run_suite(config: dict | str, output: str, backend: str = "mujoco", device: 
                               rollout_horizon=int(cfg.get("rollout_horizon", 32)), **evaluation_config)
         ood_report = None
         if has_ood:
-            ood_report = evaluate(training["checkpoint"], dataset, str(run_dir / "ood"), "ood",
+            ood_report = evaluate(training["checkpoint"], ood_dataset, str(run_dir / "ood"), "ood",
                                   int(cfg.get("rollout_horizon", 32)), **evaluation_config)
         scalars = _evaluation_scalars(evaluation, "test")
         if ood_report:

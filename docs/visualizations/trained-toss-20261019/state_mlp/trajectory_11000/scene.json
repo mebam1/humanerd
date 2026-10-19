@@ -1,0 +1,37 @@
+{
+  "kind": "cube",
+  "dt": 0.02,
+  "substeps": 4,
+  "toss_position_min": [
+    -1.0,
+    -1.0,
+    0.8
+  ],
+  "toss_position_max": [
+    1.0,
+    1.0,
+    1.8
+  ],
+  "toss_linear_velocity_min": [
+    -2.0,
+    -2.0,
+    0.0
+  ],
+  "toss_linear_velocity_max": [
+    2.0,
+    2.0,
+    3.0
+  ],
+  "toss_angular_velocity_min": [
+    -8.0,
+    -8.0,
+    -8.0
+  ],
+  "toss_angular_velocity_max": [
+    8.0,
+    8.0,
+    8.0
+  ],
+  "scenario": "toss",
+  "seed": 1152123829
+}

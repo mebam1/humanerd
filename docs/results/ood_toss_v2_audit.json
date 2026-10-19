@@ -1,0 +1,187 @@
+{
+  "dataset": "data/cube-toss-ood-v2",
+  "dataset_fingerprint": "fd7e1ff9d1c6a3a9c3d90100d4623d0ceb6b796d7bbe5a9c167af419223897ce",
+  "backend": "mujoco",
+  "generator_version": 3,
+  "total_trajectories": 1000,
+  "total_transitions": 100000,
+  "splits": {
+    "ood": 1000
+  },
+  "scenarios": {
+    "toss_wall": 500,
+    "toss_valley": 500
+  },
+  "expected_scenarios": {
+    "toss_wall": 500,
+    "toss_valley": 500
+  },
+  "mixture_50_50_valid": true,
+  "ood_only_valid": true,
+  "nonzero_action_values": 0,
+  "nonfinite_trajectories": 0,
+  "initial_contact_trajectories": 0,
+  "out_of_range_initial_positions": 0,
+  "train_initial_distribution_mismatch_trajectories": 0,
+  "nonpositive_wall_x_velocity_trajectories": 0,
+  "quaternion_norm_max_error": 4.8588398415816414e-08,
+  "replay_mismatch_trajectories": 0,
+  "replay_max_absolute_float64_to_storage_error": 9.266042262368046e-07,
+  "replay_comparison": "Exact equality after casting native float64 states to the saved storage dtype",
+  "contact_observation": "Every dt/substeps physics boundary; no endpoint-only wall-contact approximation",
+  "physical_contact_counts": {
+    "wall_contact": 500,
+    "wall_branch_flat_floor_contact": 500,
+    "wall_before_floor": 500,
+    "valley_contact": 500,
+    "valley_left_contact": 344,
+    "valley_right_contact": 315
+  },
+  "maximum_substep_penetration_m": 0.05964190512895584,
+  "valley_geometry": [
+    {
+      "scenario": "toss_valley",
+      "each_plane_degrees": 10.0,
+      "normals": [
+        [
+          0.1736481776701083,
+          0.0,
+          0.9848077530116477
+        ],
+        [
+          -0.1736481776701083,
+          -0.0,
+          0.9848077530116477
+        ]
+      ],
+      "valid": true
+    }
+  ],
+  "first_contact_seconds": {
+    "wall": {
+      "min": 0.18500000000000008,
+      "max": 0.6300000000000004,
+      "mean": 0.3611500000000002
+    },
+    "floor": {
+      "min": 0.29000000000000015,
+      "max": 1.0949999999999986,
+      "mean": 0.7141600000000005
+    },
+    "valley": {
+      "min": 0.30000000000000016,
+      "max": 0.9200000000000007,
+      "mean": 0.5941100000000005
+    }
+  },
+  "initial_state_ranges": {
+    "toss_wall": {
+      "position_world_m": {
+        "min": [
+          -0.9908797144889832,
+          -0.9887157082557678,
+          0.8039277195930481
+        ],
+        "max": [
+          0.9925627112388611,
+          0.9977444410324097,
+          1.797006607055664
+        ],
+        "mean": [
+          0.009427469956601271,
+          -0.038789192386670036,
+          1.3052469642162323
+        ]
+      },
+      "linear_velocity_world_m_s": {
+        "min": [
+          2.4081172943115234,
+          -1.9821287393569946,
+          0.014171155169606209
+        ],
+        "max": [
+          14.15250015258789,
+          1.9937933683395386,
+          2.996635913848877
+        ],
+        "mean": [
+          6.253053788185119,
+          0.013709582133684308,
+          1.4600597685128451
+        ]
+      },
+      "angular_velocity_local_rad_s": {
+        "min": [
+          -7.993886470794678,
+          -7.948151588439941,
+          -7.91515588760376
+        ],
+        "max": [
+          7.900630950927734,
+          7.991273403167725,
+          7.982696056365967
+        ],
+        "mean": [
+          -0.15922767438134178,
+          0.016693122835829854,
+          0.26149327820120377
+        ]
+      }
+    },
+    "toss_valley": {
+      "position_world_m": {
+        "min": [
+          -0.9965950846672058,
+          -0.9958198070526123,
+          0.8013268709182739
+        ],
+        "max": [
+          0.9903877377510071,
+          0.9978991150856018,
+          1.7972252368927002
+        ],
+        "mean": [
+          -0.05784295321442187,
+          -0.014246893025003374,
+          1.291993512392044
+        ]
+      },
+      "linear_velocity_world_m_s": {
+        "min": [
+          -1.9940236806869507,
+          -1.9866443872451782,
+          0.0004835291183553636
+        ],
+        "max": [
+          1.999022364616394,
+          1.9928289651870728,
+          2.9971256256103516
+        ],
+        "mean": [
+          -0.055892872097902,
+          -0.041490025425329806,
+          1.4660439375677379
+        ]
+      },
+      "angular_velocity_local_rad_s": {
+        "min": [
+          -7.977202415466309,
+          -7.981850624084473,
+          -7.987719535827637
+        ],
+        "max": [
+          7.978370666503906,
+          7.984008312225342,
+          7.946376800537109
+        ],
+        "mean": [
+          0.1081896219291957,
+          -0.1406778233423829,
+          -0.31875647776003463
+        ]
+      }
+    }
+  },
+  "failed_trajectories": {},
+  "passed": true
+}

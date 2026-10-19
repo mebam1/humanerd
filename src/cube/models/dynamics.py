@@ -8,6 +8,7 @@ import torch
 from torch import Tensor, nn
 from torch.nn import functional as F
 
+from .contact import ContactMLP
 from .geometry import GeometryFeatures, metadata_from_scene
 from .serialization import local_pair_coverage, serialization_order
 
@@ -336,8 +337,11 @@ class DynamicsModel(nn.Module):
             self.config["window_size"], self.config["local_layers"], threshold, self.config["serialization"])
 
 
-def build_model(scene_or_metadata: Any, config: dict | str | None = None) -> DynamicsModel:
-    return DynamicsModel(scene_or_metadata, {"name": config} if isinstance(config, str) else config)
+def build_model(scene_or_metadata: Any, config: dict | str | None = None) -> DynamicsModel | ContactMLP:
+    config = {"name": config} if isinstance(config, str) else config
+    if config and config.get("name") == "contact_mlp":
+        return ContactMLP(scene_or_metadata, config)
+    return DynamicsModel(scene_or_metadata, config)
 
 
 def transfer_weights(source: DynamicsModel, target: DynamicsModel, freeze: str = "none") -> dict:

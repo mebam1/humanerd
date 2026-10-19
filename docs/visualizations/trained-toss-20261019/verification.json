@@ -1,0 +1,187 @@
+{
+  "videos_checked": 18,
+  "html_links_valid": true,
+  "matching_gt": true,
+  "results": [
+    {
+      "model": "state_mlp",
+      "id": 11000,
+      "steps": 100,
+      "position_rmse": 0.08534301072359085,
+      "width": 1280,
+      "height": 480,
+      "r_frame_rate": "50/1",
+      "nb_frames": "101"
+    },
+    {
+      "model": "state_mlp",
+      "id": 11001,
+      "steps": 100,
+      "position_rmse": 0.15741825103759766,
+      "width": 1280,
+      "height": 480,
+      "r_frame_rate": "50/1",
+      "nb_frames": "101"
+    },
+    {
+      "model": "state_mlp",
+      "id": 11002,
+      "steps": 100,
+      "position_rmse": 0.2809183597564697,
+      "width": 1280,
+      "height": 480,
+      "r_frame_rate": "50/1",
+      "nb_frames": "101"
+    },
+    {
+      "model": "state_mlp",
+      "id": 11003,
+      "steps": 100,
+      "position_rmse": 0.1209556832909584,
+      "width": 1280,
+      "height": 480,
+      "r_frame_rate": "50/1",
+      "nb_frames": "101"
+    },
+    {
+      "model": "state_mlp",
+      "id": 11004,
+      "steps": 100,
+      "position_rmse": 0.22920426726341248,
+      "width": 1280,
+      "height": 480,
+      "r_frame_rate": "50/1",
+      "nb_frames": "101"
+    },
+    {
+      "model": "state_mlp",
+      "id": 11005,
+      "steps": 100,
+      "position_rmse": 0.11939401179552078,
+      "width": 1280,
+      "height": 480,
+      "r_frame_rate": "50/1",
+      "nb_frames": "101"
+    },
+    {
+      "model": "deepsets",
+      "id": 11000,
+      "steps": 100,
+      "position_rmse": 0.2570691406726837,
+      "width": 1280,
+      "height": 480,
+      "r_frame_rate": "50/1",
+      "nb_frames": "101"
+    },
+    {
+      "model": "deepsets",
+      "id": 11001,
+      "steps": 100,
+      "position_rmse": 0.2017793208360672,
+      "width": 1280,
+      "height": 480,
+      "r_frame_rate": "50/1",
+      "nb_frames": "101"
+    },
+    {
+      "model": "deepsets",
+      "id": 11002,
+      "steps": 100,
+      "position_rmse": 0.21269537508487701,
+      "width": 1280,
+      "height": 480,
+      "r_frame_rate": "50/1",
+      "nb_frames": "101"
+    },
+    {
+      "model": "deepsets",
+      "id": 11003,
+      "steps": 100,
+      "position_rmse": 0.22002343833446503,
+      "width": 1280,
+      "height": 480,
+      "r_frame_rate": "50/1",
+      "nb_frames": "101"
+    },
+    {
+      "model": "deepsets",
+      "id": 11004,
+      "steps": 100,
+      "position_rmse": 0.2242920845746994,
+      "width": 1280,
+      "height": 480,
+      "r_frame_rate": "50/1",
+      "nb_frames": "101"
+    },
+    {
+      "model": "deepsets",
+      "id": 11005,
+      "steps": 100,
+      "position_rmse": 0.09778133779764175,
+      "width": 1280,
+      "height": 480,
+      "r_frame_rate": "50/1",
+      "nb_frames": "101"
+    },
+    {
+      "model": "hierarchical",
+      "id": 11000,
+      "steps": 100,
+      "position_rmse": 0.3121233582496643,
+      "width": 1280,
+      "height": 480,
+      "r_frame_rate": "50/1",
+      "nb_frames": "101"
+    },
+    {
+      "model": "hierarchical",
+      "id": 11001,
+      "steps": 100,
+      "position_rmse": 1.1993564367294312,
+      "width": 1280,
+      "height": 480,
+      "r_frame_rate": "50/1",
+      "nb_frames": "101"
+    },
+    {
+      "model": "hierarchical",
+      "id": 11002,
+      "steps": 100,
+      "position_rmse": 1.408514142036438,
+      "width": 1280,
+      "height": 480,
+      "r_frame_rate": "50/1",
+      "nb_frames": "101"
+    },
+    {
+      "model": "hierarchical",
+      "id": 11003,
+      "steps": 100,
+      "position_rmse": 1.1292134523391724,
+      "width": 1280,
+      "height": 480,
+      "r_frame_rate": "50/1",
+      "nb_frames": "101"
+    },
+    {
+      "model": "hierarchical",
+      "id": 11004,
+      "steps": 100,
+      "position_rmse": 1.7116364240646362,
+      "width": 1280,
+      "height": 480,
+      "r_frame_rate": "50/1",
+      "nb_frames": "101"
+    },
+    {
+      "model": "hierarchical",
+      "id": 11005,
+      "steps": 100,
+      "position_rmse": 0.13214144110679626,
+      "width": 1280,
+      "height": 480,
+      "r_frame_rate": "50/1",
+      "nb_frames": "101"
+    }
+  ]
+}

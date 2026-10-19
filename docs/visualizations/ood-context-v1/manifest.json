@@ -1,0 +1,581 @@
+{
+  "mode": "ground_truth",
+  "dataset": "data/cube-toss",
+  "backend": "mujoco",
+  "kind": "cube",
+  "dataset_fingerprint": "22d8d2e8ea66cd005a74dc7a80326084ea71ab58d26ef3f5b40a037c211ac319",
+  "checkpoint": null,
+  "model_name": null,
+  "device": null,
+  "selected_ids": [
+    12756,
+    12301,
+    12363,
+    12408,
+    12716,
+    12254,
+    12426
+  ],
+  "camera": "fixed shared camera fitted to GT geometry",
+  "stride": 1,
+  "filters": {
+    "split": "ood",
+    "scenario": "floor_wall",
+    "trajectory_id": null,
+    "limit": 7,
+    "horizon": 100
+  },
+  "selection": "Six initial-horizontal-speed quantiles from the same 512-trajectory OOD evaluation, excluding 12426; original 12426 retained.",
+  "complete": true,
+  "trajectories": [
+    {
+      "id": 12756,
+      "split": "ood",
+      "scenario": "floor_wall",
+      "seed": 1336027953,
+      "directory": "trajectory_12756",
+      "available_steps": 100,
+      "requested_horizon": 100,
+      "completed_steps": 100,
+      "dt": 0.02,
+      "reason": null,
+      "diverged": false,
+      "initial_condition": {
+        "position_world": [
+          -9.999999747378752e-05,
+          0.0,
+          0.20010000467300415
+        ],
+        "quaternion_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "linear_velocity_world": [
+          0.507192850112915,
+          0.0,
+          -0.10000000149011612
+        ],
+        "angular_velocity_local": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "action_summary": {
+        "all_zero": true,
+        "max_abs": 0.0
+      },
+      "duration_seconds": 2.0,
+      "video_name": "gt.mp4",
+      "render": {
+        "video": "docs/visualizations/ood-context/trajectory_12756/gt.mp4",
+        "poster": "docs/visualizations/ood-context/trajectory_12756/gt.png",
+        "frames": 101,
+        "fps": 50.0,
+        "width": 960,
+        "height": 720,
+        "camera": {
+          "lookat": [
+            -0.00484092309125117,
+            -5.551115123125783e-17,
+            0.20179063081741336
+          ],
+          "distance": 1.9720046919941474,
+          "azimuth": 45.000000000000014,
+          "elevation": -24.0,
+          "gt_bounds": [
+            [
+              -0.35599200769880407,
+              -0.3464101615137756,
+              -0.14631015684077137
+            ],
+            [
+              0.34631016151630173,
+              0.3464101615137755,
+              0.5498914184755981
+            ]
+          ],
+          "wall_aware": true,
+          "mode": "fixed",
+          "fit": "ground_truth",
+          "shared_panels": false
+        }
+      },
+      "added_to_gallery": true
+    },
+    {
+      "id": 12301,
+      "split": "ood",
+      "scenario": "floor_wall",
+      "seed": 1288376258,
+      "directory": "trajectory_12301",
+      "available_steps": 100,
+      "requested_horizon": 100,
+      "completed_steps": 100,
+      "dt": 0.02,
+      "reason": null,
+      "diverged": false,
+      "initial_condition": {
+        "position_world": [
+          -9.999999747378752e-05,
+          0.0,
+          0.20010000467300415
+        ],
+        "quaternion_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "linear_velocity_world": [
+          0.635793149471283,
+          0.0,
+          -0.10000000149011612
+        ],
+        "angular_velocity_local": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "action_summary": {
+        "all_zero": true,
+        "max_abs": 0.0
+      },
+      "duration_seconds": 2.0,
+      "video_name": "gt.mp4",
+      "render": {
+        "video": "docs/visualizations/ood-context/trajectory_12301/gt.mp4",
+        "poster": "docs/visualizations/ood-context/trajectory_12301/gt.png",
+        "frames": 101,
+        "fps": 50.0,
+        "width": 960,
+        "height": 720,
+        "camera": {
+          "lookat": [
+            -0.00476362424888066,
+            -2.7755575615628914e-17,
+            0.20176376402378085
+          ],
+          "distance": 1.971807241136864,
+          "azimuth": 45.00000000000001,
+          "elevation": -24.0,
+          "gt_bounds": [
+            [
+              -0.35583741001406305,
+              -0.34641016151377557,
+              -0.14631015684077137
+            ],
+            [
+              0.34631016151630173,
+              0.3464101615137755,
+              0.5498376848883331
+            ]
+          ],
+          "wall_aware": true,
+          "mode": "fixed",
+          "fit": "ground_truth",
+          "shared_panels": false
+        }
+      },
+      "added_to_gallery": true
+    },
+    {
+      "id": 12363,
+      "split": "ood",
+      "scenario": "floor_wall",
+      "seed": 1294869456,
+      "directory": "trajectory_12363",
+      "available_steps": 100,
+      "requested_horizon": 100,
+      "completed_steps": 100,
+      "dt": 0.02,
+      "reason": null,
+      "diverged": false,
+      "initial_condition": {
+        "position_world": [
+          -9.999999747378752e-05,
+          0.0,
+          0.20010000467300415
+        ],
+        "quaternion_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "linear_velocity_world": [
+          0.7527262568473816,
+          0.0,
+          -0.10000000149011612
+        ],
+        "angular_velocity_local": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "action_summary": {
+        "all_zero": true,
+        "max_abs": 0.0
+      },
+      "duration_seconds": 2.0,
+      "video_name": "gt.mp4",
+      "render": {
+        "video": "docs/visualizations/ood-context/trajectory_12363/gt.mp4",
+        "poster": "docs/visualizations/ood-context/trajectory_12363/gt.png",
+        "frames": 101,
+        "fps": 50.0,
+        "width": 960,
+        "height": 720,
+        "camera": {
+          "lookat": [
+            -0.004865497434366262,
+            -2.7755575615628914e-17,
+            0.201807513833046
+          ],
+          "distance": 1.9720831783252333,
+          "azimuth": 45.00000000000001,
+          "elevation": -24.0,
+          "gt_bounds": [
+            [
+              -0.35604115638503425,
+              -0.34641016151377557,
+              -0.14631015684077137
+            ],
+            [
+              0.34631016151630173,
+              0.3464101615137755,
+              0.5499251845068633
+            ]
+          ],
+          "wall_aware": true,
+          "mode": "fixed",
+          "fit": "ground_truth",
+          "shared_panels": false
+        }
+      },
+      "added_to_gallery": true
+    },
+    {
+      "id": 12408,
+      "split": "ood",
+      "scenario": "floor_wall",
+      "seed": 1299582261,
+      "directory": "trajectory_12408",
+      "available_steps": 100,
+      "requested_horizon": 100,
+      "completed_steps": 100,
+      "dt": 0.02,
+      "reason": null,
+      "diverged": false,
+      "initial_condition": {
+        "position_world": [
+          -9.999999747378752e-05,
+          0.0,
+          0.20010000467300415
+        ],
+        "quaternion_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "linear_velocity_world": [
+          0.9164073467254639,
+          0.0,
+          -0.10000000149011612
+        ],
+        "angular_velocity_local": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "action_summary": {
+        "all_zero": true,
+        "max_abs": 0.0
+      },
+      "duration_seconds": 2.0,
+      "video_name": "gt.mp4",
+      "render": {
+        "video": "docs/visualizations/ood-context/trajectory_12408/gt.mp4",
+        "poster": "docs/visualizations/ood-context/trajectory_12408/gt.png",
+        "frames": 101,
+        "fps": 50.0,
+        "width": 960,
+        "height": 720,
+        "camera": {
+          "lookat": [
+            -0.005029356190789258,
+            -2.7755575615628914e-17,
+            0.20187251269817355
+          ],
+          "distance": 1.9725169550565869,
+          "azimuth": 45.00000000000001,
+          "elevation": -24.0,
+          "gt_bounds": [
+            [
+              -0.35636887389788025,
+              -0.34641016151377557,
+              -0.14631015684077137
+            ],
+            [
+              0.34631016151630173,
+              0.3464101615137755,
+              0.5500551822371185
+            ]
+          ],
+          "wall_aware": true,
+          "mode": "fixed",
+          "fit": "ground_truth",
+          "shared_panels": false
+        }
+      },
+      "added_to_gallery": true
+    },
+    {
+      "id": 12716,
+      "split": "ood",
+      "scenario": "floor_wall",
+      "seed": 1331838793,
+      "directory": "trajectory_12716",
+      "available_steps": 100,
+      "requested_horizon": 100,
+      "completed_steps": 100,
+      "dt": 0.02,
+      "reason": null,
+      "diverged": false,
+      "initial_condition": {
+        "position_world": [
+          -9.999999747378752e-05,
+          0.0,
+          0.20010000467300415
+        ],
+        "quaternion_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "linear_velocity_world": [
+          1.0579991340637207,
+          0.0,
+          -0.10000000149011612
+        ],
+        "angular_velocity_local": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "action_summary": {
+        "all_zero": true,
+        "max_abs": 0.0
+      },
+      "duration_seconds": 2.0,
+      "video_name": "gt.mp4",
+      "render": {
+        "video": "docs/visualizations/ood-context/trajectory_12716/gt.mp4",
+        "poster": "docs/visualizations/ood-context/trajectory_12716/gt.png",
+        "frames": 101,
+        "fps": 50.0,
+        "width": 960,
+        "height": 720,
+        "camera": {
+          "lookat": [
+            -0.005654342556226766,
+            2.7755575615628914e-17,
+            0.20193158090114596
+          ],
+          "distance": 1.973816567254214,
+          "azimuth": 44.99999999999999,
+          "elevation": -24.0,
+          "gt_bounds": [
+            [
+              -0.35761884662875526,
+              -0.3464101615137755,
+              -0.14631015684077137
+            ],
+            [
+              0.34631016151630173,
+              0.34641016151377557,
+              0.5501733186430633
+            ]
+          ],
+          "wall_aware": true,
+          "mode": "fixed",
+          "fit": "ground_truth",
+          "shared_panels": false
+        }
+      },
+      "added_to_gallery": true
+    },
+    {
+      "id": 12254,
+      "split": "ood",
+      "scenario": "floor_wall",
+      "seed": 1283453995,
+      "directory": "trajectory_12254",
+      "available_steps": 100,
+      "requested_horizon": 100,
+      "completed_steps": 100,
+      "dt": 0.02,
+      "reason": null,
+      "diverged": false,
+      "initial_condition": {
+        "position_world": [
+          -9.999999747378752e-05,
+          0.0,
+          0.20010000467300415
+        ],
+        "quaternion_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "linear_velocity_world": [
+          1.1957626342773438,
+          0.0,
+          -0.10000000149011612
+        ],
+        "angular_velocity_local": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "action_summary": {
+        "all_zero": true,
+        "max_abs": 0.0
+      },
+      "duration_seconds": 2.0,
+      "video_name": "gt.mp4",
+      "render": {
+        "video": "docs/visualizations/ood-context/trajectory_12254/gt.mp4",
+        "poster": "docs/visualizations/ood-context/trajectory_12254/gt.png",
+        "frames": 101,
+        "fps": 50.0,
+        "width": 960,
+        "height": 720,
+        "camera": {
+          "lookat": [
+            -0.00582905168630532,
+            -2.7755575615628914e-17,
+            0.2020857930183411
+          ],
+          "distance": 1.9744392968988047,
+          "azimuth": 45.00000000000001,
+          "elevation": -24.0,
+          "gt_bounds": [
+            [
+              -0.35796826488891237,
+              -0.34641016151377557,
+              -0.14631015684077137
+            ],
+            [
+              0.34631016151630173,
+              0.3464101615137755,
+              0.5504817428774536
+            ]
+          ],
+          "wall_aware": true,
+          "mode": "fixed",
+          "fit": "ground_truth",
+          "shared_panels": false
+        }
+      },
+      "added_to_gallery": true
+    },
+    {
+      "id": 12426,
+      "split": "ood",
+      "scenario": "floor_wall",
+      "seed": 1301467383,
+      "directory": "trajectory_12426",
+      "available_steps": 100,
+      "requested_horizon": 100,
+      "completed_steps": 100,
+      "dt": 0.02,
+      "reason": null,
+      "diverged": false,
+      "initial_condition": {
+        "position_world": [
+          -9.999999747378752e-05,
+          0.0,
+          0.20010000467300415
+        ],
+        "quaternion_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "linear_velocity_world": [
+          1.1887335777282715,
+          0.0,
+          -0.10000000149011612
+        ],
+        "angular_velocity_local": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "action_summary": {
+        "all_zero": true,
+        "max_abs": 0.0
+      },
+      "duration_seconds": 2.0,
+      "video_name": "gt.mp4",
+      "render": {
+        "video": "docs/visualizations/ood-context/trajectory_12426/gt.mp4",
+        "poster": "docs/visualizations/ood-context/trajectory_12426/gt.png",
+        "frames": 101,
+        "fps": 50.0,
+        "width": 960,
+        "height": 720,
+        "camera": {
+          "lookat": [
+            -0.005819812966365134,
+            -2.7755575615628914e-17,
+            0.2020775228738785
+          ],
+          "distance": 1.9744061470615017,
+          "azimuth": 45.00000000000001,
+          "elevation": -24.0,
+          "gt_bounds": [
+            [
+              -0.357949787449032,
+              -0.34641016151377557,
+              -0.14631015684077137
+            ],
+            [
+              0.34631016151630173,
+              0.3464101615137755,
+              0.5504652025885284
+            ]
+          ],
+          "wall_aware": true,
+          "mode": "fixed",
+          "fit": "ground_truth",
+          "shared_panels": false
+        }
+      }
+    }
+  ],
+  "added_selected_ids": [
+    12756,
+    12301,
+    12363,
+    12408,
+    12716,
+    12254
+  ],
+  "preserved_selected_ids": [
+    12426
+  ]
+}

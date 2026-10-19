@@ -1,0 +1,304 @@
+{
+  "title": "완료된 5 epoch 학습의 Loss 비교",
+  "snapshot_date_kst": "2026-10-19",
+  "dataset_fingerprint": "5556a167aba34801a431f7a68bace04d8db190cc46ed6deccf6cdc2d84a56d86",
+  "protocol": {
+    "dataset": "data/cube-toss",
+    "seed": 0,
+    "epochs": 5,
+    "train_trajectories": 10000,
+    "validation_trajectories": 256,
+    "train_transitions_per_epoch": 1000000,
+    "validation_transitions_per_epoch": 25600,
+    "optimizer_steps": 9770,
+    "batch_size": 32,
+    "gradient_accumulation_steps": 16,
+    "effective_batch_size": 512,
+    "rollout_steps": 1,
+    "learning_rate_initial": 0.001,
+    "scheduler": {
+      "name": "linear",
+      "warmup_epochs": 0,
+      "min_lr_ratio": 0.1
+    },
+    "mixed_precision": "bf16",
+    "validation_trajectory_ids_sha256": "c0210e4a8f182c5aaca505c4d101d70bc03f1916821522cafd62e995e9a1c903",
+    "training_trajectory_ids_sha256": "98b100a1e043436a604fb2d225536477b383addfdec5a8d6ad93b6600b26ed45",
+    "normalization_fit_split": "train",
+    "normalization_delta_std": [
+      0.0206570103764534,
+      0.020708054304122925,
+      0.020802494138479233,
+      0.05820925906300545,
+      0.05826883390545845,
+      0.05844373628497124,
+      0.30619776248931885,
+      0.3049706518650055,
+      0.3059842884540558,
+      0.7232669591903687,
+      0.7267252206802368,
+      0.7260679006576538
+    ],
+    "same_dataset_validation_ids_and_normalization_verified": true
+  },
+  "loss_definition": {
+    "formula": "mean(((predicted_delta - truth_delta) / train_delta_std)^2) + mean(rotation_angle^2)",
+    "description_ko": "학습 split의 Δ 표준편차로 나눈 상태 변화량 오차의 평균제곱 + 다음 자세의 회전 지오데식 각도 제곱 평균. 두 항을 더한 단일 스텝 목적함수이며 위치 RMSE(m)나 100스텝 rollout 오차와 다르다.",
+    "rotation_angle": "2 * atan2(sqrt(clamp(1 - abs(dot(normalize(q_pred), normalize(q_true)))^2, min=1e-8)), clamp(abs(dot(normalize(q_pred), normalize(q_true))), min=1e-8))",
+    "source": "src/cube/experiments/learning.py::_prediction_loss",
+    "aggregation": "sample-weighted epoch mean",
+    "train_semantics_ko": "해당 epoch 동안 갱신되는 가중치로 각 배치에서 계산한 학습 Loss를 샘플 수로 가중 평균.",
+    "validation_semantics_ko": "각 epoch 종료 시 고정한 가중치로 별도 validation 25,600개 전이를 평가한 단일 스텝 Loss."
+  },
+  "scope_note_ko": "seed 0 한 번의 완료된 학습 비교이며 오차막대는 없다. flat 등 완료된 5 epoch training.json이 없는 모델은 제외했다. 모델별 파라미터 수와 벽시계 시간은 같지 않다. 낮은 Loss가 모든 장기 rollout 지표의 우위를 뜻하지 않는다.",
+  "models": [
+    {
+      "model": "deepsets",
+      "source": {
+        "path": "outputs/cube-toss-suite-final/deepsets_budget10000_seed0/training.json",
+        "sha256": "4abefdd360bd92fcbae1ee6843f8486249eababdf29c9afd0f863dc71d7a7422"
+      },
+      "checkpoint": "outputs/cube-toss-suite-final/deepsets_budget10000_seed0/best.pt",
+      "epochs": [
+        {
+          "epoch": 1,
+          "epoch_complete": true,
+          "optimizer_step": 1954,
+          "train_loss": 0.3881868767890781,
+          "val_loss": 0.26098658422328297,
+          "train_samples": 1000000,
+          "validation_samples": 25600,
+          "train_seconds": 3798.4664309180225,
+          "samples_per_second": 263.26414045952686,
+          "learning_rate": 0.00082,
+          "gpu_peak_memory_mb": 556.31201171875
+        },
+        {
+          "epoch": 2,
+          "epoch_complete": true,
+          "optimizer_step": 3908,
+          "train_loss": 0.19393854732265323,
+          "val_loss": 0.14797697767877252,
+          "train_samples": 1000000,
+          "validation_samples": 25600,
+          "train_seconds": 3760.49767050799,
+          "samples_per_second": 265.92224955823843,
+          "learning_rate": 0.0006399999999999999,
+          "gpu_peak_memory_mb": 556.31591796875
+        },
+        {
+          "epoch": 3,
+          "epoch_complete": true,
+          "optimizer_step": 5862,
+          "train_loss": 0.13359351097694785,
+          "val_loss": 0.11478515081733348,
+          "train_samples": 1000000,
+          "validation_samples": 25600,
+          "train_seconds": 3756.497451479023,
+          "samples_per_second": 266.20542484496457,
+          "learning_rate": 0.00045999999999999996,
+          "gpu_peak_memory_mb": 556.31591796875
+        },
+        {
+          "epoch": 4,
+          "epoch_complete": true,
+          "optimizer_step": 7816,
+          "train_loss": 0.09970158339547738,
+          "val_loss": 0.09522946044700803,
+          "train_samples": 1000000,
+          "validation_samples": 25600,
+          "train_seconds": 3747.3554233110044,
+          "samples_per_second": 266.8548581699364,
+          "learning_rate": 0.0002799999999999999,
+          "gpu_peak_memory_mb": 556.31591796875
+        },
+        {
+          "epoch": 5,
+          "epoch_complete": true,
+          "optimizer_step": 9770,
+          "train_loss": 0.07423408119585365,
+          "val_loss": 0.06928695722707744,
+          "train_samples": 1000000,
+          "validation_samples": 25600,
+          "train_seconds": 3808.2216304440517,
+          "samples_per_second": 262.5897589588021,
+          "learning_rate": 9.999999999999998e-05,
+          "gpu_peak_memory_mb": 556.31591796875
+        }
+      ],
+      "best_val_loss": 0.06928695722707744,
+      "best_epoch": 5,
+      "parameters_total_registered": 1070910,
+      "elapsed_seconds": 19026.823349902,
+      "validation_reduction_epoch1_to5_percent": 73.45190848285134
+    },
+    {
+      "model": "state_mlp",
+      "source": {
+        "path": "outputs/cube-toss-suite-final/state_mlp_budget10000_seed0/training.json",
+        "sha256": "c6209cce67a68a26ff1e8bba50e48178e590af90f13bc91ec1e45f0865093c2d"
+      },
+      "checkpoint": "outputs/cube-toss-suite-final/state_mlp_budget10000_seed0/best.pt",
+      "epochs": [
+        {
+          "epoch": 1,
+          "epoch_complete": true,
+          "optimizer_step": 1954,
+          "train_loss": 0.4328513593253046,
+          "val_loss": 0.33761134517902974,
+          "train_samples": 1000000,
+          "validation_samples": 25600,
+          "train_seconds": 710.3076978320023,
+          "samples_per_second": 1407.8405781778729,
+          "learning_rate": 0.00082,
+          "gpu_peak_memory_mb": 22.21240234375
+        },
+        {
+          "epoch": 2,
+          "epoch_complete": true,
+          "optimizer_step": 3908,
+          "train_loss": 0.2783589602648541,
+          "val_loss": 0.25700617368886014,
+          "train_samples": 1000000,
+          "validation_samples": 25600,
+          "train_seconds": 720.2501918369671,
+          "samples_per_second": 1388.4064333944057,
+          "learning_rate": 0.0006399999999999999,
+          "gpu_peak_memory_mb": 22.21630859375
+        },
+        {
+          "epoch": 3,
+          "epoch_complete": true,
+          "optimizer_step": 5862,
+          "train_loss": 0.21022055255619437,
+          "val_loss": 0.17824330068106065,
+          "train_samples": 1000000,
+          "validation_samples": 25600,
+          "train_seconds": 621.8620938769891,
+          "samples_per_second": 1608.0735742638956,
+          "learning_rate": 0.00045999999999999996,
+          "gpu_peak_memory_mb": 22.21630859375
+        },
+        {
+          "epoch": 4,
+          "epoch_complete": true,
+          "optimizer_step": 7816,
+          "train_loss": 0.1509205777722895,
+          "val_loss": 0.13603603912488324,
+          "train_samples": 1000000,
+          "validation_samples": 25600,
+          "train_seconds": 638.1982304060366,
+          "samples_per_second": 1566.9112704430042,
+          "learning_rate": 0.0002799999999999999,
+          "gpu_peak_memory_mb": 22.21630859375
+        },
+        {
+          "epoch": 5,
+          "epoch_complete": true,
+          "optimizer_step": 9770,
+          "train_loss": 0.12529714616432414,
+          "val_loss": 0.11733629063830449,
+          "train_samples": 1000000,
+          "validation_samples": 25600,
+          "train_seconds": 649.0269072320079,
+          "samples_per_second": 1540.7681697894993,
+          "learning_rate": 9.999999999999998e-05,
+          "gpu_peak_memory_mb": 22.21630859375
+        }
+      ],
+      "best_val_loss": 0.11733629063830449,
+      "best_epoch": 5,
+      "parameters_total_registered": 47884,
+      "elapsed_seconds": 3421.938630430959,
+      "validation_reduction_epoch1_to5_percent": 65.24515768980365
+    },
+    {
+      "model": "hierarchical",
+      "source": {
+        "path": "outputs/cube-toss-suite-final/hierarchical_budget10000_seed0/training.json",
+        "sha256": "4ef8355ba2459d531b7f89fd1b786bef725bff4e86897d3e68926f16854f2ad2"
+      },
+      "checkpoint": "outputs/cube-toss-suite-final/hierarchical_budget10000_seed0/best.pt",
+      "epochs": [
+        {
+          "epoch": 1,
+          "epoch_complete": true,
+          "optimizer_step": 1954,
+          "train_loss": 0.6247032085010409,
+          "val_loss": 0.5264549843594432,
+          "train_samples": 1000000,
+          "validation_samples": 25600,
+          "train_seconds": 4294.895342866948,
+          "samples_per_second": 232.83454430637545,
+          "learning_rate": 0.00082,
+          "gpu_peak_memory_mb": 562.2021484375
+        },
+        {
+          "epoch": 2,
+          "epoch_complete": true,
+          "optimizer_step": 3908,
+          "train_loss": 0.47436519682237505,
+          "val_loss": 0.46590248932130635,
+          "train_samples": 1000000,
+          "validation_samples": 25600,
+          "train_seconds": 4335.907779565023,
+          "samples_per_second": 230.63221148590014,
+          "learning_rate": 0.0006399999999999999,
+          "gpu_peak_memory_mb": 562.2060546875
+        },
+        {
+          "epoch": 3,
+          "epoch_complete": true,
+          "optimizer_step": 5862,
+          "train_loss": 0.4050494624463767,
+          "val_loss": 0.3622943174489774,
+          "train_samples": 1000000,
+          "validation_samples": 25600,
+          "train_seconds": 4373.904107055976,
+          "samples_per_second": 228.62869773180472,
+          "learning_rate": 0.00045999999999999996,
+          "gpu_peak_memory_mb": 562.2060546875
+        },
+        {
+          "epoch": 4,
+          "epoch_complete": true,
+          "optimizer_step": 7816,
+          "train_loss": 0.333956193523176,
+          "val_loss": 0.31316437822039006,
+          "train_samples": 1000000,
+          "validation_samples": 25600,
+          "train_seconds": 4378.988224069006,
+          "samples_per_second": 228.36325398262628,
+          "learning_rate": 0.0002799999999999999,
+          "gpu_peak_memory_mb": 562.2060546875
+        },
+        {
+          "epoch": 5,
+          "epoch_complete": true,
+          "optimizer_step": 9770,
+          "train_loss": 0.29517591444479674,
+          "val_loss": 0.2954918560277656,
+          "train_samples": 1000000,
+          "validation_samples": 25600,
+          "train_seconds": 4361.139692954952,
+          "samples_per_second": 229.29786028533195,
+          "learning_rate": 9.999999999999998e-05,
+          "gpu_peak_memory_mb": 562.2060546875
+        }
+      ],
+      "best_val_loss": 0.2954918560277656,
+      "best_epoch": 5,
+      "parameters_total_registered": 1070910,
+      "elapsed_seconds": 21915.781154431985,
+      "validation_reduction_epoch1_to5_percent": 43.87139170364181
+    }
+  ],
+  "deepsets_comparison_final_validation": {
+    "state_mlp": {
+      "deepsets_lower_percent": 40.95010431115617
+    },
+    "hierarchical": {
+      "deepsets_lower_percent": 76.55199092168314
+    }
+  }
+}

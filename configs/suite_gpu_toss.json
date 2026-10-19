@@ -1,5 +1,6 @@
 {
   "dataset": "data/cube-toss",
+  "ood_dataset": "data/cube-toss-ood-v2",
   "budgets": [10000],
   "seeds": [0, 1, 2],
   "models": [

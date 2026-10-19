@@ -81,6 +81,30 @@ def test_actual_comparison_video_does_not_integrate(tmp_path, monkeypatch):
     assert not np.array_equal(frames[-1][70:200, :320], frames[-1][70:200, 320:])
 
 
+@pytest.mark.skipif(os.environ.get("MUJOCO_GL") != "osmesa", reason="requires headless OSMesa Docker runtime")
+def test_floor_wall_camera_keeps_cube_visible():
+    import mujoco
+    from cube.rendering import _camera_for_states
+
+    sim = Simulator({"scenario": "floor_wall"})
+    try:
+        states = np.asarray([sim.state()] + [sim.step() for _ in range(5)])
+        camera, info = _camera_for_states(sim, states, 320, 240)
+        assert info["wall_aware"]
+        object_id = mujoco.mj_name2id(sim.model, mujoco.mjtObj.mjOBJ_GEOM, "object")
+        with mujoco.Renderer(sim.model, height=240, width=320) as renderer:
+            renderer.enable_segmentation_rendering()
+            for state in states:
+                sim.reset(state)
+                renderer.update_scene(sim.data, camera)
+                segmentation = renderer.render()
+                visible = ((segmentation[..., 0] == object_id)
+                           & (segmentation[..., 1] == mujoco.mjtObj.mjOBJ_GEOM))
+                assert visible.sum() > .02 * 320 * 240
+    finally:
+        sim.close()
+
+
 def test_legacy_wrapper_scene_spec_and_key(tmp_path, monkeypatch):
     import cube.rendering as rendering
     import json

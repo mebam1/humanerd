@@ -83,10 +83,16 @@ def _settings(config: dict | str | None, backend: str, device: str) -> dict:
     scene.setdefault("dt", .02)
     scene.setdefault("substeps", 4)
     rigid = kind in {"cube", "cuboid"}
-    scenarios = list(cfg.get("scenarios", DEFAULT_SCENARIOS if rigid else ["walk", "rest", "free_fall"]))
+    ood_only = cfg.get("ood_only", False)
+    if not isinstance(ood_only, bool):
+        raise ValueError("ood_only must be true or false")
+    default_scenarios = [] if ood_only else DEFAULT_SCENARIOS if rigid else ["walk", "rest", "free_fall"]
+    scenarios = list(cfg.get("scenarios", default_scenarios))
     ood = list(cfg.get("ood_scenarios", ["floor_wall"] if rigid else []))
-    if not scenarios or len(set(scenarios)) != len(scenarios) or len(set(ood)) != len(ood):
+    if (not scenarios and not ood_only) or len(set(scenarios)) != len(scenarios) or len(set(ood)) != len(ood):
         raise ValueError("Training scenarios must be nonempty and scenario lists cannot contain duplicates")
+    if ood_only and (scenarios or not ood):
+        raise ValueError("ood_only requires empty training scenarios and nonempty ood_scenarios")
     if set(scenarios) & set(ood):
         raise ValueError("OOD environments cannot also be training environments")
     rigid_action_mode = cfg.get("rigid_action_mode", "zero")
@@ -94,7 +100,7 @@ def _settings(config: dict | str | None, backend: str, device: str) -> dict:
         raise ValueError("rigid_action_mode must be zero or random_wrench")
     if not rigid and "rigid_action_mode" in cfg:
         raise ValueError("rigid_action_mode only applies to cube or cuboid datasets")
-    if "toss" in scenarios + ood and rigid_action_mode != "zero":
+    if {"toss", "toss_wall", "toss_valley"} & set(scenarios + ood) and rigid_action_mode != "zero":
         raise ValueError("toss requires rigid_action_mode=zero; initialize velocities instead of applying external actions")
     action_policy = (
         {"mode": rigid_action_mode, "representation": "6D world-frame root COM force/torque (N/Nm)",
@@ -106,10 +112,14 @@ def _settings(config: dict | str | None, backend: str, device: str) -> dict:
         {"mode": "ant_gait_mixture" if kind == "ant" else "random_motor_control",
          "representation": "Normalized motor controls clipped to [-1,1]"}
     )
-    per_split = cfg.get("trajectories_per_split", {"train": 4, "val": 1, "test": 1})
+    default_counts = {"train": 0, "val": 0, "test": 0} if ood_only else {"train": 4, "val": 1, "test": 1}
+    per_split = cfg.get("trajectories_per_split", default_counts)
     if set(per_split) != {"train", "val", "test"}:
         raise ValueError("trajectories_per_split must contain exactly train, val, test")
-    per_split = {key: _positive_integer(per_split[key], key) for key in ("train", "val", "test")}
+    per_split = {key: _positive_integer(per_split[key], key, 0 if ood_only else 1) for key in ("train", "val", "test")}
+    if ood_only and any(per_split.values()):
+        raise ValueError("ood_only requires zero train, val, and test trajectory counts")
+    trajectory_id_offset = _positive_integer(cfg.get("trajectory_id_offset", 0), "trajectory_id_offset", 0)
     steps = _positive_integer(cfg.get("steps", 64), "steps", 2)
     ood_count = _positive_integer(cfg.get("ood_trajectories", 2), "ood_trajectories", 0)
     if ood and not ood_count:
@@ -140,6 +150,7 @@ def _settings(config: dict | str | None, backend: str, device: str) -> dict:
     return {"config": cfg, "scene": scene, "kind": kind, "seed": int(cfg.get("seed", 0)),
             "rigid_action_mode": rigid_action_mode if rigid else None, "action_policy": action_policy,
             "scenarios": scenarios, "ood": ood, "per_split": per_split, "ood_count": ood_count,
+            "ood_only": ood_only, "trajectory_id_offset": trajectory_id_offset,
             "steps": steps, "format": storage_format, "dtype": dtype, "schema": schema,
             "shard_size": _positive_integer(storage.get("trajectories_per_shard", 256), "trajectories_per_shard"),
             "workers": workers, "progress": bool(generation.get("progress", True)),
@@ -157,6 +168,7 @@ def dataset_plan(config: dict | str | None, backend: str = "mujoco", device: str
     return {"kind": settings["kind"], "backend": backend, "device": device, "storage_format": settings["format"],
             "generator_version": GENERATOR_VERSION, "rigid_action_mode": settings["rigid_action_mode"],
             "action_policy": settings["action_policy"],
+            "ood_only": settings["ood_only"], "trajectory_id_offset": settings["trajectory_id_offset"],
             "trajectories": trajectories, "steps_per_trajectory": settings["steps"],
             "transitions": trajectories * settings["steps"], "splits": splits,
             "transitions_per_split": {key: count * settings["steps"] for key, count in splits.items()},
@@ -168,21 +180,22 @@ def dataset_plan(config: dict | str | None, backend: str = "mujoco", device: str
 
 
 def _entries(settings: dict):
-    trajectory_id = 0
+    ordinal = 0
     for scenario in settings["scenarios"] + settings["ood"]:
         counts = {"ood": settings["ood_count"]} if scenario in settings["ood"] else settings["per_split"]
         for split, count in counts.items():
             for _ in range(count):
+                trajectory_id = settings["trajectory_id_offset"] + ordinal
                 local_seed = settings["seed"] + 104729 * (trajectory_id + 1)
                 entry = {"id": trajectory_id, "split": split, "scenario": scenario, "seed": local_seed,
                          "steps": settings["steps"], "scene_spec": {**settings["scene"], "scenario": scenario, "seed": local_seed}}
                 if settings["format"] == "sharded_npy":
-                    entry.update(shard=f"shards/{trajectory_id // settings['shard_size']:06d}",
-                                 row=trajectory_id % settings["shard_size"], array_keys=list(settings["schema"]))
+                    entry.update(shard=f"shards/{ordinal // settings['shard_size']:06d}",
+                                 row=ordinal % settings["shard_size"], array_keys=list(settings["schema"]))
                 else:
                     entry["file"] = f"trajectory_{trajectory_id:05d}.npz"
                 yield entry
-                trajectory_id += 1
+                ordinal += 1
 
 
 _SIM_CACHE = OrderedDict()
@@ -280,7 +293,14 @@ def _write_shard(output: str, entries: list[dict], settings: dict, fingerprint: 
 def _fingerprint(settings: dict) -> str:
     # Worker count/progress/provenance are operational/documentary; data semantics
     # (including scene, solver, precision, layout, and labels) are immutable.
+    # Preserve the identity of existing datasets that use the original defaults.
+    optional_semantics = {}
+    if settings["ood_only"]:
+        optional_semantics["ood_only"] = True
+    if settings["trajectory_id_offset"]:
+        optional_semantics["trajectory_id_offset"] = settings["trajectory_id_offset"]
     return content_hash({"generator_version": GENERATOR_VERSION, "mujoco_version": mujoco.__version__,
+                         **optional_semantics,
                          **{key: settings[key] for key in ("scene", "kind", "seed", "scenarios", "ood", "per_split",
                              "ood_count", "steps", "format", "dtype", "schema", "shard_size", "record_substeps", "backend", "device",
                              "rigid_action_mode", "action_policy")},
@@ -398,6 +418,7 @@ def generate_dataset(config: dict | str | None, output: str, backend: str = "muj
         manifest = {"format_version": 2 if settings["format"] == "sharded_npy" else 1,
                     "generator_version": GENERATOR_VERSION, "rigid_action_mode": settings["rigid_action_mode"],
                     "action_policy": settings["action_policy"],
+                    "ood_only": settings["ood_only"], "trajectory_id_offset": settings["trajectory_id_offset"],
                     "status": "incomplete", "kind": settings["kind"], "backend": backend, "device": device,
                     "seed": settings["seed"], "dataset_fingerprint": fingerprint,
                     "schema": settings["schema"], "schema_hash": content_hash(settings["schema"]),
@@ -426,6 +447,3 @@ def generate_dataset(config: dict | str | None, output: str, backend: str = "muj
     return {"manifest": str(manifest_path), "trajectories": plan["trajectories"], "transitions": plan["transitions"],
             "splits": plan["splits"], "elapsed_seconds": manifest["elapsed_seconds"],
             "dataset_fingerprint": fingerprint, "storage_format": settings["format"]}
-
-
-

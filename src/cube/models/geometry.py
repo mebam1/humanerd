@@ -26,7 +26,8 @@ def metadata_from_scene(scene: Any) -> dict:
                **{key: getattr(model, "jnt_" + key)[i].tolist()
                   for key in ("pos", "axis", "qposadr", "dofadr", "type", "range")}}
               for i in range(model.njnt)]
-    geoms = [{"id": i, "body_id": int(model.geom_bodyid[i]),
+    geoms = [{"id": i, "name": model.geom(i).name if hasattr(model, "geom") else None,
+              "body_id": int(model.geom_bodyid[i]),
               **{key: getattr(model, "geom_" + key)[i].tolist()
                  for key in ("type", "pos", "quat", "size", "friction", "contype", "conaffinity", "solref", "solimp", "margin")}}
              for i in range(model.ngeom)]
@@ -35,6 +36,13 @@ def metadata_from_scene(scene: Any) -> dict:
             "nq": int(model.nq), "nv": int(model.nv), "nu": int(model.nu),
             "actuator_trnid": model.actuator_trnid.tolist(),
             "actuator_gear": model.actuator_gear.tolist(), "qpos0": model.qpos0.tolist()}
+
+
+def _valley_side(geom: dict) -> int:
+    """Only the named static valley planes have a buried half to exclude."""
+    if int(geom["type"]) != 0 or int(geom["body_id"]) != 0:
+        return 0
+    return {"valley_left": -1, "valley_right": 1}.get(geom.get("name"), 0)
 
 
 def _primitive_patches(kind: int, size: list, n: int, extent: float) -> list[tuple[Tensor, Tensor]]:
@@ -127,6 +135,12 @@ class GeometryFeatures(nn.Module):
             gp = torch.tensor(geom["pos"], dtype=torch.float32)
             for p, normal in _primitive_patches(kind, geom["size"], floor_n if kind == 0 else n,
                                                 float(self.config.get("floor_extent", 1.5))):
+                side = _valley_side(geom)
+                if side:
+                    # Keep the complete grid density on the exposed half of
+                    # each plane; its other half lies under the opposite slope.
+                    extent = float(self.config.get("floor_extent", 1.5))
+                    p[:, 0] = (p[:, 0] + side * extent) / 2
                 count = p.shape[0]
                 points.append(quat_rotate(gq, p) + gp)
                 normals.append(quat_rotate(gq, normal))
@@ -263,6 +277,16 @@ class GeometryFeatures(nn.Module):
             normal = quat_rotate(gq, state.new_tensor([0., 0., 1.]).expand(batch, -1))
             diff = state[:, :3] - gp
             translation = diff - (diff * normal).sum(-1, keepdim=True) * normal
+            side = _valley_side(geom)
+            if side:
+                # A root-centred translation must not carry valley samples
+                # through the seam onto the buried half. Slide the full grid
+                # along the exposed half, stopping its nearest edge at x=0.
+                local = quat_rotate(quat_conjugate(gq), translation)
+                extent = float(self.config.get("floor_extent", 1.5))
+                shift_x = side * (side * local[:, 0] - extent / 2).clamp_min(0)
+                local = torch.stack((shift_x, local[:, 1], torch.zeros_like(shift_x)), -1)
+                translation = quat_rotate(gq, local)
             delta = torch.zeros_like(world_points).index_add(1, indices, translation[:, None, :].expand(-1, len(indices), -1))
             world_points = world_points + delta
         world_velocity = bv[:, pb] + torch.linalg.cross(bw[:, pb], world_points - bp[:, pb])

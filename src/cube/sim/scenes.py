@@ -10,6 +10,7 @@ from typing import Any
 SCENARIOS = (
     "free_fall", "impact", "bounce", "rebound", "settle", "rest", "slide",
     "edge", "floor_wall", "wall_only", "wall", "intervention", "walk", "toss",
+    "toss_wall", "toss_valley",
 )
 
 
@@ -37,6 +38,12 @@ class SceneSpec:
     toss_linear_velocity_max: tuple[float, float, float] = (2.0, 2.0, 3.0)
     toss_angular_velocity_min: tuple[float, float, float] = (-8.0, -8.0, -8.0)
     toss_angular_velocity_max: tuple[float, float, float] = (8.0, 8.0, 8.0)
+    wall_center_x: float = 2.5
+    wall_height: float = 4.0
+    wall_half_width_y: float = 6.0
+    wall_thickness: float = 0.1
+    valley_angle_degrees: float = 10.0
+    valley_half_extent: float = 6.0
 
     def __post_init__(self) -> None:
         object.__setattr__(self, "half_extents", tuple(self.half_extents))
@@ -71,20 +78,39 @@ class SceneSpec:
                 bounds.append(value)
             if any(lo > hi for lo, hi in zip(*bounds)):
                 raise ValueError(f"toss_{quantity}_min must be <= toss_{quantity}_max componentwise")
-        if self.scenario == "toss":
+        if not math.isfinite(self.wall_center_x):
+            raise ValueError("wall_center_x must be finite")
+        for name in ("wall_height", "wall_half_width_y", "wall_thickness", "valley_half_extent"):
+            if not math.isfinite(getattr(self, name)) or getattr(self, name) <= 0:
+                raise ValueError(f"{name} must be finite and positive")
+        if not math.isfinite(self.valley_angle_degrees) or not 0 < self.valley_angle_degrees < 90:
+            raise ValueError("valley_angle_degrees must be finite and between 0 and 90")
+        if self.scenario in {"toss", "toss_wall", "toss_valley"}:
             if self.kind not in {"cube", "cuboid"}:
-                raise ValueError("toss is only supported for cube or cuboid")
+                raise ValueError("toss scenarios are only supported for cube or cuboid")
             # The circumscribed radius bounds every rotated vertex's vertical
             # extent. Reject unsafe ranges rather than truncating orientations,
             # which would bias the promised uniform SO(3) distribution.
             clearance = max(0.02, self.contact_margin + 0.001)
-            minimum_height = math.sqrt(sum(h * h for h in self.half_extents)) + clearance
+            radius = math.sqrt(sum(h * h for h in self.half_extents))
+            minimum_height = radius + clearance
+            if self.scenario == "toss_valley":
+                angle = math.radians(self.valley_angle_degrees)
+                maximum_abs_x = max(abs(self.toss_position_min[0]), abs(self.toss_position_max[0]))
+                minimum_height = (radius + clearance + maximum_abs_x * math.sin(angle)) / math.cos(angle)
             if not math.isfinite(minimum_height) or self.toss_position_min[2] < minimum_height:
                 raise ValueError(
                     "toss_position_min[2] must be at least "
-                    f"{minimum_height:.6g} m (box circumscribed radius + {clearance:.6g} m clearance) "
+                    f"{minimum_height:.6g} m (box circumscribed radius with {clearance:.6g} m clearance) "
                     "to keep every sampled orientation above the floor"
                 )
+            if self.scenario == "toss_wall":
+                wall_front_x = self.wall_center_x - self.wall_thickness / 2
+                if self.toss_position_max[0] + radius + clearance > wall_front_x:
+                    raise ValueError(
+                        "toss_position_max[0] must leave the box circumscribed radius "
+                        f"and {clearance:.6g} m clearance before the wall front at {wall_front_x:.6g} m"
+                    )
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -113,8 +139,29 @@ def _environment(spec: SceneSpec) -> str:
                 geoms.append(f'<geom name="support_B" type="box" pos="{hx + 0.05} 0 {hz}" size=".05 {0.7 * hy} {0.7 * hz}" rgba=".65 .35 .25 1"/>')
         return "\n".join(geoms)
     result = []
-    if spec.scenario != "wall_only":
+    if spec.scenario == "toss_valley":
+        # The two planes meet at x=z=0. Their collision half-spaces combine
+        # into z >= |x| tan(angle): a valley with its centre lower than its
+        # sides. Each plane is inclined by the full configured angle.
+        angle = math.radians(spec.valley_angle_degrees)
+        qw, qy = math.cos(angle / 2), math.sin(angle / 2)
+        extent = spec.valley_half_extent
+        result.append(
+            f'<geom name="valley_left" type="plane" size="{extent} {extent} .1" '
+            f'quat="{_vec((qw, 0, qy, 0))}" rgba=".65 .70 .75 1"/>'
+        )
+        result.append(
+            f'<geom name="valley_right" type="plane" size="{extent} {extent} .1" '
+            f'quat="{_vec((qw, 0, -qy, 0))}" rgba=".58 .64 .71 1"/>'
+        )
+    elif spec.scenario != "wall_only":
         result.append('<geom name="floor" type="plane" size="5 5 .1" rgba=".65 .70 .75 1"/>')
+    if spec.scenario == "toss_wall":
+        result.append(
+            f'<geom name="wall" type="box" pos="{spec.wall_center_x} 0 {spec.wall_height / 2}" '
+            f'size="{spec.wall_thickness / 2} {spec.wall_half_width_y} {spec.wall_height / 2}" '
+            'rgba=".45 .5 .6 1"/>'
+        )
     if spec.scenario in {"floor_wall", "wall", "wall_only"}:
         result.append(f'<geom name="wall" type="box" pos="{hx + 0.05} 0 1.5" size=".05 3 1.5" rgba=".45 .5 .6 1"/>')
     return "\n".join(result)

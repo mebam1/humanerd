@@ -2,9 +2,9 @@
 
 ## 구현한 것과 이유
 
-`src/cube/models/dynamics.py`는 공통 `DynamicsModel` 인터페이스에서 계층 모델, 비교군, ablation, 전이용 모듈 경계를 제공합니다. 같은 상태·행동·정적 형상에서 같은 generalized delta를 예측하게 하여, 데이터나 출력 표현 차이가 구조 비교에 섞이는 것을 줄이기 위한 구성입니다.
+`src/cube/models/dynamics.py`는 계층 모델, point 기반 비교군, ablation, 전이용 모듈 경계를 제공합니다. `src/cube/models/contact.py`의 `contact_mlp`는 같은 예측 API를 사용하면서, NeRD의 명시적 접촉 표현을 독립적으로 구성합니다. 모델들은 같은 generalized delta를 출력하지만, 환경 입력을 만드는 방식과 입력 정규화는 비교군마다 다릅니다.
 
-모델은 다음 상태나 접촉 충격량을 출력하는 solver가 아닙니다. 현재 표면의 국소 표현을 만든 뒤 여러 표면과 링크의 정보를 결합하여 **하나의 root 상태와 연결된 관절 상태 변화**를 예측합니다. Ant의 각 링크를 서로 독립적인 pose로 디코딩하지 않습니다.
+모델은 접촉 충격량 대신 **하나의 root 상태와 연결된 관절 상태 변화**를 예측하고, 이 변화로 다음 상태를 재구성합니다. Point 기반 모델은 현재 표면의 국소 표현을 만든 뒤 여러 표면과 링크의 정보를 결합합니다. Ant의 각 링크를 서로 독립적인 pose로 디코딩하지 않습니다. `contact_mlp`의 현재 구현 범위는 단일 자유 강체 Cube입니다.
 
 ## Point → Patch → Link → Articulation
 
@@ -29,16 +29,51 @@ Patch당 query offset은 학습 가능하며 `face_tokens=1,2,4` 중 선택합�
 |---|---|---|
 | `hierarchical` | Point→Patch→Link→Articulation | 물리적 계층이 유용한가? |
 | `state_mlp` | 상태·행동·링크 문맥·정적 환경 요약을 MLP로 처리 | 전체 벡터 중심 표현은 어느 수준인가? |
+| `contact_mlp` | Cube의 고정 접촉 후보점에서 계산한 명시적 접촉 정보와 body frame 운동 상태를 MLP로 처리 | NeRD 방식의 접촉 입력만으로 새로운 지지 형상에 대응할 수 있는가? |
 | `nerd_like` | 현재 기하 기반 근접 표면 요약, 상태 문맥, history Transformer | 접촉 요약·history를 제공하는 자체 비교군은 어느 수준인가? |
 | `deepsets` | 동일한 local point encoder 후 동적 포인트 mean과 비선형 readout | 단순 pooling과 비선형 decoder만으로 충분한가? |
 | `flat` | face 계층 없이 전체 포인트 attention과 global readout | 물리적 grouping 없이 전역 attention만으로 충분한가? |
 | `independent` | 각 정적 geometry의 국소 반응을 독립 계산한 뒤 선형 합산 | 서로 떨어진 지지의 반응을 독립적으로 더하는 가정이 충분한가? |
 
-**`nerd_like`는 공식 NeRD 구현·재현 결과가 아닙니다.** 이 저장소의 현재 상태 표현과 출력 규약을 공유하는 자체 비교군입니다. 실제 NeRD, FIGNet, RigidFormer의 논문 성능을 재현했다고 주장하지 않습니다. 원본 구현, 학습 데이터, solver 설정을 정합한 별도 비교가 필요합니다.
+**`nerd_like`는 공식 NeRD 구현·재현 결과가 아닙니다.** 이 저장소의 point 기반 표면 표현과 출력 규약을 공유하는 기존 자체 비교군입니다. 아래의 `contact_mlp`와 입력 경로가 다릅니다. `contact_mlp` 역시 NeRD의 접촉 표현과 공개 MLP 구성을 적용한 Cube 기준모델이며, 공식 NeRD 벤치마크를 그대로 재현한 결과는 아닙니다. 실제 NeRD, FIGNet, RigidFormer의 논문 성능을 재현했다고 주장하려면 원본 구현, 학습 데이터, solver 설정을 정합한 별도 비교가 필요합니다.
 
 `nerd_like`는 가까운 정적 표면의 위치·법선·거리·상대속도·재질 정보를 current geometry에서 계산해 요약합니다. solver가 계산한 미래 접촉이나 충격량은 사용하지 않습니다. `history=1`과 `history=10`을 지원합니다. history에는 현재 시점을 포함하며, rollout에서는 마지막 state를 실제 예측 state로 교체합니다. 상태와 행동 history를 함께 전달하면 과거 torque가 보존됩니다. 상태 history만 API에 전달한 경우에는 현재 행동을 반복하므로, 정식 비교에는 행동 history도 전달해야 합니다.
 
 `state_mlp`에도 정적 환경 요약을 제공합니다. 지지대 유무를 모델에 숨긴 채 동일한 상태에 서로 다른 정답을 강요하는 비교를 피하기 위한 조치입니다. 따라서 순수한 `[state, action]`만 받는 MLP와는 다릅니다.
+
+## `contact_mlp`: NeRD 방식의 명시적 접촉 입력
+
+NeRD는 collision detection을 유지하고, 그 결과와 현재 운동 상태·작용 토크를 신경망에 입력하여 다음 상태 변화를 예측합니다. 논문의 접촉 표현은 후보점마다 `cᵢ = (p0ᵢ, p1ᵢ, nᵢ, dᵢ)`입니다. `p0`는 로봇 쪽 고정 후보점, `p1`은 환경 쪽 대응 표면점, `n`은 접촉 법선, `d`는 부호 있는 거리입니다. 접촉력·충격량이나 미래 GT contact는 입력하지 않습니다. [NeRD §3.2–3.3 및 Appendix A](https://arxiv.org/html/2508.15755v1)
+
+공식 공개 코드에서 BOX는 꼭짓점 8개를 고정 후보점으로 사용합니다. `p0`는 collision query에 필요하지만 고정된 값이므로 공개 MLP의 신경망 입력 목록에서는 제외됩니다. `contact_mlp`도 이 구성을 따릅니다. 각 꼭짓점에 대해 현재 예측 상태와 장면 형상으로 접촉 레코드를 다시 계산하므로, rollout에 GT 접촉 정보를 공급하지 않습니다. [공식 후보점 생성 코드](https://github.com/NVlabs/neural-robot-dynamics/blob/370e89d2b8ce68aa3578aa7812859c681b7502bc/envs/abstract_contact_environment.py)
+
+| 신경망 입력 순서 | 차원 | 표현 |
+|---|---:|---|
+| 현재 선속도·각속도 | 6 | Cube body frame |
+| 후보점 8개의 법선 `n` | 24 | 환경에서 자유공간을 향하는 법선을 Cube body frame으로 변환 |
+| 후보점 8개의 환경 표면점 `p1` | 24 | Cube 원점을 기준으로 옮기고 body frame으로 회전 |
+| 후보점 8개의 거리 `d` | 8 | 분리 시 양수, 접촉 시 0, 침투 시 음수 |
+| 외력·토크 | 6 | 현재 작용하는 wrench를 body frame으로 표현 |
+| 단위 중력 방향 | 3 | Cube body frame |
+| **합계** | **71** | 현재 step만 사용, `history=1` |
+
+네트워크는 **`71 → 512 → 256 → 128 → 64 → 12`**이며, 은닉층마다 ReLU를 사용하고 LayerNorm은 사용하지 않습니다. 폭과 활성화는 공식 저장소의 공개 Ant MLP 설정을 따릅니다. 공식 main에는 Cube Toss 전용 MLP 학습 설정이 없으므로, 이를 Cube에 맞게 적용한 구성입니다. 출력 12차원은 현재 root frame에서의 위치 변화 3, 회전 벡터 3, 선속도 변화 3, 각속도 변화 3입니다. [공식 MLP 설정](https://github.com/NVlabs/neural-robot-dynamics/blob/370e89d2b8ce68aa3578aa7812859c681b7502bc/train/cfg/Ant/mlp.yaml), [공식 MLP 구성 코드](https://github.com/NVlabs/neural-robot-dynamics/blob/370e89d2b8ce68aa3578aa7812859c681b7502bc/models/models.py)
+
+`ContactFeatures`는 평면과 회전된 box에 대한 해석적 point–surface query로 `p1`, `n`, `d`를 계산합니다. 환경 point cloud를 생성하지 않으며, `GeometryFeatures`, point encoder, point sampling, pooling을 사용하지 않습니다. 꼭짓점 순서는 x 부호가 가장 빨리 바뀌고, 다음 y, 다음 z인 고정 순서입니다. 정적 형상이 여러 개이면 각 꼭짓점에서 **signed distance가 가장 작은 표면 하나**를 선택합니다. 공식 공개 collision query가 단일 ground plane을 대상으로 하는 데서, 현재 저장소의 벽·V자 바닥으로 확장한 부분입니다.
+
+`d > ξ`인 후보점의 전체 raw 접촉 레코드는 0으로 마스킹합니다. 선택된 geometry 쌍마다 `ξ = max(4 × max(Cube margin, 환경 geometry margin), 0.1 m)`로 정하고 경계 `d = ξ`는 유지합니다. 이는 논문의 0.1 m 기본값과 마스킹 조건을 채택한 것입니다. 공개 코드의 현재 상수는 0.12 m이고 `d < ξ`를 사용하므로, 이 차이를 구분해야 합니다. [공식 마스킹 함수](https://github.com/NVlabs/neural-robot-dynamics/blob/370e89d2b8ce68aa3578aa7812859c681b7502bc/integrators/integrator_neural.py), [공식 threshold 상수](https://github.com/NVlabs/neural-robot-dynamics/blob/370e89d2b8ce68aa3578aa7812859c681b7502bc/utils/commons.py)
+
+정규화는 **body frame 변환 → raw contact 마스킹 → train split 통계로 입력 정규화** 순서입니다. 입력은 `(x − 평균) / sqrt(분산 + 1e−5)`로 변환합니다. 따라서 접촉이 없어 raw 값이 0이더라도 정규화된 NN 입력은 `−평균/std`일 수 있습니다. 네트워크 출력도 train split에서 얻은 변화량 통계로 정규화하여 학습하고, 추론 시 역정규화한 뒤 기존 `state_delta`·`apply_delta` 규약으로 다음 상태를 재구성합니다. 검증·test·OOD 데이터로 정규화 통계를 맞추지 않습니다. [공식 학습 전처리](https://github.com/NVlabs/neural-robot-dynamics/blob/370e89d2b8ce68aa3578aa7812859c681b7502bc/algorithms/vanilla_trainer.py), [공식 정규화 식](https://github.com/NVlabs/neural-robot-dynamics/blob/370e89d2b8ce68aa3578aa7812859c681b7502bc/utils/running_mean_std.py)
+
+현재 구현의 범위와 NeRD 원본과의 차이는 다음과 같습니다.
+
+- Cube의 자유 관절 속도는 MuJoCo 규약에 맞춰 처리합니다. 원문의 Warp spatial twist 변환식을 COM 선속도에 그대로 적용하지 않습니다.
+- Cube에는 관절 토크 대신 외력·토크 6차원을 입력합니다. 위치·회전의 body frame 상수 성분은 NN 입력에서 생략합니다.
+- 출력 회전은 저장소의 3차원 회전 벡터이며, 학습 손실은 저장소의 정규화 변화량 MSE 및 회전 항을 사용합니다. 공식 설정의 quaternion 출력과 동일한 실험은 아닙니다.
+- 후보점 하나당 표면 하나만 표현하므로, 바닥·벽 모서리처럼 같은 꼭짓점에서 여러 표면과 동시에 접촉하는 경우를 모두 담을 수 없습니다. 꼭짓점 8개로 포착되지 않는 임의 형상의 접촉에도 한계가 있습니다.
+- 질량·관성·마찰계수를 별도 입력하지 않는 Cube 전용 모델입니다. 다른 물체나 물성이 바뀌는 문제로의 일반화를 이 구성만으로 주장하지 않습니다.
+
+학습 설정은 `configs/train_contact_mlp.json`, 별도 비교 실행 설정은 `configs/suite_contact_mlp.json`입니다. 두 설정의 W&B 로깅은 기본적으로 꺼져 있습니다. `outputs/contact-mlp-5ep/best.pt`는 10,000개 trajectory로 5 epoch·seed 0 학습을 완료했고, 기존 세 모델과 동일한 OOD v2의 1,000개·100스텝 조건으로 평가했습니다. 전체·벽·V자 바닥의 지표와 접촉 진단은 [OOD 비교 문서](../docs/ood_comparison.html)에서 확인할 수 있습니다.
 
 ## 독립 합산 기준선의 의미
 
@@ -66,7 +101,7 @@ Delta의 각속도는 현재 root frame 기준이므로 world twist로 변환한
 
 ## 전이 학습 경계
 
-모든 형상별 샘플과 FK 상수는 `features`의 **nonpersistent buffer**입니다. checkpoint의 학습된 `state_dict`에 넣지 않습니다. 타깃 모델은 타깃 메타데이터로 새로 만든 후, 모양이 같은 학습 tensor만 옮깁니다. Cube의 형상 buffer가 Ant 모델을 덮어쓰는 문제를 막습니다.
+Point 기반 모델의 형상별 샘플과 FK 상수는 `features`의 **nonpersistent buffer**입니다. checkpoint의 학습된 `state_dict`에 넣지 않습니다. 타깃 모델은 타깃 메타데이터로 새로 만든 후, 모양이 같은 학습 tensor만 옮깁니다. Cube의 형상 buffer가 Ant 모델을 덮어쓰는 문제를 막습니다. 아래의 point encoder·aggregation 전이 규약은 point 기반 모델에 해당하며, Cube 전용 `contact_mlp`의 Ant 전이를 의미하지 않습니다.
 
 `model.set_scene(sim_or_metadata)`는 DOF가 같은 환경 사이에서 정적 형상만 바꿀 때 사용합니다. learned parameter의 객체를 바꾸지 않으므로 optimizer가 계속 같은 parameter를 갱신합니다. DOF가 달라지면 새 모델을 만들도록 오류를 냅니다.
 
@@ -76,8 +111,8 @@ Cube에서 관절 시스템으로 처음 옮길 때는 joint decoder가 소스 �
 
 ## 공통 API와 검증
 
-`build_model(sim_or_metadata, config)`가 모델을 생성합니다. `forward(state, action, history=None)`는 raw delta를 반환하며 학습 정규화는 trainer가 처리합니다. `encode_state`는 probe용 latent를, `coverage`는 local attention 근접쌍 포함 통계를 제공합니다. 실제 사용 명령은 README의 Docker Compose 명령을 따릅니다.
+`build_model(sim_or_metadata, config)`가 모델을 생성합니다. `forward(state, action, history=None)`는 역정규화된 raw delta를 반환합니다. Point 기반 모델의 기존 학습 정규화와 달리 `contact_mlp`에는 모델에 저장하는 train 입력·출력 통계가 필요합니다. `encode_state`는 probe용 latent를 반환합니다. `coverage`는 point 기반 local attention의 근접쌍 포함 통계이므로, point attention이 없는 `contact_mlp`에는 **해당 없음**으로 해석해야 합니다. 0이나 100%로 간주하여 point 모델과 비교하지 않습니다. 실제 사용 명령은 README의 Docker Compose 명령을 따릅니다.
 
-모델 검증에는 Cube·Ant의 모든 비교군 출력 크기, 두 번의 예측 상태 재구성을 포함한 유한 gradient, patch 내부 포인트 순서 변경에 대한 pooling 불변성, 모든 ablation 실행, 타깃 형상 보존, point encoder 고정, 새 joint head 학습 가능 여부가 포함됩니다.
+Point 기반 모델 검증에는 Cube·Ant의 비교군 출력 크기, 두 번의 예측 상태 재구성을 포함한 유한 gradient, patch 내부 포인트 순서 변경에 대한 pooling 불변성, 모든 ablation 실행, 타깃 형상 보존, point encoder 고정, 새 joint head 학습 가능 여부가 포함됩니다. `contact_mlp`에는 그 대신 Cube 접촉 query, body frame 표현, 마스킹·정규화, 예측 상태에서의 접촉 재계산과 checkpoint 복원 검증이 필요합니다.
 
 이 구현은 실험 가능한 연구 기준 코드입니다. attention 사용만으로 비관통·에너지 보존·마찰 제약을 보장하지 않습니다. 짧은 smoke 학습의 오차 순위는 논문 가설을 입증하지 않습니다. Baseline별 parameter 수와 실제 활성 경로, 전체 전처리 포함 시간, 데이터 예산, 여러 seed를 함께 보고해야 합니다. 공통 클래스에는 특정 비교군에서 쓰지 않는 모듈이나 Cube에서 아직 활성화되지 않은 joint head가 있을 수 있으므로 총 parameter 수만으로 계산량이 같다고 판단하지 않습니다.

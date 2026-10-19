@@ -1,0 +1,76 @@
+{
+  "id": 12502,
+  "split": "ood",
+  "scenario": "toss_valley",
+  "seed": 1309426787,
+  "directory": "trajectory_12502",
+  "available_steps": 100,
+  "requested_horizon": 100,
+  "completed_steps": 100,
+  "dt": 0.02,
+  "reason": null,
+  "diverged": false,
+  "initial_condition": {
+    "position_world": [
+      -0.5445219874382019,
+      -0.6983085870742798,
+      1.2391632795333862
+    ],
+    "quaternion_wxyz": [
+      0.22722506523132324,
+      -0.5192425847053528,
+      -0.8099679946899414,
+      0.15069103240966797
+    ],
+    "linear_velocity_world": [
+      -1.6877869367599487,
+      -1.2541147470474243,
+      2.639636516571045
+    ],
+    "angular_velocity_local": [
+      -5.803582668304443,
+      0.9668220281600952,
+      -5.9879279136657715
+    ]
+  },
+  "action_summary": {
+    "all_zero": true,
+    "max_abs": 0.0
+  },
+  "duration_seconds": 2.0,
+  "video_name": "gt.mp4",
+  "render": {
+    "video": "docs/visualizations/ood-context/toss_valley/trajectory_12502/gt.mp4",
+    "poster": "docs/visualizations/ood-context/toss_valley/trajectory_12502/gt.png",
+    "frames": 101,
+    "fps": 50.0,
+    "width": 960,
+    "height": 720,
+    "camera": {
+      "lookat": [
+        -1.4407229125499725,
+        -1.2448747754096985,
+        0.9669622213933319
+      ],
+      "distance": 5.912562855843653,
+      "azimuth": 130.0,
+      "elevation": -24.0,
+      "gt_bounds": [
+        [
+          -2.6833339991755185,
+          -2.1378511252588925,
+          0.0
+        ],
+        [
+          -0.1981118259244264,
+          -0.35189842556050427,
+          1.9339244427866638
+        ]
+      ],
+      "wall_aware": false,
+      "mode": "fixed",
+      "fit": "ground_truth",
+      "shared_panels": false
+    }
+  }
+}

@@ -1,0 +1,1105 @@
+{
+  "created_at": "2026-10-19T16:34:45.251033+09:00",
+  "source": "W&B live run.summary, verified against local evaluation JSON; no training or remote writes",
+  "remote_verified": true,
+  "remote_verification": {
+    "method": "wandb.Api read-only run.summary",
+    "runs": {
+      "state_mlp": {
+        "run_id": "ho8x2ocw",
+        "url": "https://forge.coreweave.com/wandb/mebam-korea-university/cube-contact/runs/ho8x2ocw",
+        "state": "finished",
+        "ood_scalars": {
+          "ood/one_step/position_rmse": {
+            "logged_value": 0.061071509575413074,
+            "local_value": 0.061071509575413074,
+            "matches": true
+          },
+          "ood/one_step/rotation_geodesic_rad": {
+            "logged_value": 0.04826531611615792,
+            "local_value": 0.04826531611615792,
+            "matches": true
+          },
+          "ood/one_step/linear_velocity_rmse": {
+            "logged_value": 3.964903126936406,
+            "local_value": 3.964903126936406,
+            "matches": true
+          },
+          "ood/one_step/angular_velocity_rmse": {
+            "logged_value": 1.3177932857070118,
+            "local_value": 1.3177932857070118,
+            "matches": true
+          },
+          "ood/rollout/position_rmse": {
+            "logged_value": 0.995942150708288,
+            "local_value": 0.995942150708288,
+            "matches": true
+          },
+          "ood/rollout/rotation_geodesic_rad": {
+            "logged_value": 1.6641494506038723,
+            "local_value": 1.6641494506038725,
+            "matches": true
+          },
+          "ood/rollout/linear_velocity_rmse": {
+            "logged_value": 1.9500635059084743,
+            "local_value": 1.9500635059084743,
+            "matches": true
+          },
+          "ood/rollout/angular_velocity_rmse": {
+            "logged_value": 2.603833441156894,
+            "local_value": 2.603833441156894,
+            "matches": true
+          },
+          "ood/impact/position_rmse": {
+            "logged_value": 0.061416236487275455,
+            "local_value": 0.061416236487275455,
+            "matches": true
+          },
+          "ood/impact/rotation_geodesic_rad": {
+            "logged_value": 0.05390288554190192,
+            "local_value": 0.053902885541901924,
+            "matches": true
+          },
+          "ood/impact/linear_velocity_rmse": {
+            "logged_value": 3.9816243299283087,
+            "local_value": 3.9816243299283087,
+            "matches": true
+          },
+          "ood/impact/angular_velocity_rmse": {
+            "logged_value": 1.6500485280994326,
+            "local_value": 1.6500485280994326,
+            "matches": true
+          },
+          "ood/persistent_contact/position_rmse": {
+            "logged_value": 0.06108066934393719,
+            "local_value": 0.06108066934393719,
+            "matches": true
+          },
+          "ood/persistent_contact/rotation_geodesic_rad": {
+            "logged_value": 0.04829614503978519,
+            "local_value": 0.04829614503978519,
+            "matches": true
+          },
+          "ood/persistent_contact/linear_velocity_rmse": {
+            "logged_value": 3.965326774865389,
+            "local_value": 3.965326774865389,
+            "matches": true
+          },
+          "ood/persistent_contact/angular_velocity_rmse": {
+            "logged_value": 1.3188657346181571,
+            "local_value": 1.3188657346181571,
+            "matches": true
+          }
+        },
+        "all_match": true
+      },
+      "deepsets": {
+        "run_id": "mw6m4q10",
+        "url": "https://forge.coreweave.com/wandb/mebam-korea-university/cube-contact/runs/mw6m4q10",
+        "state": "finished",
+        "ood_scalars": {
+          "ood/one_step/position_rmse": {
+            "logged_value": 0.0009412314170731406,
+            "local_value": 0.0009412314170731406,
+            "matches": true
+          },
+          "ood/one_step/rotation_geodesic_rad": {
+            "logged_value": 0.0012453716660729697,
+            "local_value": 0.0012453716660729697,
+            "matches": true
+          },
+          "ood/one_step/linear_velocity_rmse": {
+            "logged_value": 0.03567889989062678,
+            "local_value": 0.03567889989062678,
+            "matches": true
+          },
+          "ood/one_step/angular_velocity_rmse": {
+            "logged_value": 0.07812789271702059,
+            "local_value": 0.07812789271702059,
+            "matches": true
+          },
+          "ood/rollout/position_rmse": {
+            "logged_value": 0.05935873187991092,
+            "local_value": 0.05935873187991092,
+            "matches": true
+          },
+          "ood/rollout/rotation_geodesic_rad": {
+            "logged_value": 0.29907456896035,
+            "local_value": 0.29907456896035,
+            "matches": true
+          },
+          "ood/rollout/linear_velocity_rmse": {
+            "logged_value": 0.09606664920283949,
+            "local_value": 0.09606664920283947,
+            "matches": true
+          },
+          "ood/rollout/angular_velocity_rmse": {
+            "logged_value": 0.2491539017064497,
+            "local_value": 0.2491539017064497,
+            "matches": true
+          },
+          "ood/impact/position_rmse": {
+            "logged_value": 0.005982842893899942,
+            "local_value": 0.005982842893899942,
+            "matches": true
+          },
+          "ood/impact/rotation_geodesic_rad": {
+            "logged_value": 0.003758693449981365,
+            "local_value": 0.003758693449981365,
+            "matches": true
+          },
+          "ood/impact/linear_velocity_rmse": {
+            "logged_value": 0.2230188277317211,
+            "local_value": 0.2230188277317211,
+            "matches": true
+          },
+          "ood/impact/angular_velocity_rmse": {
+            "logged_value": 0.2032855439611012,
+            "local_value": 0.2032855439611012,
+            "matches": true
+          },
+          "ood/persistent_contact/position_rmse": {
+            "logged_value": 0.0009330802866998056,
+            "local_value": 0.0009330802866998056,
+            "matches": true
+          },
+          "ood/persistent_contact/rotation_geodesic_rad": {
+            "logged_value": 0.001248086908390178,
+            "local_value": 0.001248086908390178,
+            "matches": true
+          },
+          "ood/persistent_contact/linear_velocity_rmse": {
+            "logged_value": 0.03453310274198884,
+            "local_value": 0.03453310274198884,
+            "matches": true
+          },
+          "ood/persistent_contact/angular_velocity_rmse": {
+            "logged_value": 0.07802823546808213,
+            "local_value": 0.07802823546808213,
+            "matches": true
+          }
+        },
+        "all_match": true
+      },
+      "hierarchical": {
+        "run_id": "vdhco8cv",
+        "url": "https://forge.coreweave.com/wandb/mebam-korea-university/cube-contact/runs/vdhco8cv",
+        "state": "finished",
+        "ood_scalars": {
+          "ood/one_step/position_rmse": {
+            "logged_value": 0.0012794142644452222,
+            "local_value": 0.0012794142644452222,
+            "matches": true
+          },
+          "ood/one_step/rotation_geodesic_rad": {
+            "logged_value": 0.00277972630738077,
+            "local_value": 0.00277972630738077,
+            "matches": true
+          },
+          "ood/one_step/linear_velocity_rmse": {
+            "logged_value": 0.05798218824202195,
+            "local_value": 0.05798218824202195,
+            "matches": true
+          },
+          "ood/one_step/angular_velocity_rmse": {
+            "logged_value": 0.01244306407534168,
+            "local_value": 0.012443064075341681,
+            "matches": true
+          },
+          "ood/rollout/position_rmse": {
+            "logged_value": 0.06165299582789885,
+            "local_value": 0.06165299582789885,
+            "matches": true
+          },
+          "ood/rollout/rotation_geodesic_rad": {
+            "logged_value": 0.048143226573301945,
+            "local_value": 0.048143226573301945,
+            "matches": true
+          },
+          "ood/rollout/linear_velocity_rmse": {
+            "logged_value": 0.12187886619358324,
+            "local_value": 0.12187886619358324,
+            "matches": true
+          },
+          "ood/rollout/angular_velocity_rmse": {
+            "logged_value": 0.10710151026432868,
+            "local_value": 0.10710151026432868,
+            "matches": true
+          },
+          "ood/impact/position_rmse": {
+            "logged_value": 0.007308716332772747,
+            "local_value": 0.007308716332772747,
+            "matches": true
+          },
+          "ood/impact/rotation_geodesic_rad": {
+            "logged_value": 0.003711511993060413,
+            "local_value": 0.0037115119930604124,
+            "matches": true
+          },
+          "ood/impact/linear_velocity_rmse": {
+            "logged_value": 0.40019809699151665,
+            "local_value": 0.40019809699151665,
+            "matches": true
+          },
+          "ood/impact/angular_velocity_rmse": {
+            "logged_value": 0.043544549684156664,
+            "local_value": 0.043544549684156664,
+            "matches": true
+          },
+          "ood/persistent_contact/position_rmse": {
+            "logged_value": 0.0012811676322144194,
+            "local_value": 0.0012811676322144194,
+            "matches": true
+          },
+          "ood/persistent_contact/rotation_geodesic_rad": {
+            "logged_value": 0.002780927705771319,
+            "local_value": 0.002780927705771319,
+            "matches": true
+          },
+          "ood/persistent_contact/linear_velocity_rmse": {
+            "logged_value": 0.0574224320371286,
+            "local_value": 0.0574224320371286,
+            "matches": true
+          },
+          "ood/persistent_contact/angular_velocity_rmse": {
+            "logged_value": 0.012476929872718756,
+            "local_value": 0.012476929872718756,
+            "matches": true
+          }
+        },
+        "all_match": true
+      }
+    },
+    "all_verified": true
+  },
+  "models": [
+    "state_mlp",
+    "deepsets",
+    "hierarchical"
+  ],
+  "metric_units": {
+    "position_rmse": "m",
+    "rotation_geodesic_rad": "rad",
+    "linear_velocity_rmse": "m/s",
+    "angular_velocity_rmse": "rad/s"
+  },
+  "mean_errors": {
+    "rollout": {
+      "state_mlp": {
+        "position_rmse": 0.995942150708288,
+        "rotation_geodesic_rad": 1.6641494506038725,
+        "linear_velocity_rmse": 1.9500635059084743,
+        "angular_velocity_rmse": 2.603833441156894
+      },
+      "deepsets": {
+        "position_rmse": 0.05935873187991092,
+        "rotation_geodesic_rad": 0.29907456896035,
+        "linear_velocity_rmse": 0.09606664920283947,
+        "angular_velocity_rmse": 0.2491539017064497
+      },
+      "hierarchical": {
+        "position_rmse": 0.06165299582789885,
+        "rotation_geodesic_rad": 0.048143226573301945,
+        "linear_velocity_rmse": 0.12187886619358324,
+        "angular_velocity_rmse": 0.10710151026432868
+      }
+    },
+    "one_step": {
+      "state_mlp": {
+        "position_rmse": 0.061071509575413074,
+        "rotation_geodesic_rad": 0.04826531611615792,
+        "linear_velocity_rmse": 3.964903126936406,
+        "angular_velocity_rmse": 1.3177932857070118
+      },
+      "deepsets": {
+        "position_rmse": 0.0009412314170731406,
+        "rotation_geodesic_rad": 0.0012453716660729697,
+        "linear_velocity_rmse": 0.03567889989062678,
+        "angular_velocity_rmse": 0.07812789271702059
+      },
+      "hierarchical": {
+        "position_rmse": 0.0012794142644452222,
+        "rotation_geodesic_rad": 0.00277972630738077,
+        "linear_velocity_rmse": 0.05798218824202195,
+        "angular_velocity_rmse": 0.012443064075341681
+      }
+    },
+    "impact": {
+      "state_mlp": {
+        "position_rmse": 0.061416236487275455,
+        "rotation_geodesic_rad": 0.053902885541901924,
+        "linear_velocity_rmse": 3.9816243299283087,
+        "angular_velocity_rmse": 1.6500485280994326
+      },
+      "deepsets": {
+        "position_rmse": 0.005982842893899942,
+        "rotation_geodesic_rad": 0.003758693449981365,
+        "linear_velocity_rmse": 0.2230188277317211,
+        "angular_velocity_rmse": 0.2032855439611012
+      },
+      "hierarchical": {
+        "position_rmse": 0.007308716332772747,
+        "rotation_geodesic_rad": 0.0037115119930604124,
+        "linear_velocity_rmse": 0.40019809699151665,
+        "angular_velocity_rmse": 0.043544549684156664
+      }
+    },
+    "persistent_contact": {
+      "state_mlp": {
+        "position_rmse": 0.06108066934393719,
+        "rotation_geodesic_rad": 0.04829614503978519,
+        "linear_velocity_rmse": 3.965326774865389,
+        "angular_velocity_rmse": 1.3188657346181571
+      },
+      "deepsets": {
+        "position_rmse": 0.0009330802866998056,
+        "rotation_geodesic_rad": 0.001248086908390178,
+        "linear_velocity_rmse": 0.03453310274198884,
+        "angular_velocity_rmse": 0.07802823546808213
+      },
+      "hierarchical": {
+        "position_rmse": 0.0012811676322144194,
+        "rotation_geodesic_rad": 0.002780927705771319,
+        "linear_velocity_rmse": 0.0574224320371286,
+        "angular_velocity_rmse": 0.012476929872718756
+      }
+    }
+  },
+  "reduction_percent_vs_state_mlp": {
+    "rollout": {
+      "deepsets": {
+        "position_rmse": 94.03994179403928,
+        "rotation_geodesic_rad": 82.02838279627925,
+        "linear_velocity_rmse": 95.07366560567037,
+        "angular_velocity_rmse": 90.43126577267748
+      },
+      "hierarchical": {
+        "position_rmse": 93.80958062834746,
+        "rotation_geodesic_rad": 97.10703707796003,
+        "linear_velocity_rmse": 93.75000527806895,
+        "angular_velocity_rmse": 95.88677568344221
+      }
+    },
+    "one_step": {
+      "deepsets": {
+        "position_rmse": 98.4588044022215,
+        "rotation_geodesic_rad": 97.41973788574016,
+        "linear_velocity_rmse": 99.10013186329233,
+        "angular_velocity_rmse": 94.07130894014959
+      },
+      "hierarchical": {
+        "position_rmse": 97.9050554451002,
+        "rotation_geodesic_rad": 94.24073738439643,
+        "linear_velocity_rmse": 98.53761399999642,
+        "angular_velocity_rmse": 99.0557651028958
+      }
+    },
+    "impact": {
+      "deepsets": {
+        "position_rmse": 90.25853221217895,
+        "rotation_geodesic_rad": 93.02691606916014,
+        "linear_velocity_rmse": 94.39879784601032,
+        "angular_velocity_rmse": 87.6800263447251
+      },
+      "hierarchical": {
+        "position_rmse": 88.09970009431137,
+        "rotation_geodesic_rad": 93.11444655374667,
+        "linear_velocity_rmse": 89.94887352924322,
+        "angular_velocity_rmse": 97.36101399791481
+      }
+    },
+    "persistent_contact": {
+      "deepsets": {
+        "position_rmse": 98.47238038364355,
+        "rotation_geodesic_rad": 97.41576287846155,
+        "linear_velocity_rmse": 99.1291234064017,
+        "angular_velocity_rmse": 94.08368619943917
+      },
+      "hierarchical": {
+        "position_rmse": 97.90249902960242,
+        "rotation_geodesic_rad": 94.24192613410354,
+        "linear_velocity_rmse": 98.5518865077878,
+        "angular_velocity_rmse": 99.05396511978294
+      }
+    }
+  },
+  "section_explanations_ko": {
+    "rollout": "최초 정답 상태만 주고 자신의 예측을 100스텝(2초) 이어 붙였을 때, 위치·회전·속도가 정답에서 얼마나 벗어나는지 봅니다.",
+    "one_step": "매 순간 정답 상태에서 다음 한 스텝을 예측하여, 오차 누적 없이 낯선 바닥·벽 접촉에 대한 즉각적인 반응을 봅니다.",
+    "impact": "정답 상태에서의 한 스텝 예측 중 정답의 충돌 이벤트 프레임만 골라, 충돌 순간의 위치·회전·속도 예측 오차를 봅니다.",
+    "persistent_contact": "정답 상태에서의 한 스텝 예측 중 정답의 접촉이 이어지는 프레임만 골라, 지속 접촉 중의 위치·회전·속도 예측 오차를 봅니다."
+  },
+  "metric_explanations_ko": {
+    "position_rmse": "큐브 중심 위치의 x·y·z 성분 오차를 제곱해 평균한 뒤 제곱근을 취한 값입니다(m).",
+    "rotation_geodesic_rad": "예측 자세에서 정답 자세까지의 최단 회전각을 평균한 값입니다(rad).",
+    "linear_velocity_rmse": "큐브 중심 선속도의 x·y·z 성분 오차에 대한 RMSE입니다(m/s).",
+    "angular_velocity_rmse": "월드 좌표계 각속도의 x·y·z 성분 오차에 대한 RMSE입니다(rad/s)."
+  },
+  "wandb_scalar_names": {
+    "rollout": {
+      "position_rmse": "ood/rollout/position_rmse",
+      "rotation_geodesic_rad": "ood/rollout/rotation_geodesic_rad",
+      "linear_velocity_rmse": "ood/rollout/linear_velocity_rmse",
+      "angular_velocity_rmse": "ood/rollout/angular_velocity_rmse"
+    },
+    "one_step": {
+      "position_rmse": "ood/one_step/position_rmse",
+      "rotation_geodesic_rad": "ood/one_step/rotation_geodesic_rad",
+      "linear_velocity_rmse": "ood/one_step/linear_velocity_rmse",
+      "angular_velocity_rmse": "ood/one_step/angular_velocity_rmse"
+    },
+    "impact": {
+      "position_rmse": "ood/impact/position_rmse",
+      "rotation_geodesic_rad": "ood/impact/rotation_geodesic_rad",
+      "linear_velocity_rmse": "ood/impact/linear_velocity_rmse",
+      "angular_velocity_rmse": "ood/impact/angular_velocity_rmse"
+    },
+    "persistent_contact": {
+      "position_rmse": "ood/persistent_contact/position_rmse",
+      "rotation_geodesic_rad": "ood/persistent_contact/rotation_geodesic_rad",
+      "linear_velocity_rmse": "ood/persistent_contact/linear_velocity_rmse",
+      "angular_velocity_rmse": "ood/persistent_contact/angular_velocity_rmse"
+    }
+  },
+  "runs": {
+    "state_mlp": {
+      "mode": "online",
+      "id": "ho8x2ocw",
+      "url": "https://forge.coreweave.com/wandb/mebam-korea-university/cube-contact/runs/ho8x2ocw"
+    },
+    "deepsets": {
+      "mode": "online",
+      "id": "mw6m4q10",
+      "url": "https://forge.coreweave.com/wandb/mebam-korea-university/cube-contact/runs/mw6m4q10"
+    },
+    "hierarchical": {
+      "mode": "online",
+      "id": "vdhco8cv",
+      "url": "https://forge.coreweave.com/wandb/mebam-korea-university/cube-contact/runs/vdhco8cv"
+    }
+  },
+  "local_sources": {
+    "state_mlp": {
+      "path": "outputs/cube-toss-suite-final/state_mlp_budget10000_seed0/ood/evaluation.json",
+      "sha256": "21b4b7cc783e5bce52b6114699f42a034d22c2cf5b81e4ea02f314f0c93d8dcd"
+    },
+    "deepsets": {
+      "path": "outputs/cube-toss-suite-final/deepsets_budget10000_seed0/ood/evaluation.json",
+      "sha256": "641684702fba24618f8dda911f20aac73994e8609f311570b6d97993bff753f1"
+    },
+    "hierarchical": {
+      "path": "outputs/cube-toss-suite-final/hierarchical_budget10000_seed0/ood/evaluation.json",
+      "sha256": "5a1961bcc142c89aed8b43893e35b9109243d6fea098993f6b1a32a0b999a9c4"
+    }
+  },
+  "protocol": {
+    "split": "ood",
+    "scenario": "floor_wall",
+    "evaluated_trajectories": 512,
+    "available_trajectories": 1000,
+    "subset_seed": 2026,
+    "training_seed": 0,
+    "training_trajectories": 10000,
+    "validation_trajectories": 256,
+    "checkpoint_epoch": 5,
+    "horizon_steps": 100,
+    "dt_seconds": 0.02,
+    "horizon_seconds": 2.0,
+    "all_models_same_trajectory_ids": true,
+    "trajectory_ids": [
+      12426,
+      12004,
+      12191,
+      12359,
+      12490,
+      12741,
+      12115,
+      12863,
+      12538,
+      12199,
+      12808,
+      12860,
+      12988,
+      12424,
+      12023,
+      12206,
+      12847,
+      12930,
+      12269,
+      12502,
+      12049,
+      12434,
+      12625,
+      12212,
+      12280,
+      12468,
+      12256,
+      12251,
+      12097,
+      12214,
+      12309,
+      12804,
+      12276,
+      12322,
+      12539,
+      12438,
+      12781,
+      12810,
+      12919,
+      12661,
+      12705,
+      12630,
+      12184,
+      12794,
+      12132,
+      12883,
+      12907,
+      12577,
+      12897,
+      12699,
+      12301,
+      12856,
+      12674,
+      12969,
+      12489,
+      12728,
+      12006,
+      12952,
+      12924,
+      12895,
+      12603,
+      12185,
+      12356,
+      12388,
+      12135,
+      12843,
+      12576,
+      12755,
+      12187,
+      12037,
+      12926,
+      12120,
+      12501,
+      12945,
+      12363,
+      12288,
+      12620,
+      12039,
+      12069,
+      12154,
+      12874,
+      12722,
+      12824,
+      12764,
+      12820,
+      12244,
+      12639,
+      12614,
+      12555,
+      12676,
+      12621,
+      12738,
+      12234,
+      12633,
+      12456,
+      12944,
+      12749,
+      12622,
+      12916,
+      12406,
+      12277,
+      12662,
+      12099,
+      12575,
+      12302,
+      12139,
+      12355,
+      12637,
+      12379,
+      12906,
+      12800,
+      12670,
+      12681,
+      12323,
+      12712,
+      12939,
+      12660,
+      12358,
+      12698,
+      12668,
+      12476,
+      12829,
+      12375,
+      12459,
+      12366,
+      12835,
+      12648,
+      12797,
+      12973,
+      12737,
+      12071,
+      12259,
+      12609,
+      12153,
+      12986,
+      12072,
+      12647,
+      12927,
+      12421,
+      12107,
+      12485,
+      12195,
+      12512,
+      12291,
+      12604,
+      12759,
+      12165,
+      12912,
+      12261,
+      12412,
+      12791,
+      12880,
+      12831,
+      12887,
+      12283,
+      12518,
+      12001,
+      12447,
+      12339,
+      12561,
+      12007,
+      12204,
+      12611,
+      12629,
+      12536,
+      12782,
+      12841,
+      12465,
+      12374,
+      12506,
+      12410,
+      12682,
+      12909,
+      12157,
+      12129,
+      12470,
+      12817,
+      12474,
+      12123,
+      12507,
+      12721,
+      12878,
+      12059,
+      12696,
+      12298,
+      12628,
+      12591,
+      12146,
+      12021,
+      12950,
+      12524,
+      12416,
+      12446,
+      12205,
+      12504,
+      12685,
+      12866,
+      12497,
+      12425,
+      12445,
+      12495,
+      12795,
+      12922,
+      12267,
+      12466,
+      12133,
+      12796,
+      12733,
+      12931,
+      12822,
+      12635,
+      12684,
+      12564,
+      12241,
+      12124,
+      12654,
+      12702,
+      12862,
+      12981,
+      12957,
+      12005,
+      12643,
+      12081,
+      12716,
+      12993,
+      12169,
+      12530,
+      12724,
+      12845,
+      12364,
+      12101,
+      12369,
+      12658,
+      12983,
+      12092,
+      12650,
+      12398,
+      12415,
+      12636,
+      12747,
+      12567,
+      12469,
+      12232,
+      12763,
+      12496,
+      12815,
+      12894,
+      12941,
+      12143,
+      12018,
+      12840,
+      12020,
+      12411,
+      12970,
+      12152,
+      12188,
+      12901,
+      12714,
+      12014,
+      12671,
+      12294,
+      12265,
+      12508,
+      12190,
+      12481,
+      12149,
+      12378,
+      12093,
+      12588,
+      12114,
+      12467,
+      12854,
+      12194,
+      12233,
+      12828,
+      12765,
+      12370,
+      12367,
+      12000,
+      12953,
+      12408,
+      12168,
+      12077,
+      12833,
+      12125,
+      12110,
+      12377,
+      12997,
+      12898,
+      12568,
+      12964,
+      12585,
+      12812,
+      12865,
+      12328,
+      12159,
+      12528,
+      12220,
+      12787,
+      12745,
+      12631,
+      12453,
+      12655,
+      12809,
+      12675,
+      12664,
+      12400,
+      12174,
+      12486,
+      12257,
+      12178,
+      12137,
+      12224,
+      12594,
+      12690,
+      12529,
+      12819,
+      12704,
+      12238,
+      12522,
+      12239,
+      12610,
+      12245,
+      12618,
+      12680,
+      12268,
+      12484,
+      12031,
+      12613,
+      12825,
+      12087,
+      12478,
+      12082,
+      12215,
+      12683,
+      12838,
+      12989,
+      12934,
+      12225,
+      12955,
+      12751,
+      12452,
+      12597,
+      12513,
+      12044,
+      12697,
+      12090,
+      12046,
+      12535,
+      12096,
+      12338,
+      12141,
+      12019,
+      12119,
+      12572,
+      12772,
+      12801,
+      12734,
+      12701,
+      12405,
+      12381,
+      12968,
+      12121,
+      12842,
+      12017,
+      12867,
+      12695,
+      12786,
+      12255,
+      12460,
+      12310,
+      12164,
+      12543,
+      12963,
+      12943,
+      12965,
+      12293,
+      12027,
+      12748,
+      12774,
+      12740,
+      12231,
+      12047,
+      12767,
+      12980,
+      12746,
+      12036,
+      12601,
+      12207,
+      12242,
+      12691,
+      12586,
+      12709,
+      12362,
+      12480,
+      12028,
+      12122,
+      12756,
+      12771,
+      12442,
+      12783,
+      12590,
+      12130,
+      12612,
+      12296,
+      12587,
+      12009,
+      12915,
+      12449,
+      12015,
+      12383,
+      12928,
+      12743,
+      12266,
+      12584,
+      12439,
+      12500,
+      12273,
+      12216,
+      12645,
+      12464,
+      12035,
+      12961,
+      12091,
+      12725,
+      12793,
+      12011,
+      12687,
+      12483,
+      12851,
+      12270,
+      12111,
+      12729,
+      12646,
+      12223,
+      12209,
+      12876,
+      12243,
+      12910,
+      12510,
+      12112,
+      12306,
+      12711,
+      12030,
+      12471,
+      12719,
+      12692,
+      12623,
+      12994,
+      12344,
+      12325,
+      12254,
+      12789,
+      12557,
+      12902,
+      12287,
+      12186,
+      12448,
+      12236,
+      12249,
+      12710,
+      12422,
+      12700,
+      12342,
+      12659,
+      12985,
+      12317,
+      12075,
+      12503,
+      12607,
+      12565,
+      12376,
+      12058,
+      12440,
+      12517,
+      12289,
+      12879,
+      12653,
+      12813,
+      12321,
+      12596,
+      12605,
+      12523,
+      12991,
+      12995,
+      12155,
+      12958,
+      12274,
+      12357,
+      12844,
+      12542,
+      12171,
+      12792,
+      12181,
+      12548,
+      12331,
+      12509,
+      12562,
+      12435,
+      12235,
+      12871,
+      12942,
+      12882,
+      12012,
+      12229,
+      12272,
+      12537,
+      12807,
+      12890,
+      12713,
+      12913,
+      12886
+    ],
+    "all_models_same_normalization": true,
+    "dataset_manifest_sha256": "5556a167aba34801a431f7a68bace04d8db190cc46ed6deccf6cdc2d84a56d86",
+    "model_training_dataset_fingerprint": "5556a167aba34801a431f7a68bace04d8db190cc46ed6deccf6cdc2d84a56d86",
+    "aggregate_definition": "arithmetic mean of per-trajectory errors; not pooled RMSE and not error at final frame",
+    "rollout_definition": "ground-truth initial state followed by autonomous model predictions",
+    "one_step_definition": "ground-truth state input for each predicted transition"
+  },
+  "event_filter_definition": {
+    "impact": "one-step predictions masked by ground-truth impact_event; fallback uses contact onset",
+    "persistent_contact": "one-step predictions masked by ground-truth persistent_contact; fallback uses adjacent observed contacts",
+    "note": "event subsets are not autonomous rollout subsets; same predictions as one_step, selected by GT labels",
+    "trajectory_counts": {
+      "rollout": 512,
+      "impact": 512,
+      "persistent_contact": 512
+    },
+    "impact_frames_total": 1024,
+    "persistent_contact_frames_total": 50688
+  },
+  "geometry_scope": {
+    "training": "toss over flat plane floor; no wall",
+    "ood": "same plane floor plus vertical wall box; initial distribution differs from random toss",
+    "floor_plane": {
+      "position_z_m": 0,
+      "orientation": "horizontal"
+    },
+    "wall_box": {
+      "center_m": [
+        0.25,
+        0,
+        1.5
+      ],
+      "half_extents_m": [
+        0.05,
+        3,
+        1.5
+      ]
+    },
+    "limitation": "one held-out contact scenario, not arbitrary unseen floor shapes, materials, or obstacles"
+  },
+  "diagnostics": {
+    "state_mlp": {
+      "penetration_mean": 0.009297374908011085,
+      "penetration_max": 0.0689621906310014,
+      "contact_disagreement": 0.7885156250000029,
+      "contact_onset_error_seconds": 0.039999999999999494,
+      "missed_contact_onsets": 0.0,
+      "false_contact_onsets": 0.3359375
+    },
+    "deepsets": {
+      "penetration_mean": 0.06252705187275454,
+      "penetration_max": 0.1061651803007579,
+      "contact_disagreement": 0.021406249999999735,
+      "contact_onset_error_seconds": 0.039999999999999494,
+      "missed_contact_onsets": 0.0,
+      "false_contact_onsets": 0.005859375
+    },
+    "hierarchical": {
+      "penetration_mean": 0.071479702417295,
+      "penetration_max": 0.1059963504752666,
+      "contact_disagreement": 0.019999999999999747,
+      "contact_onset_error_seconds": 0.039999999999999494,
+      "missed_contact_onsets": 0.0,
+      "false_contact_onsets": 0.0
+    }
+  },
+  "limitations": [
+    "single training seed; no confidence interval or replicated seed aggregation",
+    "geometry models have lower state errors but larger mean penetration than state_mlp",
+    "contact onset error remains 0.04 seconds for all three models",
+    "the current local NeRD-like research baseline is not an official reproduction"
+  ],
+  "files": {
+    "rollout_png": "rollout-errors.png",
+    "rollout_svg": "rollout-errors.svg",
+    "one_step_png": "one-step-errors.png",
+    "one_step_svg": "one-step-errors.svg",
+    "impact_png": "impact-errors.png",
+    "impact_svg": "impact-errors.svg",
+    "persistent_contact_png": "persistent-contact-errors.png",
+    "persistent_contact_svg": "persistent-contact-errors.svg"
+  }
+}

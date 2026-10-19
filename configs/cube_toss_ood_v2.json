@@ -1,0 +1,39 @@
+{
+  "seed": 100,
+  "ood_only": true,
+  "trajectory_id_offset": 12000,
+  "scene": {
+    "kind": "cube", "dt": 0.02, "substeps": 4,
+    "toss_position_min": [-1.0, -1.0, 0.8],
+    "toss_position_max": [1.0, 1.0, 1.8],
+    "toss_linear_velocity_min": [-2.0, -2.0, 0.0],
+    "toss_linear_velocity_max": [2.0, 2.0, 3.0],
+    "toss_angular_velocity_min": [-8.0, -8.0, -8.0],
+    "toss_angular_velocity_max": [8.0, 8.0, 8.0],
+    "wall_center_x": 2.5,
+    "wall_height": 4.0,
+    "wall_half_width_y": 6.0,
+    "wall_thickness": 0.1,
+    "valley_angle_degrees": 10.0,
+    "valley_half_extent": 6.0
+  },
+  "scenarios": [],
+  "ood_scenarios": ["toss_wall", "toss_valley"],
+  "trajectories_per_split": {"train": 0, "val": 0, "test": 0},
+  "ood_trajectories": 500,
+  "steps": 100,
+  "rigid_action_mode": "zero",
+  "action_scale": 0.0,
+  "storage": {"format": "sharded_npy", "trajectories_per_shard": 256, "dtype": "float32"},
+  "generation": {"workers": 8, "progress": true, "record_substeps": true},
+  "reference": {
+    "dataset_version": "cube-toss-ood-v2",
+    "purpose": "OOD-only replacement; preserve the previously generated training, validation, and test dataset.",
+    "mixture": {
+      "toss_wall": "50%: random initial position and rotation, directed toss toward a flat wall above a flat floor.",
+      "toss_valley": "50%: train-distribution initial pose and velocities, received by two floor planes forming a central valley; each plane is tilted 10 degrees from horizontal."
+    },
+    "trajectory_length": "100 transitions and 101 stored states, dt=0.02 seconds",
+    "identity": "Versioned dataset and fingerprint distinguish IDs 12000-12999 from the prior floor_wall OOD dataset."
+  }
+}

@@ -177,7 +177,8 @@ def evaluate(checkpoint: str, dataset: str, output: str, split: str = "test", ro
                     divergent = True
                     break
                 predicted.append(next_state)
-                # Simulator contacts are diagnostics only; never inputs to prediction.
+                # This post-prediction simulator query is diagnostic only. A contact
+                # model independently queries geometry at its CURRENT input state.
                 sim.reset(next_state)
                 diagnostics = sim.diagnostics()
                 penetration.append(float(diagnostics["penetration"]))
@@ -216,9 +217,16 @@ def evaluate(checkpoint: str, dataset: str, output: str, split: str = "test", ro
                       "latency_p95_ms": float(np.quantile(latency,0.95)*1000),
                       "throughput_single_rollouts_per_second": float(1/np.mean(latency)),
                       "one_step_batch_size": batch_size, "one_step_batched_ms_per_sample": float(np.mean(one_step_batch_ms))}
-            record["local_pair_coverage_initial"] = model.coverage(_tensor(states[:1], selected_device), _tensor(actions[:1], selected_device))
-            if not math.isfinite(record["local_pair_coverage_initial"]["coverage"]):
-                record["local_pair_coverage_initial"]["coverage"] = None
+            if model.kind == "contact_mlp":
+                record["local_pair_coverage_initial"] = {
+                    "applicable": False, "coverage": None,
+                    "reason": "contact_mlp uses explicit collision contacts, not sampled point pairs"}
+                record["contact_slot_diagnostics_initial"] = model.contact_diagnostics(
+                    _tensor(states[:1], selected_device), _tensor(actions[:1], selected_device))
+            else:
+                record["local_pair_coverage_initial"] = model.coverage(_tensor(states[:1], selected_device), _tensor(actions[:1], selected_device))
+                if not math.isfinite(record["local_pair_coverage_initial"]["coverage"]):
+                    record["local_pair_coverage_initial"]["coverage"] = None
             for key, value in record["one_step"].items():
                 sums[key] = sums.get(key, 0.) + value
             for component, totals in component_sums.items():

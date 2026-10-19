@@ -10,9 +10,9 @@
     "toss_angular_velocity_max": [8.0, 8.0, 8.0]
   },
   "scenarios": ["toss"],
-  "ood_scenarios": ["floor_wall"],
+  "ood_scenarios": ["toss_wall", "toss_valley"],
   "trajectories_per_split": {"train": 10000, "val": 1000, "test": 1000},
-  "ood_trajectories": 1000,
+  "ood_trajectories": 500,
   "steps": 100,
   "rigid_action_mode": "zero",
   "action_scale": 0.0,
@@ -24,6 +24,6 @@
     "synthetic_cube_training_trajectories": 10000,
     "paper_trajectory_length": 100,
     "our_length_convention": "100 transitions and 101 stored states per trajectory",
-    "scope": "Unactuated random initial-state cube tossing. Matches the synthetic pretraining count, not exact NeRD sampling ranges, solver, geometry or real data. OOD floor_wall is a separate zero-action contact diagnostic, not a tossed-cube distribution."
+    "scope": "Unactuated random initial-state cube tossing. Matches the synthetic pretraining count, not exact NeRD sampling ranges, solver, geometry or real data. OOD uses 500 wall-directed tosses above a flat floor and 500 train-distribution tosses onto a two-plane valley, each plane tilted 10 degrees. Existing generated training data are unchanged; use cube_toss_ood_v2.json to regenerate OOD only."
   }
 }

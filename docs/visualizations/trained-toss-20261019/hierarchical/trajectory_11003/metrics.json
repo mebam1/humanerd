@@ -1,0 +1,116 @@
+{
+  "id": 11003,
+  "split": "test",
+  "scenario": "toss",
+  "seed": 1152438016,
+  "directory": "trajectory_11003",
+  "available_steps": 100,
+  "requested_horizon": 100,
+  "completed_steps": 100,
+  "dt": 0.02,
+  "reason": null,
+  "diverged": false,
+  "model_name": "hierarchical",
+  "checkpoint_meta": {
+    "seed": 0,
+    "epoch": 5,
+    "next_epoch": 5,
+    "batch_cursor": 0,
+    "global_step": 9770,
+    "val_loss": 0.2954918560277656,
+    "best_val_loss": 0.2954918560277656,
+    "dataset_fingerprint": "5556a167aba34801a431f7a68bace04d8db190cc46ed6deccf6cdc2d84a56d86",
+    "dataset_manifest": "data/cube-toss/manifest.json",
+    "description": "Research implementation; NeRD-like baseline is not an official reproduction",
+    "path": "outputs/visualization-checkpoints/trained-toss-20261019/hierarchical-best.pt",
+    "model_config": {
+      "name": "hierarchical",
+      "hidden_dim": 128,
+      "heads": 4,
+      "local_layers": 3,
+      "global_layers": 3,
+      "window_size": 64,
+      "points_per_face": 64,
+      "floor_points": 256,
+      "floor_extent": 1.5,
+      "face_tokens": 1,
+      "serialization": "hilbert",
+      "history": 1,
+      "no_velocity": false,
+      "no_inertia": false,
+      "mean_pool": false,
+      "random_groups": false,
+      "no_face_exchange": false
+    }
+  },
+  "rollout_metrics": {
+    "position_rmse": 1.1292134523391724,
+    "rotation_geodesic_rad": 0.9056093692779541,
+    "linear_velocity_rmse": 2.022613048553467,
+    "angular_velocity_rmse": 1.695766806602478,
+    "joint_position_rmse": 0.0,
+    "joint_velocity_rmse": 0.0
+  },
+  "initial_condition": {
+    "position_world": [
+      0.8790310621261597,
+      0.2809390723705292,
+      1.2460176944732666
+    ],
+    "quaternion_wxyz": [
+      -0.13134770095348358,
+      -0.7464867234230042,
+      -0.6180151104927063,
+      0.20871670544147491
+    ],
+    "linear_velocity_world": [
+      1.9444820880889893,
+      -1.138296127319336,
+      2.856285333633423
+    ],
+    "angular_velocity_local": [
+      -7.099740982055664,
+      1.9749257564544678,
+      6.265653610229492
+    ]
+  },
+  "action_summary": {
+    "all_zero": true,
+    "max_abs": 0.0
+  },
+  "duration_seconds": 2.0,
+  "video_name": "comparison.mp4",
+  "render": {
+    "video": "docs/visualizations/trained-toss-20261019/hierarchical/trajectory_11003/comparison.mp4",
+    "poster": "docs/visualizations/trained-toss-20261019/hierarchical/trajectory_11003/comparison.png",
+    "frames": 101,
+    "fps": 50.0,
+    "width": 1280,
+    "height": 480,
+    "camera": {
+      "lookat": [
+        1.755330741405487,
+        -0.18073435127735138,
+        0.9271348267793654
+      ],
+      "distance": 5.934360511331507,
+      "azimuth": 130.0,
+      "elevation": -24.0,
+      "gt_bounds": [
+        [
+          0.5326209006123841,
+          -0.9888179364390075,
+          -0.14649913336703174
+        ],
+        [
+          2.97804058219859,
+          0.6273492338843047,
+          2.0007687869257627
+        ]
+      ],
+      "mode": "fixed",
+      "fit": "ground_truth",
+      "shared_panels": true
+    }
+  }
+}

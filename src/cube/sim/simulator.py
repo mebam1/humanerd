@@ -55,7 +55,7 @@ class Simulator:
         s = self.spec.scenario
         hx, hy, hz = self.spec.half_extents
         if self.spec.kind in {"cube", "cuboid"}:
-            if s == "toss":
+            if s in {"toss", "toss_wall", "toss_valley"}:
                 q[:3] = rng.uniform(self.spec.toss_position_min, self.spec.toss_position_max)
                 # Normalizing an isotropic 4D normal samples the unit 3-sphere;
                 # its antipodal quaternion pairs induce Haar-uniform SO(3).
@@ -65,6 +65,25 @@ class Simulator:
                 q[3:7] = quaternion / np.linalg.norm(quaternion)
                 v[:3] = rng.uniform(self.spec.toss_linear_velocity_min, self.spec.toss_linear_velocity_max)
                 v[3:6] = rng.uniform(self.spec.toss_angular_velocity_min, self.spec.toss_angular_velocity_max)
+                if s == "toss_wall":
+                    # Keep the same random pose and tangential/rotational
+                    # velocities as toss, but aim the throw toward the wall.
+                    # Target its near face before a conservative floor-impact
+                    # time, so this is a flight-to-wall episode rather than a
+                    # pre-existing floor/wall contact diagnostic.
+                    radius = float(np.linalg.norm(self.spec.half_extents))
+                    clearance = max(.02, self.spec.contact_margin + .001)
+                    height = q[2] - radius - clearance
+                    gravity = -float(self.spec.gravity[2])
+                    if gravity > 1e-8:
+                        floor_time = (v[2] + np.sqrt(v[2] ** 2 + 2 * gravity * height)) / gravity
+                    elif v[2] < -1e-8:
+                        floor_time = height / -v[2]
+                    else:
+                        floor_time = 1.
+                    target_time = max(.01, float(rng.uniform(.55, .8)) * floor_time)
+                    wall_face = self.spec.wall_center_x - self.spec.wall_thickness / 2
+                    v[0] = (wall_face - q[0] - .5 * self.spec.gravity[0] * target_time ** 2) / target_time
             elif s == "free_fall":
                 q[2] = hz + rng.uniform(.45, .9)
                 v[:3] = rng.uniform(-.15, .15, 3)

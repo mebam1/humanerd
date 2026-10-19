@@ -1,0 +1,501 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>학습 데이터 · Ground truth · CUBE LAB</title><style>
+:root{font-family:system-ui,'Segoe UI','Malgun Gothic',sans-serif;color:#173544;background:#f2f6f8;line-height:1.7}
+*{box-sizing:border-box}body{margin:0}main{max-width:1240px;margin:auto;padding:32px 24px 60px}
+header{padding:30px;background:#143d4d;color:#f0f8fa;border-radius:14px}header p{color:#c3dfe7}
+h1{font-size:30px;line-height:1.35;margin:8px 0 14px}h2{font-size:22px;margin:0}a{color:#067e8c}
+header a{color:#8be2e7}.eyebrow{font-size:12px;letter-spacing:2px}.toolbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:24px 0}
+select{padding:7px 12px;border:1px solid #a6bfc9;border-radius:6px;background:white;font:inherit}
+article{background:white;border:1px solid #d5e2e7;border-radius:12px;padding:24px;margin:24px 0;box-shadow:0 4px 18px #153d4d08}
+.meta{color:#526e7b;font-size:14px}.badge{padding:4px 10px;border-radius:15px;background:#e4f4ed;color:#216b4d;font-size:12px}
+.bad{background:#fff0e8;color:#9d3819}.status{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+video{display:block;width:100%;background:#13222c;border-radius:8px;margin:18px 0}img{width:100%;height:auto;border-radius:8px}
+.links{display:flex;gap:16px;flex-wrap:wrap;font-size:14px}pre{white-space:pre-wrap;overflow-wrap:anywhere;padding:16px;background:#eff5f7;border-radius:8px;font-size:12px}
+.note{border-left:4px solid #df9a3d;padding:10px 16px;background:#fff8ed}.metrics{display:flex;gap:20px;flex-wrap:wrap;margin:14px 0}.metrics b{display:block;font-size:20px}
+details{margin-top:18px}summary{cursor:pointer}footer{color:#526e7b;font-size:12px;margin-top:28px}
+@media(max-width:600px){main{padding:16px 10px}article,header{padding:18px}h1{font-size:24px}}
+</style></head><body><main>
+<header><div class="eyebrow">CUBE LAB / TRAJECTORY VIEWER</div><h1>학습 데이터 · Ground truth</h1><p>저장된 시뮬레이터 상태를 그대로 재생합니다. 새로운 물리 trajectory를 생성하지 않습니다.</p><p>Dataset: data/cube-toss-ood-v2 · source physics: mujoco · 6 trajectories</p></header>
+<div class="toolbar"><label for="speed">영상 재생 속도</label><select id="speed"><option value="0.25">0.25×</option><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option></select><a href="manifest.json">전체 메타데이터</a></div>
+<p class="note">기본 선택은 ID 오름차순이며 전체 데이터의 통계적 대표 표본은 아닙니다. split·scenario·trajectory ID를 바꿔 확인할 수 있습니다. 물리 시간 간격은 그대로 유지하고 stride는 영상 frame 수만 줄입니다.</p>
+<article><div class="status"><h2>Trajectory 12000</h2><span class="badge ">RECORDED GT</span></div>
+<p class="meta">ood / toss_wall · seed 1256852829 · 100 transitions · 2.00 s</p>
+<p class="meta">초기 위치 [-0.486, -0.444, 0.928] m · 회전 wxyz [-0.592, 0.250, -0.617, -0.454]</p><p class="meta">초기 선속도 [7.413, 1.616, 1.372] m/s · 각속도(local) [4.599, -2.689, 0.773] rad/s · 모든 action = 0</p><video controls preload="metadata" playsinline poster="trajectory_12000/gt.png"><source src="trajectory_12000/gt.mp4" type="video/mp4"></video>
+<div class="links"><a href="trajectory_12000/gt.mp4" download>MP4</a><a href="trajectory_12000/trajectory.npz" download>Trajectory NPZ</a><a href="trajectory_12000/scene.json">Scene JSON</a><a href="trajectory_12000/metrics.json">Metrics JSON</a></div>
+<details open><summary>상태 변화와 오차</summary><img src="trajectory_12000/timeseries.png" loading="lazy" alt="Trajectory 12000 state time series"></details>
+<details><summary>선택한 데이터와 모델 정보</summary><pre>{
+  &quot;id&quot;: 12000,
+  &quot;split&quot;: &quot;ood&quot;,
+  &quot;scenario&quot;: &quot;toss_wall&quot;,
+  &quot;seed&quot;: 1256852829,
+  &quot;directory&quot;: &quot;trajectory_12000&quot;,
+  &quot;available_steps&quot;: 100,
+  &quot;requested_horizon&quot;: 100,
+  &quot;completed_steps&quot;: 100,
+  &quot;dt&quot;: 0.02,
+  &quot;reason&quot;: null,
+  &quot;diverged&quot;: false,
+  &quot;initial_condition&quot;: {
+    &quot;position_world&quot;: [
+      -0.48623955249786377,
+      -0.4444452226161957,
+      0.9281330704689026
+    ],
+    &quot;quaternion_wxyz&quot;: [
+      -0.5920310616493225,
+      0.25008338689804077,
+      -0.6172407269477844,
+      -0.4538407325744629
+    ],
+    &quot;linear_velocity_world&quot;: [
+      7.41291618347168,
+      1.6158959865570068,
+      1.3720909357070923
+    ],
+    &quot;angular_velocity_local&quot;: [
+      4.598979949951172,
+      -2.688910484313965,
+      0.7731786966323853
+    ]
+  },
+  &quot;action_summary&quot;: {
+    &quot;all_zero&quot;: true,
+    &quot;max_abs&quot;: 0.0
+  },
+  &quot;duration_seconds&quot;: 2.0,
+  &quot;video_name&quot;: &quot;gt.mp4&quot;,
+  &quot;render&quot;: {
+    &quot;video&quot;: &quot;docs/visualizations/ood-context/toss_wall/trajectory_12000/gt.mp4&quot;,
+    &quot;poster&quot;: &quot;docs/visualizations/ood-context/toss_wall/trajectory_12000/gt.png&quot;,
+    &quot;frames&quot;: 101,
+    &quot;fps&quot;: 50.0,
+    &quot;width&quot;: 960,
+    &quot;height&quot;: 720,
+    &quot;camera&quot;: {
+      &quot;lookat&quot;: [
+        0.8527988791465758,
+        -0.08933115005493164,
+        0.6111802831292152
+      ],
+      &quot;distance&quot;: 6.454138480875482,
+      &quot;azimuth&quot;: 48.10422862621558,
+      &quot;elevation&quot;: -24.0,
+      &quot;gt_bounds&quot;: [
+        [
+          -0.8326497140116393,
+          -0.7908553841299713,
+          -0.14470391597220295
+        ],
+        [
+          2.538247472304791,
+          0.612193084020108,
+          1.3670644822306335
+        ]
+      ],
+      &quot;wall_aware&quot;: true,
+      &quot;mode&quot;: &quot;fixed&quot;,
+      &quot;fit&quot;: &quot;ground_truth&quot;,
+      &quot;shared_panels&quot;: false
+    }
+  }
+}</pre></details></article><article><div class="status"><h2>Trajectory 12001</h2><span class="badge ">RECORDED GT</span></div>
+<p class="meta">ood / toss_wall · seed 1256957558 · 100 transitions · 2.00 s</p>
+<p class="meta">초기 위치 [0.902, 0.807, 1.459] m · 회전 wxyz [-0.687, -0.665, -0.165, -0.243]</p><p class="meta">초기 선속도 [2.565, 1.307, 2.711] m/s · 각속도(local) [3.828, -5.264, 1.124] rad/s · 모든 action = 0</p><video controls preload="metadata" playsinline poster="trajectory_12001/gt.png"><source src="trajectory_12001/gt.mp4" type="video/mp4"></video>
+<div class="links"><a href="trajectory_12001/gt.mp4" download>MP4</a><a href="trajectory_12001/trajectory.npz" download>Trajectory NPZ</a><a href="trajectory_12001/scene.json">Scene JSON</a><a href="trajectory_12001/metrics.json">Metrics JSON</a></div>
+<details open><summary>상태 변화와 오차</summary><img src="trajectory_12001/timeseries.png" loading="lazy" alt="Trajectory 12001 state time series"></details>
+<details><summary>선택한 데이터와 모델 정보</summary><pre>{
+  &quot;id&quot;: 12001,
+  &quot;split&quot;: &quot;ood&quot;,
+  &quot;scenario&quot;: &quot;toss_wall&quot;,
+  &quot;seed&quot;: 1256957558,
+  &quot;directory&quot;: &quot;trajectory_12001&quot;,
+  &quot;available_steps&quot;: 100,
+  &quot;requested_horizon&quot;: 100,
+  &quot;completed_steps&quot;: 100,
+  &quot;dt&quot;: 0.02,
+  &quot;reason&quot;: null,
+  &quot;diverged&quot;: false,
+  &quot;initial_condition&quot;: {
+    &quot;position_world&quot;: [
+      0.9022348523139954,
+      0.8066564202308655,
+      1.4593639373779297
+    ],
+    &quot;quaternion_wxyz&quot;: [
+      -0.6866734027862549,
+      -0.6650688648223877,
+      -0.16522318124771118,
+      -0.24261973798274994
+    ],
+    &quot;linear_velocity_world&quot;: [
+      2.565133571624756,
+      1.3072346448898315,
+      2.7111079692840576
+    ],
+    &quot;angular_velocity_local&quot;: [
+      3.8275060653686523,
+      -5.263524532318115,
+      1.1241052150726318
+    ]
+  },
+  &quot;action_summary&quot;: {
+    &quot;all_zero&quot;: true,
+    &quot;max_abs&quot;: 0.0
+  },
+  &quot;duration_seconds&quot;: 2.0,
+  &quot;video_name&quot;: &quot;gt.mp4&quot;,
+  &quot;render&quot;: {
+    &quot;video&quot;: &quot;docs/visualizations/ood-context/toss_wall/trajectory_12001/gt.mp4&quot;,
+    &quot;poster&quot;: &quot;docs/visualizations/ood-context/toss_wall/trajectory_12001/gt.png&quot;,
+    &quot;frames&quot;: 101,
+    &quot;fps&quot;: 50.0,
+    &quot;width&quot;: 960,
+    &quot;height&quot;: 720,
+    &quot;camera&quot;: {
+      &quot;lookat&quot;: [
+        1.573713093996048,
+        1.4230163395404816,
+        1.0141400173306465
+      ],
+      &quot;distance&quot;: 5.94006612143083,
+      &quot;azimuth&quot;: -11.938608157367433,
+      &quot;elevation&quot;: -24.0,
+      &quot;gt_bounds&quot;: [
+        [
+          0.5558246908002198,
+          0.46024625871708996,
+          -0.14518534268805378
+        ],
+        [
+          2.591601497191876,
+          2.385786420363873,
+          2.1734653773493466
+        ]
+      ],
+      &quot;wall_aware&quot;: true,
+      &quot;mode&quot;: &quot;fixed&quot;,
+      &quot;fit&quot;: &quot;ground_truth&quot;,
+      &quot;shared_panels&quot;: false
+    }
+  }
+}</pre></details></article><article><div class="status"><h2>Trajectory 12002</h2><span class="badge ">RECORDED GT</span></div>
+<p class="meta">ood / toss_wall · seed 1257062287 · 100 transitions · 2.00 s</p>
+<p class="meta">초기 위치 [0.759, 0.544, 0.900] m · 회전 wxyz [0.801, 0.189, -0.207, 0.530]</p><p class="meta">초기 선속도 [6.373, -0.751, 0.455] m/s · 각속도(local) [7.185, 0.346, 3.121] rad/s · 모든 action = 0</p><video controls preload="metadata" playsinline poster="trajectory_12002/gt.png"><source src="trajectory_12002/gt.mp4" type="video/mp4"></video>
+<div class="links"><a href="trajectory_12002/gt.mp4" download>MP4</a><a href="trajectory_12002/trajectory.npz" download>Trajectory NPZ</a><a href="trajectory_12002/scene.json">Scene JSON</a><a href="trajectory_12002/metrics.json">Metrics JSON</a></div>
+<details open><summary>상태 변화와 오차</summary><img src="trajectory_12002/timeseries.png" loading="lazy" alt="Trajectory 12002 state time series"></details>
+<details><summary>선택한 데이터와 모델 정보</summary><pre>{
+  &quot;id&quot;: 12002,
+  &quot;split&quot;: &quot;ood&quot;,
+  &quot;scenario&quot;: &quot;toss_wall&quot;,
+  &quot;seed&quot;: 1257062287,
+  &quot;directory&quot;: &quot;trajectory_12002&quot;,
+  &quot;available_steps&quot;: 100,
+  &quot;requested_horizon&quot;: 100,
+  &quot;completed_steps&quot;: 100,
+  &quot;dt&quot;: 0.02,
+  &quot;reason&quot;: null,
+  &quot;diverged&quot;: false,
+  &quot;initial_condition&quot;: {
+    &quot;position_world&quot;: [
+      0.7589150071144104,
+      0.5441865921020508,
+      0.9000364542007446
+    ],
+    &quot;quaternion_wxyz&quot;: [
+      0.8006046414375305,
+      0.18882761895656586,
+      -0.20690490305423737,
+      0.5296854376792908
+    ],
+    &quot;linear_velocity_world&quot;: [
+      6.372602939605713,
+      -0.7506781816482544,
+      0.45467498898506165
+    ],
+    &quot;angular_velocity_local&quot;: [
+      7.1853485107421875,
+      0.3455011546611786,
+      3.120880365371704
+    ]
+  },
+  &quot;action_summary&quot;: {
+    &quot;all_zero&quot;: true,
+    &quot;max_abs&quot;: 0.0
+  },
+  &quot;duration_seconds&quot;: 2.0,
+  &quot;video_name&quot;: &quot;gt.mp4&quot;,
+  &quot;render&quot;: {
+    &quot;video&quot;: &quot;docs/visualizations/ood-context/toss_wall/trajectory_12002/gt.mp4&quot;,
+    &quot;poster&quot;: &quot;docs/visualizations/ood-context/toss_wall/trajectory_12002/gt.png&quot;,
+    &quot;frames&quot;: 101,
+    &quot;fps&quot;: 50.0,
+    &quot;width&quot;: 960,
+    &quot;height&quot;: 720,
+    &quot;camera&quot;: {
+      &quot;lookat&quot;: [
+        1.5037828981876373,
+        0.4730180948972702,
+        0.555453822016716
+      ],
+      &quot;distance&quot;: 4.476070550380692,
+      &quot;azimuth&quot;: 19.600965111562452,
+      &quot;elevation&quot;: -24.0,
+      &quot;gt_bounds&quot;: [
+        [
+          0.4125048456006349,
+          0.029805445414096188,
+          -0.14489696051546924
+        ],
+        [
+          2.5950609507746396,
+          0.9162307443804443,
+          1.2558046045489013
+        ]
+      ],
+      &quot;wall_aware&quot;: true,
+      &quot;mode&quot;: &quot;fixed&quot;,
+      &quot;fit&quot;: &quot;ground_truth&quot;,
+      &quot;shared_panels&quot;: false
+    }
+  }
+}</pre></details></article><article><div class="status"><h2>Trajectory 12003</h2><span class="badge ">RECORDED GT</span></div>
+<p class="meta">ood / toss_wall · seed 1257167016 · 100 transitions · 2.00 s</p>
+<p class="meta">초기 위치 [-0.231, -0.791, 1.368] m · 회전 wxyz [0.637, 0.405, -0.626, 0.195]</p><p class="meta">초기 선속도 [5.949, -1.057, 2.111] m/s · 각속도(local) [-6.251, -7.055, -7.059] rad/s · 모든 action = 0</p><video controls preload="metadata" playsinline poster="trajectory_12003/gt.png"><source src="trajectory_12003/gt.mp4" type="video/mp4"></video>
+<div class="links"><a href="trajectory_12003/gt.mp4" download>MP4</a><a href="trajectory_12003/trajectory.npz" download>Trajectory NPZ</a><a href="trajectory_12003/scene.json">Scene JSON</a><a href="trajectory_12003/metrics.json">Metrics JSON</a></div>
+<details open><summary>상태 변화와 오차</summary><img src="trajectory_12003/timeseries.png" loading="lazy" alt="Trajectory 12003 state time series"></details>
+<details><summary>선택한 데이터와 모델 정보</summary><pre>{
+  &quot;id&quot;: 12003,
+  &quot;split&quot;: &quot;ood&quot;,
+  &quot;scenario&quot;: &quot;toss_wall&quot;,
+  &quot;seed&quot;: 1257167016,
+  &quot;directory&quot;: &quot;trajectory_12003&quot;,
+  &quot;available_steps&quot;: 100,
+  &quot;requested_horizon&quot;: 100,
+  &quot;completed_steps&quot;: 100,
+  &quot;dt&quot;: 0.02,
+  &quot;reason&quot;: null,
+  &quot;diverged&quot;: false,
+  &quot;initial_condition&quot;: {
+    &quot;position_world&quot;: [
+      -0.23131082952022552,
+      -0.7911145091056824,
+      1.3681060075759888
+    ],
+    &quot;quaternion_wxyz&quot;: [
+      0.6369968056678772,
+      0.4048214852809906,
+      -0.6262132525444031,
+      0.19547784328460693
+    ],
+    &quot;linear_velocity_world&quot;: [
+      5.948706150054932,
+      -1.0570833683013916,
+      2.1111879348754883
+    ],
+    &quot;angular_velocity_local&quot;: [
+      -6.251439094543457,
+      -7.055035591125488,
+      -7.059010028839111
+    ]
+  },
+  &quot;action_summary&quot;: {
+    &quot;all_zero&quot;: true,
+    &quot;max_abs&quot;: 0.0
+  },
+  &quot;duration_seconds&quot;: 2.0,
+  &quot;video_name&quot;: &quot;gt.mp4&quot;,
+  &quot;render&quot;: {
+    &quot;video&quot;: &quot;docs/visualizations/ood-context/toss_wall/trajectory_12003/gt.mp4&quot;,
+    &quot;poster&quot;: &quot;docs/visualizations/ood-context/toss_wall/trajectory_12003/gt.png&quot;,
+    &quot;frames&quot;: 101,
+    &quot;fps&quot;: 50.0,
+    &quot;width&quot;: 960,
+    &quot;height&quot;: 720,
+    &quot;camera&quot;: {
+      &quot;lookat&quot;: [
+        0.9769560173153876,
+        -0.7704210728406906,
+        0.8951986283063889
+      ],
+      &quot;distance&quot;: 6.633834020960818,
+      &quot;azimuth&quot;: 71.83224620272493,
+      &quot;elevation&quot;: -24.0,
+      &quot;gt_bounds&quot;: [
+        [
+          -0.5777209910340011,
+          -1.5603580537028015,
+          -0.14578274514147632
+        ],
+        [
+          2.5316330256647763,
+          0.01951590802142017,
+          1.936180001754254
+        ]
+      ],
+      &quot;wall_aware&quot;: true,
+      &quot;mode&quot;: &quot;fixed&quot;,
+      &quot;fit&quot;: &quot;ground_truth&quot;,
+      &quot;shared_panels&quot;: false
+    }
+  }
+}</pre></details></article><article><div class="status"><h2>Trajectory 12004</h2><span class="badge ">RECORDED GT</span></div>
+<p class="meta">ood / toss_wall · seed 1257271745 · 100 transitions · 2.00 s</p>
+<p class="meta">초기 위치 [0.792, 0.764, 1.251] m · 회전 wxyz [0.936, -0.126, -0.088, 0.315]</p><p class="meta">초기 선속도 [3.423, -0.699, 2.354] m/s · 각속도(local) [6.213, -7.151, 7.024] rad/s · 모든 action = 0</p><video controls preload="metadata" playsinline poster="trajectory_12004/gt.png"><source src="trajectory_12004/gt.mp4" type="video/mp4"></video>
+<div class="links"><a href="trajectory_12004/gt.mp4" download>MP4</a><a href="trajectory_12004/trajectory.npz" download>Trajectory NPZ</a><a href="trajectory_12004/scene.json">Scene JSON</a><a href="trajectory_12004/metrics.json">Metrics JSON</a></div>
+<details open><summary>상태 변화와 오차</summary><img src="trajectory_12004/timeseries.png" loading="lazy" alt="Trajectory 12004 state time series"></details>
+<details><summary>선택한 데이터와 모델 정보</summary><pre>{
+  &quot;id&quot;: 12004,
+  &quot;split&quot;: &quot;ood&quot;,
+  &quot;scenario&quot;: &quot;toss_wall&quot;,
+  &quot;seed&quot;: 1257271745,
+  &quot;directory&quot;: &quot;trajectory_12004&quot;,
+  &quot;available_steps&quot;: 100,
+  &quot;requested_horizon&quot;: 100,
+  &quot;completed_steps&quot;: 100,
+  &quot;dt&quot;: 0.02,
+  &quot;reason&quot;: null,
+  &quot;diverged&quot;: false,
+  &quot;initial_condition&quot;: {
+    &quot;position_world&quot;: [
+      0.7915712594985962,
+      0.7644661068916321,
+      1.2509689331054688
+    ],
+    &quot;quaternion_wxyz&quot;: [
+      0.9364403486251831,
+      -0.1262781322002411,
+      -0.0883059948682785,
+      0.3151751756668091
+    ],
+    &quot;linear_velocity_world&quot;: [
+      3.4232630729675293,
+      -0.6985930800437927,
+      2.3535423278808594
+    ],
+    &quot;angular_velocity_local&quot;: [
+      6.213447093963623,
+      -7.151376724243164,
+      7.023873329162598
+    ]
+  },
+  &quot;action_summary&quot;: {
+    &quot;all_zero&quot;: true,
+    &quot;max_abs&quot;: 0.0
+  },
+  &quot;duration_seconds&quot;: 2.0,
+  &quot;video_name&quot;: &quot;gt.mp4&quot;,
+  &quot;render&quot;: {
+    &quot;video&quot;: &quot;docs/visualizations/ood-context/toss_wall/trajectory_12004/gt.mp4&quot;,
+    &quot;poster&quot;: &quot;docs/visualizations/ood-context/toss_wall/trajectory_12004/gt.png&quot;,
+    &quot;frames&quot;: 101,
+    &quot;fps&quot;: 50.0,
+    &quot;width&quot;: 960,
+    &quot;height&quot;: 720,
+    &quot;camera&quot;: {
+      &quot;lookat&quot;: [
+        1.4802204966545105,
+        -0.15770837664604187,
+        0.8872990012168884
+      ],
+      &quot;distance&quot;: 6.243769489708942,
+      &quot;azimuth&quot;: 53.79112018084979,
+      &quot;elevation&quot;: -24.0,
+      &quot;gt_bounds&quot;: [
+        [
+          0.4451610979848207,
+          -1.4262930216974914,
+          -0.09921730186411731
+        ],
+        [
+          2.5152798953242,
+          1.1108762684054077,
+          1.8738153042978942
+        ]
+      ],
+      &quot;wall_aware&quot;: true,
+      &quot;mode&quot;: &quot;fixed&quot;,
+      &quot;fit&quot;: &quot;ground_truth&quot;,
+      &quot;shared_panels&quot;: false
+    }
+  }
+}</pre></details></article><article><div class="status"><h2>Trajectory 12005</h2><span class="badge ">RECORDED GT</span></div>
+<p class="meta">ood / toss_wall · seed 1257376474 · 100 transitions · 2.00 s</p>
+<p class="meta">초기 위치 [-0.509, -0.410, 1.167] m · 회전 wxyz [-0.183, -0.522, 0.248, -0.795]</p><p class="meta">초기 선속도 [8.232, 0.497, 1.505] m/s · 각속도(local) [4.179, -5.886, -5.590] rad/s · 모든 action = 0</p><video controls preload="metadata" playsinline poster="trajectory_12005/gt.png"><source src="trajectory_12005/gt.mp4" type="video/mp4"></video>
+<div class="links"><a href="trajectory_12005/gt.mp4" download>MP4</a><a href="trajectory_12005/trajectory.npz" download>Trajectory NPZ</a><a href="trajectory_12005/scene.json">Scene JSON</a><a href="trajectory_12005/metrics.json">Metrics JSON</a></div>
+<details open><summary>상태 변화와 오차</summary><img src="trajectory_12005/timeseries.png" loading="lazy" alt="Trajectory 12005 state time series"></details>
+<details><summary>선택한 데이터와 모델 정보</summary><pre>{
+  &quot;id&quot;: 12005,
+  &quot;split&quot;: &quot;ood&quot;,
+  &quot;scenario&quot;: &quot;toss_wall&quot;,
+  &quot;seed&quot;: 1257376474,
+  &quot;directory&quot;: &quot;trajectory_12005&quot;,
+  &quot;available_steps&quot;: 100,
+  &quot;requested_horizon&quot;: 100,
+  &quot;completed_steps&quot;: 100,
+  &quot;dt&quot;: 0.02,
+  &quot;reason&quot;: null,
+  &quot;diverged&quot;: false,
+  &quot;initial_condition&quot;: {
+    &quot;position_world&quot;: [
+      -0.5087025761604309,
+      -0.4096216559410095,
+      1.1668332815170288
+    ],
+    &quot;quaternion_wxyz&quot;: [
+      -0.18315419554710388,
+      -0.5217575430870056,
+      0.2479308843612671,
+      -0.7954582571983337
+    ],
+    &quot;linear_velocity_world&quot;: [
+      8.231857299804688,
+      0.49682489037513733,
+      1.5051780939102173
+    ],
+    &quot;angular_velocity_local&quot;: [
+      4.178502082824707,
+      -5.886006832122803,
+      -5.590323448181152
+    ]
+  },
+  &quot;action_summary&quot;: {
+    &quot;all_zero&quot;: true,
+    &quot;max_abs&quot;: 0.0
+  },
+  &quot;duration_seconds&quot;: 2.0,
+  &quot;video_name&quot;: &quot;gt.mp4&quot;,
+  &quot;render&quot;: {
+    &quot;video&quot;: &quot;docs/visualizations/ood-context/toss_wall/trajectory_12005/gt.mp4&quot;,
+    &quot;poster&quot;: &quot;docs/visualizations/ood-context/toss_wall/trajectory_12005/gt.png&quot;,
+    &quot;frames&quot;: 101,
+    &quot;fps&quot;: 50.0,
+    &quot;width&quot;: 960,
+    &quot;height&quot;: 720,
+    &quot;camera&quot;: {
+      &quot;lookat&quot;: [
+        0.8601823747158049,
+        -0.7193727046251297,
+        0.7397004216909409
+      ],
+      &quot;distance&quot;: 6.843658232688464,
+      &quot;azimuth&quot;: 68.68661340824768,
+      &quot;elevation&quot;: -24.0,
+      &quot;gt_bounds&quot;: [
+        [
+          -0.8551127376742065,
+          -1.5345178904719055,
+          -0.14517918850848072
+        ],
+        [
+          2.5754774871058164,
+          0.095772481221646,
+          1.6245800318903625
+        ]
+      ],
+      &quot;wall_aware&quot;: true,
+      &quot;mode&quot;: &quot;fixed&quot;,
+      &quot;fit&quot;: &quot;ground_truth&quot;,
+      &quot;shared_panels&quot;: false
+    }
+  }
+}</pre></details></article><footer>Renderer: MuJoCo · Source data is read-only · Videos and diagnostics share the same exported states.</footer></main>
+<script>document.getElementById('speed').addEventListener('change',function(){document.querySelectorAll('video').forEach(v=>v.playbackRate=Number(this.value));});</script></body></html>
